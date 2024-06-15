@@ -76,7 +76,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "biomedicalwebsite.wsgi.application"
+# WSGI_APPLICATION = "biomedicalwebsite.wsgi.application"
+WSGI_APPLICATION = "biomedicalwebsite.wsgi.app"
 AUTH_USER_MODEL = "userprofile.AppUser"
 
 
@@ -138,19 +139,15 @@ USE_TZ = True
 
 # for static files 
 STATIC_URL = "/static/"
-
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
-# STATIC_ROOT = os.path.join(BASE_DIR,'static')
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
-# STATICFILES_DIRS = ['/home/subhekta/public_html/static']
-# STATIC_ROOT = '/home/subhekta/public_html/static'
 
 
 
 #for media files
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
-# MEDIA_ROOT = '/home/subhekta/public_html/media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
