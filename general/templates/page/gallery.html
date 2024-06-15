@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block galleryblock %}
+  <div class="untree_co-hero overlay" style="background-image: url('{{about.about_image.url}}');">
+    <div class="container">
+      <div class="row align-items-center justify-content-center">
+        <div class="col-12">
+          <div class="row justify-content-center ">
+            <div class="col-lg-6 text-center ">
+              <h1 class="mb-4 heading text-white" data-aos="fade-up" data-aos-delay="100">Gallery</h1>
+              <div class="mb-5 text-white desc mx-auto" data-aos="fade-up" data-aos-delay="200">
+                <!-- <p>Another free template by <a href="https://untree.co/" target="_blank" class="link-highlight">Untree.co</a>. Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live.</p> -->
+              </div>
+
+              <p class="mb-0" data-aos="fade-up" data-aos-delay="300"><a href="#" class="btn btn-secondary">Explore courses</a></p>
+
+            </div>
+
+
+          </div>
+
+        </div>
+
+      </div> 
+    </div> 
+
+  </div> 
+
+
+
+
+  <div class="untree_co-section">
+    <div class="container">
+      <div class="row">
+        {% for photo in galleries %}
+        <div class="col-md-4 col-lg-4 item">
+          <a href="{{photo.photo.url}}" class="item-wrap fancybox mb-4" data-fancybox="gal" data-aos="fade-up" data-aos-delay="0">
+            <span class="icon-search2"></span>
+            <img class="img-fluid" src="{{photo.photo.url}}">
+          </a>
+        </div>
+        {% endfor %}
+
+      </div>
+    </div>
+  </div>
+{% endblock %}

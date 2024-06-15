@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block chairmanmessage %}
+<!-- bradcam_area_start  -->
+    <div class="bradcam_area " style="background-color: #2E86C1;">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="bradcam_text">
+                        <h3>Chairman Message</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- bradcam_area_end  -->
+
+<div class="container chairman_message">
+    <div class="row">
+        <div class="col-md-3 text-center chairman_image">
+            <img src="{{ chairman.faculty.photo.url }}" alt="Chairman Image" class="img-responsive">
+            <p>{{chairman.faculty.name}}</p>
+            <p>Chairman</p>
+        </div>
+        <div class="col-md-9 chairman_details" >
+            <p>{{ chairman.message|safe }}</p>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
