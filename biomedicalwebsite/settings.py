@@ -30,6 +30,12 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(" ")
+CORS_ALLOWED_ORIGINS = [
+    "https://example.com",
+    "https://sub.example.com",
+    "http://localhost:3000",
+    "http://127.0.0.1:8080"
+]
 
 
 # Application definition
@@ -41,16 +47,19 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "corsheaders",
     "general",
     "dashboard",
     "userprofile",
     "academic",
+    "rest_framework",
     "django_ckeditor_5",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -138,8 +147,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 # for static files 
-STATIC_URL = "/static/"
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
+# STATIC_URL = "/static/"
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
+# STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
+
+# for vercel 
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+STATIC_URL = "static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 
@@ -250,4 +265,8 @@ EMAIL_PORT = 587       # gmail smtp server port
 EMAIL_HOST_USER = 'infymee@mail.com'  # Use your email account
 EMAIL_HOST_PASSWORD = 'A@dv1k@2022' # For gmail use app password
 EMAIL_USE_TLS = True     # for SSL communication use EMAIL_USE_SSL
+
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'userprofile.serializers.UserSerializer',
+}
 

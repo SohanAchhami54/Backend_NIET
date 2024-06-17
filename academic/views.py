@@ -115,18 +115,19 @@ def bulk_upload_students(request):
                 print(admission_year,passed_year)
                 
                 # Get or create StudentBatch
-                batch, created = StudentBatch.objects.get_or_create(
-                    name=batch_name,
-                    admission_year=admission_year,
-                    passed_year=passed_year,
-                    defaults={'is_active': True}
-                )
+
+                # batch, created = StudentBatch.objects.get_or_create(
+                #     name=batch_name,
+                #     admission_year=admission_year,
+                #     passed_year=passed_year,
+                #     defaults={'is_active': True}
+                # )
 
                 # Create Student
                 student = Student.objects.create(
                     user=user,
                     user_type=user_type,
-                    batch=batch,
+                    # batch=batch,
                     registration_number=registration_number
                     # is_alumni = is_alumni
                 )
