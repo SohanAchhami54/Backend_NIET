@@ -33,7 +33,7 @@
                 </ul>
             </div>
             <div class="col-sm-12 col-md-8">
-                <div id="uploadform" >
+                <div id="uploadform" style="display: none;">
                     <form id="student-upload-form" method="post" enctype="multipart/form-data" class="form-inline">
                         {% csrf_token %}
                         <div class="form-group mr-3 mb-2">
@@ -45,7 +45,7 @@
                     <div id="message"></div>
                 </div>
 
-                <div id="facultyuploadform" >
+                <div id="facultyuploadform" style="display: none;">
                     <form id="faculty-upload-form" method="post" enctype="multipart/form-data" class="form-inline">
                         {% csrf_token %}
                         <div class="form-group mr-3 mb-2">
