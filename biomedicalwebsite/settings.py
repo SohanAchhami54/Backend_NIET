@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(" ")
 CORS_ALLOWED_ORIGINS = [
@@ -87,8 +87,8 @@ TEMPLATES = [
     },
 ]
 
-# WSGI_APPLICATION = "biomedicalwebsite.wsgi.application"
-WSGI_APPLICATION = "biomedicalwebsite.wsgi.app"
+WSGI_APPLICATION = "biomedicalwebsite.wsgi.application"
+# WSGI_APPLICATION = "biomedicalwebsite.wsgi.app"
 AUTH_USER_MODEL = "userprofile.AppUser"
 
 
