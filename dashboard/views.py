@@ -203,7 +203,7 @@ def bulk_upload_faculty(request):
             return JsonResponse({'message': 'Faculty have been uploaded successfully.'}, status=200)
         except Exception as e:
             return JsonResponse({'message': str(e)}, status=400)
-    return render(request, "dashboard/index.html")
+    return render(request, "index.html")
 
 # prakash Z9Iqwo6c
 
