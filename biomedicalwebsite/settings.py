@@ -34,7 +34,9 @@ CORS_ALLOWED_ORIGINS = [
     "https://example.com",
     "https://sub.example.com",
     "http://localhost:3000",
-    "http://127.0.0.1:8080"
+    "http://127.0.0.1:8080",
+    "http://162.55.176.52",
+    "https://162.55.176.52",
 ]
 
 
@@ -155,7 +157,7 @@ USE_TZ = True
 # for vercel 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATIC_URL = "static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 
 
