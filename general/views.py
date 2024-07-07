@@ -1,5 +1,12 @@
 from django.shortcuts import render
 from general.models import *
+from general.serializers import *
+
+from django.http import Http404
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+
 
 # Create your views here.
 def home(request):
@@ -72,6 +79,17 @@ def get_faculties(request):
     }
     return render(request,'page/staff.html',context_dict)
 
+def get_syllabus(request):
+    about = AboutUs.objects.last()
+    galleries_footer = list(Gallery.objects.all())[:4]
+    syllabus = Syllabus.objects.last()
+    context_dict = {
+        'about':about,
+        'galleries_footer':galleries_footer,
+        'syllabus':syllabus
+    }
+    return render(request,'page/syllabus.html',context_dict)
+
 def get_news(request):
     newscontents = News.objects.filter(is_active=True)
     about = AboutUs.objects.last()
@@ -101,9 +119,19 @@ def get_vaccancy_detail(request,slug):
     }
     return render(request,'page/vaccancy_detail.html',context_dict)
 
+#news detail
+def get_news_detail(request,slug):
+    results = News.objects.filter(is_active=True,slug=slug)
+    about = AboutUs.objects.last()
+    context_dict = {
+        'about':about,
+        'results':results
+    }
+    return render(request,'page/news_detail.html',context_dict)
+
 # notice and results 
-def get_notice_and_results(request):
-    results = NoticeAndResult.objects.filter(is_active=True)
+def get_notice(request):
+    results = Notice.objects.filter(is_active=True)
     about = AboutUs.objects.last()
     context_dict = {
         'about':about,
@@ -111,14 +139,88 @@ def get_notice_and_results(request):
     }
     return render(request,'page/notice.html',context_dict)
 
-def get_notice_and_results_detail(request,slug):
-    results = NoticeAndResult.objects.filter(is_active=True,slug=slug)
+def get_notice_detail(request,slug):
+    results = Notice.objects.filter(is_active=True,slug=slug)
     about = AboutUs.objects.last()
     context_dict = {
         'about':about,
         'results':results
     }
     return render(request,'page/notice_detail.html',context_dict)
+
+# views for result 
+def get_result(request):
+    results = Result.objects.filter(is_active=True)
+    about = AboutUs.objects.last()
+    context_dict = {
+        'about':about,
+        'results':results
+    }
+    return render(request,'page/result.html',context_dict)
+
+def get_result_detail(request,slug):
+    results = Result.objects.filter(is_active=True,slug=slug)
+    about = AboutUs.objects.last()
+    context_dict = {
+        'about':about,
+        'results':results
+    }
+    return render(request,'page/result_detail.html',context_dict)
+
+# entrance syllabus 
+def get_entrance_syllabus(request):
+    results = EntranceSyllabus.objects.filter(is_active=True)
+    about = AboutUs.objects.last()
+    context_dict = {
+        'about':about,
+        'results':results
+    }
+    return render(request,'page/entrance.html',context_dict)
+
+def get_entrance_syllabus_detail(request,slug):
+    results = EntranceSyllabus.objects.filter(is_active=True,slug=slug)
+    about = AboutUs.objects.last()
+    context_dict = {
+        'about':about,
+        'results':results
+    }
+    return render(request,'page/entrance_detail.html',context_dict)
+
+# eligiblity criteria 
+def get_eligiblity_criteria(request):
+    results = EligiblityCriteria.objects.filter(is_active=True)
+    about = AboutUs.objects.last()
+    context_dict = {
+        'about':about,
+        'results':results
+    }
+    return render(request,'page/eligiblity.html',context_dict)
+
+def get_eligiblity_criteria_detail(request,slug):
+    results = EligiblityCriteria.objects.filter(is_active=True,slug=slug)
+    about = AboutUs.objects.last()
+    context_dict = {
+        'about':about,
+        'results':results
+    }
+    return render(request,'page/eligiblity_detail.html',context_dict)
+
+# staff list
+
+def get_staff(request):
+    about = AboutUs.objects.last()
+    ft = FacultyType.objects.get(type_name="non-teaching")
+    staffs = Faculty.objects.filter(faculty_type=ft)
+    galleries_footer = list(Gallery.objects.all())[:4]
+    context_dict = {
+        'ff':staffs,
+        'about':about,
+        'galleries_footer':galleries_footer
+    }
+    return render(request,'page/nonstaff.html',context_dict)
+
+
+
 
 def contact_us(request):
     about = AboutUs.objects.last()
@@ -148,6 +250,23 @@ def handle_message(request):
         return JsonResponse({'success': True})
     else:
         return JsonResponse({'error':False}) 
+
+def get_enquiry(request):
+    about = AboutUs.objects.last()
+    context_dict = {
+        'about':about,
+    }
+    return render(request,'page/enquiry.html',context_dict)
+
+
+# drf api view 
+class ContactMessageCreate(APIView):
+    def post(self, request, format=None):
+        serializer = ContactMessageSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 

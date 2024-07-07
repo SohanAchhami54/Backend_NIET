@@ -40,10 +40,10 @@
               <img src="{{news.photo.url}}" alt="Image">
             </figure>
             <div class="media-h-body">
-              <h2 class="mb-3"><a href="#">{{news.title}}</a></h2>
+              <h2 class="mb-3"><a href="/news/{{news.slug}}/">{{news.title}}</a></h2>
               <div class="meta mb-2"><span class="icon-calendar mr-2"></span><span>{{news.created_at}}</span>  <span class="icon-person mr-2"></span>Admin</div>
               <p>{{news.content|safe}}</p>
-              <p><a href="#">Learn More</a></p>
+              <p><a href="/news/{{news.slug}}/">Learn More</a></p>
             </div>
           </div>
         </div> 

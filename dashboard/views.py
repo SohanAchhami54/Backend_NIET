@@ -7,6 +7,8 @@ from django.http import JsonResponse
 from django.utils.timezone import now
 import openpyxl
 from openpyxl.utils.datetime import from_excel
+from django.shortcuts import get_object_or_404
+
 
 # from general.models import UserType, AppUser, StudentBatch, Student
 from django.contrib.auth.hashers import make_password
@@ -212,21 +214,128 @@ def bulk_upload_faculty(request):
 
 # API view defined here
 
-class YearlyScheduleList(APIView):
+class ScheduleList(APIView):
     """
     List all yearlyschedule, or create a new yearlyschedule.
     """
     def get(self, request, format=None):
-        items = YearlySchedule.objects.filter(is_active=True)
-        serializer = YearlyScheduleSerializer(items, many=True)
+        items = Schedule.objects.filter(is_active=True)
+        serializer = ScheduleSerializer(items, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        serializer = YearlyScheduleSerializer(data=request.data)
+        serializer = ScheduleSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class YearlySchedulerList(APIView):
+    """
+    List all yearlyschedule, or create a new yearlyschedule.
+    """
+    def get(self, request, format=None):
+        items = YearlyScheduler.objects.filter(is_active=True).order_by('-created_at')
+        serializer = YearlySchedulerSerializerDetail(items, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = YearlySchedulerSerializer(data=request.data)
+        print(serializer)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class StudentTheoryInternalMarkUpload(APIView):
+    parser_classes = (MultiPartParser,FormParser)
+    def post(self,request):
+        file = request.data.get('file')
+        subject_id = request.data.get('subject')
+        schedule_id = request.data.get('schedule')
+        if not file or not subject_id or not schedule_id:
+            return Response(
+                {"error": "File, yearly schedule and subject are required"},
+                status=status.HTTP_400_BAD_REQUEST
+            )        
+        try:
+            df = pd.read_excel(file)
+            for _,row in df.iterrows():
+                subject = Subject.objects.get(id=subject_id)
+                student = Student.objects.get(registration_number=row['registration_number'])
+                yearly_scheduler = YearlyScheduler.objects.get(id=schedule_id)
+                subject_schedule = SubjectSchedule.objects.get(subject=subject,schedule=yearly_scheduler.schedule)
+                student_yearly_scheduler = StudentYearlyScheduler.objects.get(student=student,yearly_schedule = yearly_scheduler)
+                im = TheoryInternalMarks.objects.filter(student_yearly_scheduler=student_yearly_scheduler,subject = subject_schedule)
+
+                if(im):
+                    return Response(
+                        {"error": "ALready uploaded"},
+                        status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                        )
+                internalmark = TheoryInternalMarks.objects.create(
+                    student_yearly_scheduler=student_yearly_scheduler,
+                    subject = subject_schedule,
+                    internal_assessment = row['internal_assessment'],
+                    attendance = row['attendance'],
+                    class_performance = row['class_performance'],
+                    assignment = row['assignment'],
+                    presentation = row['presentation'],
+                    remarks = row['remarks']
+                    )
+            return Response(
+                {"message": "Students uploaded and linked to the yearly schedule successfully"},
+                status=status.HTTP_201_CREATED)
+        except Exception as e:
+            return Response(
+                {"error": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+class StudentPracticalInternalMarkUpload(APIView):
+    parser_classes = (MultiPartParser,FormParser)
+    def post(self,request):
+        file = request.data.get('file')
+        subject_id = request.data.get('subject')
+        schedule_id = request.data.get('schedule')
+        if not file or not subject_id or not schedule_id:
+            return Response(
+                {"error": "File, yearly schedule and subject are required"},
+                status=status.HTTP_400_BAD_REQUEST
+            )        
+        try:
+            df = pd.read_excel(file)
+            for _,row in df.iterrows():
+                subject = Subject.objects.get(id=subject_id)
+                student = Student.objects.get(registration_number=row['registration_number'])
+                yearly_scheduler = YearlyScheduler.objects.get(id=schedule_id)
+                subject_schedule = SubjectSchedule.objects.get(subject=subject,schedule=yearly_scheduler.schedule)
+                student_yearly_scheduler = StudentYearlyScheduler.objects.get(student=student,yearly_schedule = yearly_scheduler)
+                im = PracticalInternalMarks.objects.filter(student_yearly_scheduler=student_yearly_scheduler,subject = subject_schedule)
+                if(im):
+                    return Response(
+                        {"error": "ALready uploaded"},
+                        status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                        )
+
+
+                internalmark = PracticalInternalMarks.objects.create(
+                    student_yearly_scheduler=student_yearly_scheduler,
+                    subject = subject_schedule,
+                    attendance = row['attendance'],
+                    labexam_viva = row['labexam_viva'],
+                    lab_report = row['lab_report']
+                )
+            return Response(
+                {"message": "Students uploaded and linked to the yearly schedule successfully"},
+                status=status.HTTP_201_CREATED)
+        except Exception as e:
+            return Response(
+                {"error": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
 
 class StudentYearlyScheduleUpload(APIView):
     parser_classes = (MultiPartParser, FormParser)
@@ -242,8 +351,8 @@ class StudentYearlyScheduleUpload(APIView):
             )
 
         try:
-            yearly_schedule = YearlySchedule.objects.get(id=yearly_schedule_id)
-        except YearlySchedule.DoesNotExist:
+            yearly_schedule = YearlyScheduler.objects.get(id=yearly_schedule_id)
+        except YearlyScheduler.DoesNotExist:
             return Response(
                 {"error": "Yearly schedule not found"},
                 status=status.HTTP_404_NOT_FOUND
@@ -319,17 +428,89 @@ class StudentYearlyScheduleList(APIView):
 class StudentYearlyScheduleUpdate(APIView):
     def post(self,request):
         yearly_schedule_id = request.data.get('yearly_schedule')
+        prev_schedule_id = request.data.get('previous_schedule')
         student_ids = request.data.get('selected_ids').split(',')
-        yearly_schedule = YearlySchedule.objects.get(id=yearly_schedule_id)
+        yearly_schedule = YearlyScheduler.objects.get(id=yearly_schedule_id)
+        prev_yearly_schedule = YearlyScheduler.objects.get(id=prev_schedule_id)
         for id in student_ids:
             student = Student.objects.get(id=id)
-            student_yearly_schedule = StudentYearlyScheduler.objects.get(yearly_schedule=yearly_schedule,student=student)
-            student_yearly_schedule.is_active = False
+            prev_student_yearly_schedule = StudentYearlyScheduler.objects.get(yearly_schedule=prev_yearly_schedule,student=student)
+            prev_student_yearly_schedule.is_active=False
+            prev_student_yearly_schedule.save()
+            student_yearly_schedule = StudentYearlyScheduler.objects.create(yearly_schedule=yearly_schedule,student=student)
+            student_yearly_schedule.is_active = True
             student_yearly_schedule.save()
         return Response(
             {"message": "Students yearly schedule updated successfully"},
             status=status.HTTP_202_ACCEPTED
         )
+    
+
+class SubjectList(APIView):
+    """
+    List all Subject, or create a new Subject.
+    """
+    def get(self, request, format=None):
+        items = Subject.objects.filter(is_active=True)
+        serializer = SubjectSerializer(items, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = SubjectSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class SubjectListBySchedule(APIView):
+    """
+    List all subject by its schedule year
+    """
+    def get(self,request,schedule_year_id):
+        try:
+            schedule_year = YearlyScheduler.objects.get(id=schedule_year_id)
+            schedule = Schedule.objects.get(id=schedule_year.schedule.id)
+            subjects = SubjectSchedule.objects.filter(schedule__id=schedule.id)
+        except Exception as e:
+            return Response(
+                {"error": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+        serializers = SubjectScheduleSerializer(subjects,many=True)
+        return Response(serializers.data, status=status.HTTP_200_OK)
+    
+
+class StudentInternalMarksList(APIView):
+    def get(self, request, student_yearly_schedule_id):
+        try:
+            student_scheduler = StudentYearlyScheduler.objects.get(id=student_yearly_schedule_id)
+        except StudentYearlyScheduler.DoesNotExist:
+            return Response({"error": "Student Yearly Scheduler does not exist"}, status=status.HTTP_404_NOT_FOUND)
+        
+        theorymarks = TheoryInternalMarks.objects.filter(student_yearly_scheduler=student_scheduler)
+        theory_serializers = TheoryInternalMarksSerializer(theorymarks, many=True)
+        
+        practicalmarks = PracticalInternalMarks.objects.filter(student_yearly_scheduler=student_scheduler)
+        practical_serializers = PracticalInternalMarksSerializer(practicalmarks, many=True)
+        
+        return Response({
+            "theory_marks": theory_serializers.data,
+            "practical_marks": practical_serializers.data
+        })
+
+
+class StudentCountBySchedule(APIView):
+    def get(self, request, yearly_schedule_id):
+        yearly_scheduler = get_object_or_404(YearlyScheduler, id=yearly_schedule_id)
+        student_count = StudentYearlyScheduler.objects.filter(yearly_schedule=yearly_scheduler).count()
+        return Response({'yearly_schedule_id': yearly_schedule_id, 'student_count': student_count}, status=status.HTTP_200_OK)
+
+
+
+
+
+    
+
 
 
 

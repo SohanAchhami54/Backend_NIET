@@ -7,17 +7,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="author" content="Untree.co">
   <link rel="shortcut icon" href="favicon.png">
-
   <meta name="description" content="" />
   <meta name="keywords" content="bootstrap, bootstrap4" />
 
-  <link
-    href="https://fonts.googleapis.com/css2?family=Display+Playfair:wght@400;700&family=Inter:wght@400;700&display=swap"
-    rel="stylesheet">
-
-
+  <link href="https://fonts.googleapis.com/css2?family=Display+Playfair:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
-
   <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
   <link rel="stylesheet" href="{% static 'css/animate.min.css' %}">
   <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
@@ -28,114 +22,106 @@
   <link rel="stylesheet" href="{% static 'css/aos.css' %}">
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
+  <script src="{% static 'dashboard/js/angular.min.js' %}"></script>
+  <script src="{% static 'dashboard/js/app.js' %}"></script>
+  <script src="{% static 'dashboard/js/controller.js' %}"></script>
+
   <title>College of Biomedical Engineering & Applied Sciences</title>
 </head>
 
-<body>
+<body ng-app="bioApp">
 
-  <div class="site-mobile-menu">
-    <div class="site-mobile-menu-header">
-      <div class="site-mobile-menu-close">
-        <span class="icofont-close js-menu-toggle"></span>
-      </div>
-    </div>
-    <div class="site-mobile-menu-body"></div>
-  </div>
-
-
-
-  <nav class="site-nav mb-5">
-    <div class="pb-2 top-bar mb-3">
-      <div class="container">
-        <div class="row align-items-center">
-
-          <div class="col-6 col-lg-9">
-            <a href="#" class="small mr-3"><span class="icon-question-circle-o mr-2"></span> <span
-                class="d-none d-lg-inline-block">Have a questions?</span></a>
-            <a href="#" class="small mr-3"><span class="icon-phone mr-2"></span> <span
-                class="d-none d-lg-inline-block">{{about.telephone | safe}}</span></a>
-            <a href="#" class="small mr-3"><span class="icon-envelope mr-2"></span> <span
-                class="d-none d-lg-inline-block">{{about.email_address|safe}}</span></a>
-          </div>
-
-          <div class="col-6 col-lg-3 text-right">
-            <a href="login.html" class="small mr-3">
-              <span class="icon-lock"></span>
-              Log In
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand mr-4" href="/">
+        <img src="/media/cbeaslogo.png" alt="Logo" class="logo-img">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" aria-current="page" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/about/us/">About Us</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Academics
             </a>
-            <a href="register.html" class="small">
-              <span class="icon-person"></span>
-              Register
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="/our/faculty/">Faculty</a></li>
+              <li><a class="dropdown-item" href="/syllabus/">Syllabus</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              News
             </a>
-          </div>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
+              <li><a class="dropdown-item" href="/news/">News & Events</a></li>
+              <li><a class="dropdown-item" href="/notice/">Notice</a></li>
+              <li><a class="dropdown-item" href="/result/">Result</a></li>
+              <li><a class="dropdown-item" href="/result/">Vaccancy</a></li>
+            </ul>
+          </li>
 
-        </div>
-      </div>
-    </div>
-    <div class="sticky-nav js-sticky-header">
-      <div class="container position-relative">
-        <div class="site-navigation text-center">
-        <!-- <a href="index.html" class="logo menu-absolute m-0">
-          <img src="/media/cbeaslogo.png" alt="Logo" class="logo-img" style="height: auto;width: 100px;"><span>CBEAS</span>
-        </a> -->
-        <a href="/" class="logo menu-absolute m-0 justify-content-center"><img src="/media/cbeaslogo.png" alt="Logo" class="logo-img" style="height: auto;width: 80px;">CBEAS<span class="text-primary">.</span></a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Admission
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown3">
+              <li><a class="dropdown-item" href="/entrace/syllabus/">Entrace Syllabus</a></li>
+              <li><a class="dropdown-item" href="/eligiblity/criteria/">Eligiblity Criteria</a></li>
+              <li><a class="dropdown-item" href="/enquiry/">Enquiry</a></li>
+              <li><a class="dropdown-item" href="https://pufoe.edu.np/">Apply Now</a></li>
+            </ul>
+          </li>
 
-          <ul class="js-clone-nav d-none d-lg-inline-block site-menu">
-            <li class="active"><a href="/">Home</a></li>
-            <li class="has-children">
-              <a href="#">Dropdown</a>
-              <ul class="dropdown">
-                <!-- <li><a href="elements.html">Elements</a></li> -->
-                <li><a href="/vaccancy">Vaccancy</a></li>
-                <li><a href="/notice/">Notice And Result</a></li>
-                <!-- <li class="has-children">
-                  <a href="#">Menu Two</a>
-                  <ul class="dropdown">
-                    <li><a href="#">Sub Menu One</a></li>
-                    <li><a href="#">Sub Menu Two</a></li>
-                    <li><a href="#">Sub Menu Three</a></li>
-                  </ul>
-                </li>
-                <li><a href="#">Menu Three</a></li> -->
-              </ul>
-            </li>
-            <li><a href="/our/staff/">Our Staff</a></li>
-            <li><a href="/news/">News</a></li>
-            <li><a href="/gallery">Gallery</a></li>
-            <li><a href="/about/us/">About</a></li>
-            <li><a href="/contact/us/">Contact</a></li>
-          </ul>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown4" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Others
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown4">
+              <li><a class="dropdown-item" href="/our/staff/">Staff</a></li>
+              <li><a class="dropdown-item" href="#">Alumni</a></li>
+              <li><a class="dropdown-item" href="/gallery/">Gallery</a></li>
+            </ul>
+          </li>
 
-          <a href="#" class="btn-book btn btn-secondary btn-sm menu-absolute">Enroll Now</a>
-
-          <a href="#" class="burger ml-auto float-right site-menu-toggle js-menu-toggle d-inline-block d-lg-none light"
-            data-toggle="collapse" data-target="#main-navbar">
-            <span></span>
-          </a>
-
-        </div>
+          <li class="nav-item">
+            <a class="nav-link" href="/contact/us/">Contact</a>
+          </li>
+        </ul>
+        <!-- <a href="#" class="btn btn-secondary btn-sm">Enroll Now</a> -->
       </div>
     </div>
   </nav>
 
-
-
-
-
-
-
   {% block home %}
   {% endblock %}
 
-
   {% block aboutus %}
+  {% endblock %}
+
+  {% block staff %}
+  {% endblock %}
+
+  {% block syllabusblock %}
+  {% endblock %}
+
+  {% block resultblock %}
   {% endblock %}
 
   {% block newsblock %}
   {% endblock%}
 
-  {% block staff %}
-  {% endblock %}
+
+
+
 
   {% block galleryblock %}
   {% endblock %}
@@ -143,25 +129,20 @@
   {% block vaccancyblock %}
   {% endblock %}
 
+  {% block enquiry %}
+  {% endblock %}
+
   {% block contactus %}
   {% endblock %}
 
-
-
-
-
-
   <div class="site-footer">
-
-
     <div class="container">
-
       <div class="row">
-        <div class="col-lg-3 mr-auto">
+        <div class=" col-lg-4 mr-auto">
           <div class="widget">
-            <h3>About Us<span class="text-primary">.</span> </h3>
+            <h3>About Us<span class="text-primary">.</span></h3>
             <p style="text-align: justify;">{{about.about_text|safe}}</p>
-          </div> <!-- /.widget -->
+          </div>
           <div class="widget">
             <h3>Connect</h3>
             <ul class="list-unstyled social">
@@ -172,35 +153,14 @@
               <li><a href="#"><span class="icon-pinterest"></span></a></li>
               <li><a href="#"><span class="icon-dribbble"></span></a></li>
             </ul>
-          </div> <!-- /.widget -->
-        </div> <!-- /.col-lg-3 -->
+          </div>
+        </div>
 
-        <!-- <div class="col-lg-2 ml-auto">
+        <div class="col-lg-4">
           <div class="widget">
-            <h3>Projects</h3>
-            <ul class="list-unstyled float-left links">
-              <li><a href="#">Web Design</a></li>
-              <li><a href="#">HTML5</a></li>
-              <li><a href="#">CSS3</a></li>
-              <li><a href="#">jQuery</a></li>
-              <li><a href="#">Bootstrap</a></li>
-            </ul>
-          </div> 
-        </div>  -->
-
-        <div class="col-lg-3">
-          <div class="widget">
-            <h3>Gallery</h3>
-            <ul class="instafeed instagram-gallery list-unstyled">
-              {% for photo in galleries_footer %}
-              <li><a class="instagram-item" href="{{photo.photo.url}}" data-fancybox="gal"><img src="{{photo.photo.url}}"
-                    alt="" width="72" height="72"></a>
-              </li>
-              {% endfor %}
-            </ul>
-          </div> <!-- /.widget -->
-        </div> <!-- /.col-lg-3 -->
-
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.8823151606866!2d85.30994197546677!3d27.690031976192536!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb196dbb40549f%3A0x3f9d741f06ffa32b!2sCollege%20of%20Biomedical%20Engineering%20and%20Applied%20Sciences!5e0!3m2!1sen!2snp!4v1718699834079!5m2!1sen!2snp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+        </div>
 
         <div class="col-lg-3">
           <div class="widget">
@@ -210,29 +170,21 @@
               <li><a href="tel://11234567890">{{about.telephone|safe}}</a></li>
               <li><a href="mailto:info@mydomain.com">{{about.email_address|safe}}</a></li>
             </ul>
-          </div> <!-- /.widget -->
-        </div> <!-- /.col-lg-3 -->
-
-      </div> <!-- /.row -->
-
+          </div>
+        </div>
+      </div>
       <div class="row mt-5">
         <div class="col-12 text-center">
           <p>Copyright &copy;
             <script>document.write(new Date().getFullYear());</script>. All Rights Reserved. &mdash; Developed & maintained By <a href="https://infographytech.com">Infography Technologies Pvt. Ltd.</a>
-            <!-- License information: https://untree.co/license/ -->
         </div>
       </div>
-    </div> <!-- /.container -->
-  </div> <!-- /.site-footer -->
+    </div>
+  </div>
 
-  <!-- <div id="overlayer"></div>
-    <div class="loader">
-      <div class="spinner-border" role="status">
-        <span class="sr-only">Loading...</span>
-      </div>
-    </div> -->
 
-  <script src="{% static 'js/jquery-3.4.1.min.js' %} "></script>
+
+  <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
   <script src="{% static 'js/popper.min.js' %}"></script>
   <script src="{% static 'js/bootstrap.min.js' %}"></script>
   <script src="{% static 'js/owl.carousel.min.js' %}"></script>
@@ -242,6 +194,7 @@
   <script src="{% static 'js/jquery.sticky.js' %}"></script>
   <script src="{% static 'js/aos.js' %}"></script>
   <script src="{% static 'js/custom.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 

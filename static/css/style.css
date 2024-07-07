@@ -2189,6 +2189,26 @@ h4,
 }
 
 .logo-img {
-  max-width: 50px; /* Set the maximum width for the logo */
+  max-width: 80px; /* Set the maximum width for the logo */
   height: auto; /* Maintain aspect ratio */
+}
+
+.navbar-brand img {
+  height: auto;
+  width: 150px; /* Increase logo size */
+}
+.navbar {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 1020; /* Ensures the navbar stays on top */
+}
+.navbar-collapse {
+  justify-content: flex-center; /* Align nav links to the right */
+}
+
+.custom-mediapdf embed {
+  width: 100%;
+  height: 100vh; /* Full viewport height */
+  border: none;
 }

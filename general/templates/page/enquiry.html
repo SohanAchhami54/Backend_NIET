@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block enquiry %}
+
+<div class="untree_co-hero overlay" style="background-image: url('{{about.about_image.url}}');">
+    <div class="container">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-12">
+                <div class="row justify-content-center ">
+                    <div class="col-lg-6 text-center ">
+                        <h1 class="mb-4 heading text-white" data-aos="fade-up" data-aos-delay="100">Enuiry Form</h1>
+                        <div class="mb-5 text-white desc mx-auto" data-aos="fade-up" data-aos-delay="200">
+                            <!-- <p>Another free template by <a href="https://untree.co/" target="_blank" class="link-highlight">Untree.co</a>. Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live.</p> -->
+                        </div>
+
+                        <p class="mb-0" data-aos="fade-up" data-aos-delay="300"><a href="#"
+                                class="btn btn-secondary">Explore courses</a></p>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div> <!-- /.row -->
+    </div> <!-- /.container -->
+
+</div> <!-- /.untree_co-hero -->
+
+
+  <div class="untree_co-section bg-light">
+    <div class="container">
+      <div class="row justify-content-center mb-5">
+        <div class="col-lg-7 text-center" data-aos="fade-up" data-aos-delay="0">
+          <h2 class="line-bottom text-center mb-4">Please fill up the form below for Enquiry</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 mb-4 mb-lg-0">
+          <div class="custom-mediapdf" ng-app="myApp" ng-controller="bioController">
+            <!-- Bootstrap toast -->
+            <div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
+              <div class="toast" style="position: absolute; top: 0; right: 0;" data-autohide="false">
+                <div class="toast-header">
+                  <strong class="mr-auto text-primary">success</strong>
+                  <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">&times;</button>
+                </div>
+                <div class="toast-body">
+                  We have got your Message. Thank You!
+                </div>
+              </div>
+            </div>
+            
+            <form id="messageForm" method="POST" class="appointment-form ftco-animate" ng-submit="postMessage(newData)">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-6 mb-3">
+                  <input type="text" class="form-control" placeholder="Your Name" ng-model="newData.full_name" name="full_name">
+                </div>
+                <div class="col-6 mb-3">
+                  <input type="email" class="form-control" placeholder="Your Email" ng-model="newData.email" name="email">
+                </div>
+                <div class="col-6 mb-3">
+                  <input type="text" class="form-control" placeholder="Phone Number" ng-model="newData.phone_number" name="phone_number">
+                </div>
+                <div class="col-12 mb-3">
+                  <input type="text" class="form-control" placeholder="Subject" ng-model="newData.subject" name="subject">
+                </div>
+                <div class="col-12 mb-3">
+                  <textarea name="" id="" cols="30" rows="7" class="form-control" placeholder="Message" ng-model="newData.message" name="message"></textarea>
+                </div>
+                <div class="col-12">
+                  <input type="submit" value="Send Message" class="btn btn-primary">
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock%}

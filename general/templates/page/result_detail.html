@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block vaccancyblock %}
+{% block resultblock %}
 
   <div class="untree_co-hero overlay" style="background-image: url('{{about.about_image.url}}');">
     <div class="container">
@@ -8,7 +8,7 @@
         <div class="col-12">
           <div class="row justify-content-center ">
             <div class="col-lg-6 text-center ">
-              <h1 class="mb-4 heading text-white" data-aos="fade-up" data-aos-delay="100">Notices</h1>
+              <h1 class="mb-4 heading text-white" data-aos="fade-up" data-aos-delay="100">Result Detail</h1>
               <div class="mb-5 text-white desc mx-auto" data-aos="fade-up" data-aos-delay="200">
                 <!-- <p>Another free template by <a href="https://untree.co/" target="_blank" class="link-highlight">Untree.co</a>. Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live.</p> -->
               </div>
@@ -32,34 +32,34 @@
 
   <div class="untree_co-section bg-light">
     <div class="container">
-      <div class="row align-items-stretch">
+      <div class="row justify-content-center mb-5">
+        <div class="col-lg-7 text-center" data-aos="fade-up" data-aos-delay="0">
+          <h2 class="line-bottom text-center mb-4">{{results.0.title}}</h2>
+        </div>
+      </div>
+
         {% for result in results %}
+      <div class="row align-items-stretch">
+        <div class="section-title mb-3" data-aos="fade-up" data-aos-delay="0">
+            <!-- <h2 class="line-bottom mb-4">{{result.title}}</h2> -->
+        </div> 
+        
         <div class="col-lg-6 p-2"  data-aos="fade-up" data-aos-delay="100">
-          <div class="media-h d-flex h-100">
-            <figure>
-              <img src="{{result.photo.url}}" alt="Image">
-            </figure>
-            <div class="media-h-body">
-              <h2 class="mb-3"><a href="/notice/{{result.slug}}/">{{result.title}}</a>{% if result.display_as_new %} <span class="badge badge-danger">New</span> {%else %}<span></span>{% endif %}</h2>
-              <div class="meta mb-2"><span class="icon-calendar mr-2"></span><span>{{news.created_at}}</span>  <span class="icon-person mr-2"></span>Admin</div>
-              <!-- <p>{{news.content|safe}}</p> -->
-              <p><a href="/notice/{{result.slug}}/">Learn More</a></p>
+          <div class="custom-block" data-aos="fade-up">
+            <div class="row gutter-v2 gallery">
+                <a href="{{result.photo.url}}" class="gal-item" data-fancybox="gal"><img src="{{result.photo.url}}" alt="Image" class="img-fluid rounded"></a>
             </div>
           </div>
         </div> 
-        {% endfor %}
       </div>
-
-      <!-- <div class="row mt-5">
-        <div class="col-12 text-center">
-          <ul class="list-unstyled custom-pagination">
-            <li><a href="#">1</a></li>
-            <li class="active"><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-          </ul>
+      
+      <div class="row align-items-stretch">
+        <div class="col-lg-10 p-2"  data-aos="fade-up" data-aos-delay="100">
+            <p>{{result.content|safe}}</p><hr>
+            {% if result.pdf %}<p style="font-weight: bold;">To download <a href="{{result.pdf.url}}" download>click</a> here</p>{% endif %}
         </div>
-      </div> -->
+      </div>
+      {% endfor %}
 
     </div>
   </div>
