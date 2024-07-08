@@ -35,9 +35,9 @@
           <div class="staff text-center">
             <div class="mb-4"><img src="{{f.photo.url}}" alt="Image" class="img-fluid"></div>
             <div class="staff-body">
-              <h3 class="staff-name">{{f.user.first_name }} {{f.user.middle_name }} {{f.user.last_name }}, {{f.education}}</h3>
-              <span class="d-block position ">{{f.designation}}</span>
-              <span class="d-block position mb-4"> {{f.post_name}} </span>
+              <h3 class="staff-name">{{f.user.first_name }} {% if f.user.middle_name  %} {{f.user.middle_name }} {% endif %} {{f.user.last_name }}, {{f.education}}</h3>
+              <span class="d-block position ">{% if f.designation %} {{f.designation}} {% endif %}</span>
+              <span class="d-block position mb-4">{% if f.post_name  %} {{f.post_name}} {% endif %} </span>
 
               <!-- <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p> -->
               <div class="social">
