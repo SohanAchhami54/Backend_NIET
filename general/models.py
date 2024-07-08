@@ -42,6 +42,17 @@ class CoverImage(models.Model):
 
     def __str__(self):
         return self.title_1
+
+class SliderHome(models.Model):
+    title = models.CharField(max_length=255, blank=True, null=True)
+    photo = models.FileField(upload_to="uploads/home/slider/image/", blank=True, null=True)
+    content  = CKEditor5Field('content_1', config_name='extends', blank=True, null=True)
+    class Meta:
+        verbose_name = "Slider Home"
+        verbose_name_plural = "Slider Home"
+
+    def __str__(self):
+        return self.title
     
 class HomeImages(models.Model):
     title_1 = models.CharField(max_length=255, blank=True, null=True)

@@ -20,6 +20,7 @@ def home(request):
     galleries_footer = list(Gallery.objects.all())[:4]
     newscontents = News.objects.filter(is_active=True)
     partners = MissionPartners.objects.all()
+    sliders = SliderHome.objects.all()
     context_dict = {
         'about_infos':about_infos,
         'home_image':home_image,
@@ -31,6 +32,7 @@ def home(request):
         'galleries':galleries,
         'galleries_footer':galleries_footer,
         'partners':partners,
+        'sliders':sliders,
     }
     return render(request,'page/index.html',context_dict)
 

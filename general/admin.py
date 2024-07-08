@@ -2,7 +2,7 @@ from django.contrib import admin
 from general.models import (
     MissionPartners, HomeVideo, HomeImages, Feature, Home, AboutImages, 
     AboutCertificates, AboutUs, FacultyType, Faculty, Chairman, ProjectCategory, 
-    News, Vaccancy, Notice, Result, ContactMessage, Faq, Gallery,CoverImage,Syllabus,EntranceSyllabus,EligiblityCriteria
+    News, Vaccancy, Notice, Result, ContactMessage, Faq, Gallery,CoverImage,Syllabus,EntranceSyllabus,EligiblityCriteria,SliderHome
 )
 
 @admin.register(MissionPartners)
@@ -19,6 +19,12 @@ class HomeVideoAdmin(admin.ModelAdmin):
 class CoverImageAdmin(admin.ModelAdmin):
     list_display = ['title', 'photo', ]
     search_fields = ['title', 'photo', ]
+
+@admin.register(SliderHome)
+class SliderHomeAdmin(admin.ModelAdmin):
+    list_display = ['title', 'photo', ]
+    search_fields = ['title', 'photo',]
+
 
 @admin.register(HomeImages)
 class HomeImagesAdmin(admin.ModelAdmin):
