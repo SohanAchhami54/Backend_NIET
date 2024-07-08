@@ -147,3 +147,14 @@ ol {
   width: 150px;
   z-index: 100;
 }
+
+.widget {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .widget {
+    width: 1000px; /* Increase this value as needed */
+    margin: 0 auto; /* Center align */
+  }
+}
