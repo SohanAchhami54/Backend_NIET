@@ -534,7 +534,7 @@
   margin-bottom: 5rem;
 }
 
-.gallery-item {
+/* .gallery-item {
   transition: transform 0.3s ease-in-out;
   border-radius: 0.5rem;
   overflow: hidden;
@@ -565,4 +565,4 @@
   background-color: rgba(0, 0, 0, 0.5);
   padding: 1rem;
   border-radius: 0.5rem;
-}
+} */
