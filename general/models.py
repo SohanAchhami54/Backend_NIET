@@ -4,30 +4,33 @@ from django_ckeditor_5.fields import CKEditor5Field
 from django.utils.text import slugify
 
 # Create your models here.
-class MissionPartners(models.Model):
-    name = models.CharField(max_length=255, blank=True, null=True)
-    logo = models.FileField(upload_to="uploads/partners/", blank=True, null=True)
 
-    class Meta:
-        verbose_name = "Mission Partner"
-        verbose_name_plural = "Mission Partners"
+# # need to be deleted 
+# class MissionPartners(models.Model):
+#     name = models.CharField(max_length=255, blank=True, null=True)
+#     logo = models.FileField(upload_to="uploads/partners/", blank=True, null=True)
 
-    def __str__(self):
-        return self.name
+#     class Meta:
+#         verbose_name = "Mission Partner"
+#         verbose_name_plural = "Mission Partners"
 
-class HomeVideo(models.Model):
-    title = models.CharField(max_length=255, blank=True, null=True)
-    video_url = models.CharField(max_length=255, blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    is_active = models.BooleanField(default=True)
+#     def __str__(self):
+#         return self.name
 
-    class Meta:
-        verbose_name = "Home Video"
-        verbose_name_plural = "Home Videos"
+# # need to be deleted 
+# class HomeVideo(models.Model):
+#     title = models.CharField(max_length=255, blank=True, null=True)
+#     video_url = models.CharField(max_length=255, blank=True, null=True)
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now=True)
+#     is_active = models.BooleanField(default=True)
 
-    def __str__(self):
-        return self.title
+#     class Meta:
+#         verbose_name = "Home Video"
+#         verbose_name_plural = "Home Videos"
+
+#     def __str__(self):
+#         return self.title
 
 class CoverImage(models.Model):
     title = models.CharField(max_length=255, blank=True, null=True)
@@ -46,7 +49,9 @@ class CoverImage(models.Model):
 class SliderHome(models.Model):
     title = models.CharField(max_length=255, blank=True, null=True)
     photo = models.FileField(upload_to="uploads/home/slider/image/", blank=True, null=True)
-    content  = CKEditor5Field('content_1', config_name='extends', blank=True, null=True)
+    content  = models.TextField(blank=True, null=True)
+
+    # content  = CKEditor5Field('content_1', config_name='extends', blank=True, null=True)
     class Meta:
         verbose_name = "Slider Home"
         verbose_name_plural = "Slider Home"
@@ -54,21 +59,22 @@ class SliderHome(models.Model):
     def __str__(self):
         return self.title
     
-class HomeImages(models.Model):
-    title_1 = models.CharField(max_length=255, blank=True, null=True)
-    photo_1 = models.FileField(upload_to="uploads/home/image/", blank=True, null=True)
-    title_2 = models.CharField(max_length=255, blank=True, null=True)
-    photo_2 = models.FileField(upload_to="uploads/home/image/", blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    is_active = models.BooleanField(default=True)
+# # need to be deleted 
+# class HomeImages(models.Model):
+#     title_1 = models.CharField(max_length=255, blank=True, null=True)
+#     photo_1 = models.FileField(upload_to="uploads/home/image/", blank=True, null=True)
+#     title_2 = models.CharField(max_length=255, blank=True, null=True)
+#     photo_2 = models.FileField(upload_to="uploads/home/image/", blank=True, null=True)
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now=True)
+#     is_active = models.BooleanField(default=True)
 
-    class Meta:
-        verbose_name = "Home Image"
-        verbose_name_plural = "Home Images"
+#     class Meta:
+#         verbose_name = "Home Image"
+#         verbose_name_plural = "Home Images"
 
-    def __str__(self):
-        return self.title_1
+#     def __str__(self):
+#         return self.title_1
 
 class Feature(models.Model):
     title = models.CharField(max_length=255, blank=True, null=True)
@@ -82,45 +88,48 @@ class Feature(models.Model):
         verbose_name = "Feature"
         verbose_name_plural = "Features"
 
-class Home(models.Model):
-    why_biomedical = CKEditor5Field('why_biomedical', config_name='extends', blank=True, null=True)
-    why_photo = models.FileField(upload_to="uploads/home/image/", blank=True, null=True)
-    features = models.ManyToManyField(Feature, blank=True, default='')
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    is_active = models.BooleanField(default=True)
+# # need to be deleted 
+# class Home(models.Model):
+#     why_biomedical = CKEditor5Field('why_biomedical', config_name='extends', blank=True, null=True)
+#     why_photo = models.FileField(upload_to="uploads/home/image/", blank=True, null=True)
+#     features = models.ManyToManyField(Feature, blank=True, default='')
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now=True)
+#     is_active = models.BooleanField(default=True)
 
-    class Meta:
-        verbose_name = "Home"
-        verbose_name_plural = "Homes"
+#     class Meta:
+#         verbose_name = "Home"
+#         verbose_name_plural = "Homes"
 
-class AboutImages(models.Model):
-    title = models.CharField(max_length=255, blank=True, null=True)
-    photo = models.FileField(upload_to="uploads/about/image/", blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    is_active = models.BooleanField(default=True)
+# # need to be deleted 
+# class AboutImages(models.Model):
+#     title = models.CharField(max_length=255, blank=True, null=True)
+#     photo = models.FileField(upload_to="uploads/about/image/", blank=True, null=True)
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now=True)
+#     is_active = models.BooleanField(default=True)
 
-    class Meta:
-        verbose_name = "About Image"
-        verbose_name_plural = "About Images"
+#     class Meta:
+#         verbose_name = "About Image"
+#         verbose_name_plural = "About Images"
 
-    def __str__(self):
-        return self.title
+#     def __str__(self):
+#         return self.title
 
-class AboutCertificates(models.Model):
-    title = models.CharField(max_length=255, blank=True, null=True)
-    photo = models.FileField(upload_to="uploads/about/certificate/", blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    is_active = models.BooleanField(default=True)
+# # need to be deleted 
+# class AboutCertificates(models.Model):
+#     title = models.CharField(max_length=255, blank=True, null=True)
+#     photo = models.FileField(upload_to="uploads/about/certificate/", blank=True, null=True)
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now=True)
+#     is_active = models.BooleanField(default=True)
 
-    class Meta:
-        verbose_name = "About Certificate"
-        verbose_name_plural = "About Certificates"
+#     class Meta:
+#         verbose_name = "About Certificate"
+#         verbose_name_plural = "About Certificates"
 
-    def __str__(self):
-        return self.title
+#     def __str__(self):
+#         return self.title
 
 class AboutUs(models.Model):
     full_name = models.CharField(max_length=255, blank=True, null=True)
@@ -130,11 +139,11 @@ class AboutUs(models.Model):
     about_image = models.FileField(upload_to="uploads/aboutus/", blank=True, null=True, default='')
     affiliation = models.CharField(max_length=255, blank=True, null=True)
     registration = models.CharField(max_length=255, blank=True, null=True)
-    address = CKEditor5Field('address', config_name='extends', blank=True, null=True)
-    post_box = CKEditor5Field('post_box', config_name='extends', blank=True, null=True)
-    telephone = CKEditor5Field('telephone', config_name='extends', blank=True, null=True)
-    email_address = CKEditor5Field('email_address', config_name='extends', blank=True, null=True)
-    google_map = CKEditor5Field('google_map', config_name='extends', blank=True, null=True)
+    address = models.TextField(blank=True, null=True)
+    post_box = models.TextField(blank=True, null=True)
+    telephone = models.TextField(blank=True, null=True)
+    email_address = models.TextField(blank=True, null=True)
+    google_map = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
@@ -147,41 +156,45 @@ class AboutUs(models.Model):
         return self.full_name
 
 
-class FacultyType(models.Model):
+class StaffType(models.Model):
     type_name = models.CharField(max_length=255, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
 
     class Meta:
-        verbose_name = "Faculty Type"
-        verbose_name_plural = "Faculty Types"
+        verbose_name = "Staff Type"
+        verbose_name_plural = "Staff Types"
 
     def __str__(self):
         return self.type_name
 
-class Faculty(models.Model):
-    user = models.ForeignKey(AppUser, on_delete=models.CASCADE)
-    user_type = models.ForeignKey(UserType, on_delete=models.CASCADE)
+class Staff(models.Model):
+    JOB_CHOICES = [
+        ("1","full time"),
+        ("2","visiting")
+    ]
+    full_name = models.CharField(max_length=255, blank=True, null=True)
     photo = models.FileField(upload_to="uploads/faculty/", blank=True, null=True)
     education = models.CharField(max_length=255, blank=True, null=True)
     designation = models.CharField(max_length=255, blank=True, null=True)
     post_name = models.CharField(max_length=255, blank=True, null=True)
-    faculty_type = models.ForeignKey(FacultyType, on_delete=models.CASCADE, blank=True, null=True)
+    job_type = models.TextField(choices=JOB_CHOICES, blank=True, null=True)
+    staff_type = models.ForeignKey(StaffType, on_delete=models.CASCADE, blank=True, null=True)
     linkedin_url = models.CharField(max_length=255, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
 
     class Meta:
-        verbose_name = "Faculty"
-        verbose_name_plural = "Faculty"
+        verbose_name = "Staff"
+        verbose_name_plural = "Staff"
 
     def __str__(self):
-        return self.user.first_name
+        return self.full_name
 
 class Chairman(models.Model):
-    faculty = models.ForeignKey(Faculty, on_delete=models.CASCADE)
+    staff = models.ForeignKey(Staff, on_delete=models.CASCADE)
     message = CKEditor5Field('message', config_name='extends', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -192,7 +205,7 @@ class Chairman(models.Model):
         verbose_name_plural = "Chairmen"
 
     def __str__(self) -> str:
-        return self.faculty.user.first_name
+        return self.staff.full_name
 
 # models for syllabus 
 class Syllabus(models.Model):
@@ -422,3 +435,21 @@ class Gallery(models.Model):
 
     def __str__(self):
         return self.description
+
+class Testimonial(models.Model):
+    name = models.CharField(max_length=255, blank=True, null=True)
+    photo = models.ImageField(upload_to='uploads/testimonial/', blank=True, null=True)
+    profession = models.CharField(max_length=255, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Testimonial"
+        verbose_name_plural = "Testimonials"
+
+    def __str__(self):
+        return self.name
+

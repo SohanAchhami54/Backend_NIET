@@ -6,7 +6,7 @@
         <div class="container py-5">
             <div class="row justify-content-center">
                 <div class="col-lg-10 text-center">
-                    <h1 class="display-3 text-white animated slideInDown">Entrance Syllabus</h1>
+                    <h1 class="display-3 text-white animated slideInDown">Syllabus</h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-center">
                             <li class="breadcrumb-item"><a class="text-white" href="/">Home</a></li>
@@ -26,14 +26,14 @@
             <div class="col-lg-8">
                 <div class="syllabus-detail bg-light p-5 rounded">
                     <div class="text-center mb-4">
-                        <p class="display-6">{{ result.title }}</p>
+                        <p class="display-6">{{ syllabus.title }}</p>
                     </div>
                     <div class="mb-4">
-                        {{ result.content|safe }}
+                        {{ syllabus.content|safe }}
                     </div>
-                    {% if result.pdf %}
+                    {% if syllabus.pdf %}
                     <div class="text-center">
-                        <a href="{{ result.pdf.url }}" class="btn btn-primary btn-lg" target="_blank">
+                        <a href="{{ syllabus.pdf.url }}" class="btn btn-primary btn-lg" target="_blank">
                             <i class="fas fa-file-pdf"></i> Download PDF
                         </a>
                     </div>

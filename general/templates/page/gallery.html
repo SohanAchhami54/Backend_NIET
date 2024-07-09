@@ -1,47 +1,94 @@
 {% extends "base.html" %}
 
 {% block galleryblock %}
-  <div class="untree_co-hero overlay" style="background-image: url('{{about.about_image.url}}');">
-    <div class="container">
-      <div class="row align-items-center justify-content-center">
-        <div class="col-12">
-          <div class="row justify-content-center ">
-            <div class="col-lg-6 text-center ">
-              <h1 class="mb-4 heading text-white" data-aos="fade-up" data-aos-delay="100">Gallery</h1>
-              <div class="mb-5 text-white desc mx-auto" data-aos="fade-up" data-aos-delay="200">
-                <!-- <p>Another free template by <a href="https://untree.co/" target="_blank" class="link-highlight">Untree.co</a>. Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live.</p> -->
-              </div>
-
-              <p class="mb-0" data-aos="fade-up" data-aos-delay="300"><a href="#" class="btn btn-secondary">Explore courses</a></p>
-
+<!-- Header Start -->
+<div class="container-fluid bg-primary py-5 mb-5 page-header">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 text-center">
+                <h1 class="display-3 text-white animated slideInDown">Gallery</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center">
+                        <li class="breadcrumb-item"><a class="text-white" href="/">Home</a></li>
+                        <li class="breadcrumb-item"><a class="text-white" href="#">Pages</a></li>
+                        <li class="breadcrumb-item text-white active" aria-current="page">About</li>
+                    </ol>
+                </nav>
             </div>
-
-
-          </div>
-
         </div>
-
-      </div> 
-    </div> 
-
-  </div> 
-
-
-
-
-  <div class="untree_co-section">
-    <div class="container">
-      <div class="row">
-        {% for photo in galleries %}
-        <div class="col-md-4 col-lg-4 item">
-          <a href="{{photo.photo.url}}" class="item-wrap fancybox mb-4" data-fancybox="gal" data-aos="fade-up" data-aos-delay="0">
-            <span class="icon-search2"></span>
-            <img class="img-fluid" src="{{photo.photo.url}}">
-          </a>
-        </div>
-        {% endfor %}
-
-      </div>
     </div>
-  </div>
+</div>
+<!-- Header End -->
+
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+            <h6 class="section-title bg-white text-center text-primary px-3">Gallery</h6>
+            <h1 class="mb-5">Our Photo Gallery</h1>
+        </div>
+        <div class="row g-4 justify-content-center">
+            {% for photo in gallery %}
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="card gallery-item bg-light h-100">
+                    <img src="{{ photo.photo.url }}" class="card-img-top" alt="{{ photo.description }}">
+                    <div class="card-body">
+                        <p class="card-text">{{ photo.description|safe }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="galleryModal" tabindex="-1" aria-labelledby="galleryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="galleryModalLabel">Photo Gallery</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="galleryCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        {% for photo in gallery %}
+                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                            <img src="{{ photo.photo.url }}" class="d-block w-100" alt="{{ photo.description }}">
+                            <div class="carousel-caption d-none d-md-block">
+                                <p>{{ photo.description|safe }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#galleryCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#galleryCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var galleryItems = document.querySelectorAll('.gallery-item img');
+        galleryItems.forEach(function(item, index) {
+            item.addEventListener('click', function() {
+                var galleryModal = new bootstrap.Modal(document.getElementById('galleryModal'));
+                var carousel = new bootstrap.Carousel(document.getElementById('galleryCarousel'));
+                carousel.to(index);
+                galleryModal.show();
+            });
+        });
+    });
+</script>
+
+
+
 {% endblock %}

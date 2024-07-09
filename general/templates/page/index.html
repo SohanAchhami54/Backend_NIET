@@ -1,315 +1,201 @@
 {% extends "base.html" %}
 
 {% block home %}
-
-<div class="untree_co-hero overlay" style="background-image: url('{{ home_image.photo_1.url }}')">
-
-<div class="container">
-    <div class="row align-items-center justify-content-center">
-        <div class="col-12">
-            <div class="row justify-content-center">
-                <div class="col-lg-12 text-center">
-                    <a href="{{video.video_url}}" data-fancybox data-aos="fade-up" data-aos-delay="0" class="caption mb-4 d-inline-block">Watch the video</a><br>
-                    <!-- <img src="/media/cbeaslogo.png" alt="Logo" class="logo-img" style="height: auto; max-width: 200px;"> -->
-                    <h1 class="mb-4 heading text-white" data-aos="fade-up" data-aos-delay="100">College of Biomedical Engineering <br /> and Applied Sciences</h1>
-                    <h2 class="mb-4 slogan text-white" data-aos="fade-up" data-aos-delay="200">Engineering the future of health care</h2>
-                    <p class="mb-0" data-aos="fade-up" data-aos-delay="300"><a href="#" class="btn btn-secondary">Explore courses</a></p>
-                </div>
+<!-- Carousel Start -->
+<div class="container-fluid p-0 mb-5">
+  <div class="owl-carousel header-carousel position-relative">
+    {% for slider in sliders %}
+    <div class="owl-carousel-item position-relative">
+      <img class="img-fluid" src="{{slider.photo.url}}" alt="{{slider.title}}">
+      <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center"
+        style="background: rgba(24, 29, 56, .7);">
+        <div class="container">
+          <div class="row justify-content-start">
+            <div class="col-sm-10 col-lg-8">
+              <h5 class="text-primary text-uppercase mb-3 animated slideInDown">CBEAS.</h5>
+              <h1 class="display-3 text-white animated slideInDown">{{slider.title}}</h1>
+              <p class="fs-5 text-white mb-4 pb-2">{{slider.content|safe}}</p>
+              <!-- <a href="" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Read More</a>
+                                <a href="" class="btn btn-light py-md-3 px-md-5 animated slideInRight">Join Now</a> -->
             </div>
+          </div>
         </div>
+      </div>
     </div>
+    {% endfor %}
+  </div>
 </div>
+<!-- Carousel End -->
 
 
-        </div> <!-- /.row -->
-    </div> <!-- /.container -->
- <!-- /.untree_co-hero -->
+<!-- Service Start -->
+<div class="container-xxl py-5">
+  <div class="container">
+    <div class="row g-4">
 
- 
-  <!-- <div class="untree_co-section">
-    <div class="container">
-      <div class="row justify-content-center mb-3">
-        <div class="col-lg-7 text-center" data-aos="fade-up" data-aos-delay="0">
-          <h2 class="line-bottom text-center mb-4">Partners in Mission</h2>
-        </div>
-      </div>
-      <div class="row align-items-stretch">
-      {% for partner in partners %}
-          <div class="col-sm-12 col-md-4 col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="0">
-              <a href="#" class="category d-flex align-items-start h-100">
-                  <div>
-                      <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" class="img-fluid" style="max-width: 100px; max-height: 100px;">
-                  </div>
-                  <div class="ml-3">
-                      <h3>{{ partner.name }}</h3>
-                  </div>
-              </a>
-          </div>
-      {% endfor %}
-      </div>
-    </div>
-  </div> -->
-
-{% block aboutus %}
-  <div class="untree_co-section">
-    <div class="container">
-      <div class="row justify-content-between">
-        <div class="col-lg-5 mb-5">
-          <h2 class="line-bottom mb-4" data-aos="fade-up" data-aos-delay="0">About Us</h2>
-          <p data-aos="fade-up" data-aos-delay="100" class="text-justify" style="text-align: justify;">{{about.about_text|safe}}</p>
-          <!-- <ul class="list-unstyled ul-check mb-5 primary" data-aos="fade-up" data-aos-delay="200">
-            <li>Separated they live</li>
-            <li>Bookmarksgrove right at the coast</li>
-            <li>large language ocean</li>
-          </ul> -->
-
-          <div class="row count-numbers mb-5">
-            <div class="col-4 col-lg-4" data-aos="fade-up" data-aos-delay="0">
-              <span class="counter d-block"><span data-number="12023">0</span><span>+</span></span>
-              <span class="caption-2">No. Students</span>
-            </div>
-            <div class="col-4 col-lg-4" data-aos="fade-up" data-aos-delay="100">
-              <span class="counter d-block"><span data-number="49">0</span><span></span></span>
-              <span class="caption-2">No. Teachers</span>
-            </div>
-            <div class="col-4 col-lg-4" data-aos="fade-up" data-aos-delay="100">
-              <span class="counter d-block"><span data-number="12">0</span><span></span></span>
-              <span class="caption-2">No. Awards</span>
-            </div>
-          </div>
-
-          <p data-aos="fade-up" data-aos-delay="200">
-            <a href="#" class="btn btn-primary mr-1">Admission</a>
-            <a href="#" class="btn btn-outline-primary">Learn More</a>
-          </p>
-        </div>
-        <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
-          <div class="bg-1"></div>
-          <a href="{{video.video_url}}" data-fancybox class="video-wrap">
-            <span class="play-wrap"><span class="icon-play"></span></span>
-            <img src="{{about.about_image.url}}" alt="Image" class="img-fluid rounded">
-          </a>
-        </div>
-      </div>
-    </div>
-  </div> <!-- /.untree_co-section -->
-{% endblock %}
-
-<!-- slider  -->
-   <div class="services-section">
-    <div class="container">
-      <div class="row justify-content-between">
-        <div class="col-lg-12 col-sm-12 col-md-12 mb-5 mb-lg-0">
-          <div class="custom-block" data-aos="fade-up" data-aos-delay="100">
-            <h2 class="section-title text-center">CBEAS.</h2>
-            <div class="owl-single owl-carousel no-nav">
-              
-              {% for slider in sliders %}
-              <div class="testimonial mx-auto">
-                <!-- <figure class="img-wrap"> -->
-                  <img src="{{slider.photo.url}}" alt="Image" class="img-fluid">
-                <!-- </figure> -->
-                <h3 class="name text-black">{{slider.title}}</h3>
-                <blockquote>
-                  <p>{{slider.content | safe}} </p>
-                </blockquote>
-              </div>
-              {% endfor %}
-
-            </div>
-          </div>
-        </div> <!-- /.col-lg-6 -->
-      </div> <!-- /.row -->    
-    </div> <!-- /.container -->  
-  </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-  
-
-<!-- slider end  -->
-
-<div class="untree_co-section"></div>
-
-
-
-
-  <div class="services-section">
-    <div class="container">
-      <div class="row justify-content-between">
-        <div class="col-lg-5 mb-5 mb-lg-0">
-
-          <div class="section-title mb-3" data-aos="fade-up" data-aos-delay="0">
-            <h2 class="line-bottom mb-4">Why Biomedical Engineering ?</h2>
-          </div>
-
-          <p data-aos="fade-up" data-aos-delay="100">{{home_info.why_biomedical|safe}}</p>
-
-          <p data-aos="fade-up" data-aos-delay="300"><a href="#" class="btn btn-primary">Get Started</a></p>
-
-        </div>
-        <div class="col-lg-6" data-aos="fade-up" data-aos-delay="0">
-          <figure class="img-wrap-2">
-            <img src="{{home_info.why_photo.url}}" alt="Image" class="img-fluid">
-            <div class="dotted"></div>
-          </figure>
-
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-
-  <div class="untree_co-section">
-    <div class="container"> 
-      <div class="row justify-content-center mb-5">
-        <div class="col-lg-7 text-center" data-aos="fade-up" data-aos-delay="0">
-          <h2 class="line-bottom text-center mb-4">At CBEAS</h2>
-        </div>
-      </div>
-      <div class="row">
       {% for feature in features %}
-        <div class="col-12 col-sm-12 col-md-4 col-lg-4" data-aos="fade-up" data-aos-delay="100">
-          <div class="feature">
+      <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="service-item text-center pt-3">
+          <div class="p-4">
             <span class="feature-logo">
               <img src="{{ feature.feature_img.url }}" alt="Feature Logo" class="img-fluid logo-img">
             </span>
-            <h3>{{ feature.title }}</h3>
-            <p class="text-justify">{{ feature.feature_text }}</p>
+            <h5 class="mb-3">{{feature.title}}</h5>
+            <p style="text-align: justify;">{{feature.feature_text}}</p>
           </div>
         </div>
+      </div>
       {% endfor %}
 
+    </div>
+  </div>
+</div>
+<!-- Service End -->
 
 
-      </div>
-    </div> <!-- /.container -->
-  </div> <!-- /.untree_co-section -->
-
-
-  <!-- <div class="untree_co-section bg-light">
-    <div class="container"> 
-      <div class="row justify-content-center mb-5">
-        <div class="col-lg-7 text-center" data-aos="fade-up" data-aos-delay="0">
-          <h2 class="line-bottom text-center mb-4">The Right Course For You</h2>
-          <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+<!-- About Start -->
+<div class="container-xxl py-5">
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
+        <div class="position-relative h-100">
+          <img class="img-fluid position-absolute w-100 h-100" src="{{about.about_image.url}}" alt=""
+            style="object-fit: cover;">
         </div>
       </div>
-      <div class="row">
-        <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-4 mb-lg-0">
-          <div class="custom-media">
-            <a href="#"><img src="images/img-school-1-min.jpg" alt="Image" class="img-fluid"></a>
-            <div class="custom-media-body">
-              <div class="d-flex justify-content-between pb-3">
-                <div class="text-primary"><span class="uil uil-book-open"></span> <span>43 lesson</span></div>
-                <div class="review"><span class="icon-star"></span> <span>4.8</span></div>
-              </div>
-              <h3>Education Program Title</h3>
-              <p class="mb-4">Lorem ipsum dolor sit amet once is consectetur adipisicing elit optio.</p>
-              <div class="border-top d-flex justify-content-between pt-3 mt-3 align-items-center">
-                <div><span class="price">$87.00</span></div>
-                <div><a href="#">Learn More</a></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-4 mb-lg-0">
-          <div class="custom-media">
-            <a href="#"><img src="images/img-school-2-min.jpg" alt="Image" class="img-fluid"></a>
-            <div class="custom-media-body">
-              <div class="d-flex justify-content-between pb-3">
-                <div class="text-primary"><span class="uil uil-book-open"></span> <span>43 lesson</span></div>
-                <div class="review"><span class="icon-star"></span> <span>4.8</span></div>
-              </div>
-              <h3>Education Program Title</h3>
-              <p class="mb-4">Lorem ipsum dolor sit amet once is consectetur adipisicing elit optio.</p>
-              <div class="border-top d-flex justify-content-between pt-3 mt-3 align-items-center">
-                <div><span class="price">$93.00</span></div>
-                <div><a href="#">Learn More</a></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-4 mb-lg-0">
-          <div class="custom-media">
-            <a href="#"><img src="images/img-school-3-min.jpg" alt="Image" class="img-fluid"></a>
-            <div class="custom-media-body">
-              <div class="d-flex justify-content-between pb-3">
-                <div class="text-primary"><span class="uil uil-book-open"></span> <span>43 lesson</span></div>
-                <div class="review"><span class="icon-star"></span> <span>4.8</span></div>
-              </div>
-              <h3>Education Program Title</h3>
-              <p class="mb-4">Lorem ipsum dolor sit amet once is consectetur adipisicing elit optio.</p>
-              <div class="border-top d-flex justify-content-between pt-3 mt-3 align-items-center">
-                <div><span class="price">$65.00</span></div>
-                <div><a href="#">Learn More</a></div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+        <h6 class="section-title bg-white text-start text-primary pe-3">About Us</h6>
+        <h1 class="mb-4">Welcome to CBEAS.</h1>
+        <p class="mb-4">{{about.about_text | safe}}</p>
+        <a class="btn btn-primary py-3 px-5 mt-0" href="/about/us/">Read More</a>
       </div>
     </div>
   </div>
-
-  <div class="untree_co-section pt-0 bg-img overlay" style="background-image: url('images/img-school-1-min.jpg');">
-    <div class="container">
-      <div class="row align-items-center justify-content-center text-center">
-        <div class="col-lg-7">
-          <h2 class="text-white mb-3" data-aos="fade-up" data-aos-delay="0">Education for Tomorrow's Leaders</h2>
-          <p class="text-white h5 mb-4" data-aos="fade-up" data-aos-delay="100">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-          <p><a href="#" class="btn btn-secondary" data-aos="fade-up" data-aos-delay="200">Enroll Now</a></p>
-        </div>
-      </div>
-    </div>  
-  </div>  -->
-{% endblock %}
+</div>
+<!-- About End -->
 
 
-
-{% block newsblock %}
-  <div class="untree_co-section bg-light">
-    <div class="container">
-      <div class="row justify-content-center mb-5">
-        <div class="col-lg-7 text-center" data-aos="fade-up" data-aos-delay="0">
-          <h2 class="line-bottom text-center mb-4">CBEAS News</h2>
-          <!-- <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p> -->
-        </div>
-      </div>
-      <div class="row align-items-stretch">
-        {% for news in newscontents %}
-        <div class="col-lg-6 p-2"  data-aos="fade-up" data-aos-delay="100">
-          <div class="media-h d-flex h-100">
-            <figure>
-              <img src="{{news.photo.url}}" alt="Image">
-            </figure>
-            <div class="media-h-body">
-              <h2 class="mb-3"><a href="/news/{{news.slug}}/">{{news.title}}</a></h2>
-              <div class="meta mb-2"><span class="icon-calendar mr-2"></span><span>{{news.created_at}}</span>  <span class="icon-person mr-2"></span>Admin</div>
-              <p>{{news.content|safe}}</p>
-              <p><a href="/news/{{news.slug}}/">Learn More</a></p>
-            </div>
-          </div>
-        </div> 
-        {% endfor %}
-
-        <!-- <div class="col-lg-6"  data-aos="fade-up" data-aos-delay="200">
-          <div class="media-h d-flex h-100">
-            <figure>
-              <img src="images/img-school-2-min.jpg" alt="Image">
-            </figure>
-            <div class="media-h-body">
-              <h2 class="mb-3"><a href="#">Enroll Your Kids This Summer to get 30% off</a></h2>
-              <div class="meta mb-2"><span class="icon-calendar mr-2"></span><span>June 22, 2020</span>  <span class="icon-person mr-2"></span>Admin</div>
-              <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-              <p><a href="#">Learn More</a></p>
-            </div>
-          </div>
-        </div> -->
-
-      </div>
+<!-- Gallery Start -->
+<div class="container-xxl py-5 category">
+  <div class="container">
+    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+      <h6 class="section-title bg-white text-center text-primary px-3">Life At CBEAS.</h6>
+      <h1 class="mb-5">Explore our Vibrating Campus with us</h1>
     </div>
-  </div> <!-- /.untree_co-section -->
+    <div class="row g-3">
+      <div class="col-lg-7 col-md-6">
+        <div class="row g-3">
+
+          <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s">
+            <a class="position-relative d-block overflow-hidden" href="">
+              <img class="img-fluid" src="{{galleries.0.photo.url}}" alt="">
+            </a>
+          </div>
+
+          <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.3s">
+            <a class="position-relative d-block overflow-hidden" href="">
+              <img class="img-fluid" src="{{galleries.1.photo.url}}" alt="">
+            </a>
+          </div>
+
+          <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.5s">
+            <a class="position-relative d-block overflow-hidden" href="">
+              <img class="img-fluid" src="{{galleries.2.photo.url}}" alt="">
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="col-lg-5 col-md-6 wow zoomIn" data-wow-delay="0.7s" style="min-height: 350px;">
+        <a class="position-relative d-block h-100 overflow-hidden" href="">
+          <img class="img-fluid position-absolute w-100 h-100" src="{{galleries.3.photo.url}}" alt=""
+            style="object-fit: cover;">
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- Gallery Ends -->
+
+<!-- News Start -->
+<div class="container-xxl py-5">
+  <div class="container">
+    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+      <h6 class="section-title bg-white text-center text-primary px-3">News And Events</h6>
+      <h1 class="mb-5">Latest news and Events from our College</h1>
+    </div>
+    <div class="row g-4 justify-content-center">
+
+      {% for event in events %}
+      <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="course-item bg-light">
+          <div class="position-relative overflow-hidden">
+            <img class="img-fluid" src="{{event.photo.url}}" alt="">
+            <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
+              <a href="/news/{{event.slug}}/" class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end"
+                >Read More</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<!-- News End -->
+
+    <!-- Testimonial Start -->
+    <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container">
+            <div class="text-center">
+                <h6 class="section-title bg-white text-center text-primary px-3">Testimonial</h6>
+                <h1 class="mb-5">See What our Students say About Us!</h1>
+            </div>
+            <div class="owl-carousel testimonial-carousel position-relative">
+              {% for testimonial in testimonials %}
+                <div class="testimonial-item text-center">
+                    <img class="border rounded-circle p-2 mx-auto mb-3" src="{{testimonial.photo.url}}" style="width: 80px; height: 80px;">
+                    <h5 class="mb-0">{{testimonial.name}}</h5>
+                    <p>{{testimonial.profession}}</p>
+                    <div class="testimonial-text bg-light text-center p-4">
+                    <p class="mb-0">{{testimonial.description}}</p>
+                    </div>
+                </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+    <!-- Testimonial End -->
+
+    <!-- faq starts  -->
+    <div class="container-xxl py-5">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h6 class="section-title bg-white text-center text-primary px-3">FAQ</h6>
+      <h1 class="mb-4">Frequently Asked Questions</h1>
+    </div>
+    <div class="accordion" id="faqAccordion">
+      {% for faq in faqs %}
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="heading-{{faq.id}}">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{faq.id}}" aria-expanded="true" aria-controls="collapse-{{faq.id}}">
+            {{faq.question_text|safe}}
+          </button>
+        </h2>
+        <div id="collapse-{{faq.id}}" class="accordion-collapse collapse show" aria-labelledby="heading-{{faq.id}}" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            {{faq.answer_text|safe}}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+     <!-- faq ends  -->
+
 {% endblock %}
