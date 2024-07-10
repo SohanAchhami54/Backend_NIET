@@ -433,10 +433,7 @@
 }
 
 /* Custom CSS */
-.logo-img {
-  height: 80px; /* Adjust the height as needed */
-  width: auto;
-}
+
 .navbar-brand h2 {
   margin: 0;
   font-size: 24px; /* Adjust the font size as needed */
