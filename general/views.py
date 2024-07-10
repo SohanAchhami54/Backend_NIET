@@ -92,7 +92,7 @@ def get_news_detail(request,slug):
 
 # notice and results 
 def get_notice(request):
-    results = Notice.objects.filter(is_active=True)
+    results = Notice.objects.filter(is_active=True).order_by('-id')
     context_dict = {
         'results':results
     }
@@ -107,7 +107,7 @@ def get_notice_detail(request,slug):
 
 # views for result 
 def get_result(request):
-    results = Result.objects.filter(is_active=True)
+    results = Result.objects.filter(is_active=True).order_by('-id')
     context_dict = {
         'results':results
     }
@@ -121,7 +121,7 @@ def get_result_detail(request,slug):
     return render(request,'page/result_detail.html',context_dict)
 
 def get_vaccancy(request):
-    results = Vaccancy.objects.filter(is_active=True)
+    results = Vaccancy.objects.filter(is_active=True).order_by('-id')
     context_dict = {
 
         'results':results

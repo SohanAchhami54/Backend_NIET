@@ -28,20 +28,23 @@
         </div>
         <div class="row g-4 justify-content-center">
             {% for syll in results %}
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+            <div class="col-lg-12 col-md-12 col-sm-12 wow fadeInUp" data-wow-delay="0.1s">
                 <div class="card course-item bg-light h-100">
-                    <div class="card-body text-center">
+                    <div class="card-body">
                         <h5 class="card-title mb-4">
                             <a href="/entrance/syllabus/{{syll.slug}}/" class="stretched-link text-decoration-none">
                                 {{ syll.title }}
                             </a>
                         </h5>
-                    </div>
-                    <div class="card-footer d-flex justify-content-center">
                         <small class="text-muted">
                             <i class="fa fa-clock text-primary me-2"></i>{{ syll.created_at|date:"F j, Y" }}
                         </small>
                     </div>
+                    <!-- <div class="card-footer d-flex justify-content-center">
+                        <small class="text-muted">
+                            <i class="fa fa-clock text-primary me-2"></i>{{ syll.created_at|date:"F j, Y" }}
+                        </small>
+                    </div> -->
                 </div>
             </div>
             {% endfor %}
