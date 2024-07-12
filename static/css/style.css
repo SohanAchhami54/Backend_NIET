@@ -1,3 +1,7 @@
+/* body {
+  font-family: "Roboto", sans-serif;
+} */
+
 /********** Template CSS **********/
 :root {
   --primary: #0b4c78;
@@ -74,6 +78,24 @@
 }
 
 /*** Navbar ***/
+.navbar-light .navbar-nav .nav-link {
+  margin-right: 30px;
+  padding: 25px 0;
+  color: #0b4c78; /* Initial color for visibility */
+  background-color: #ffffff; /* Initial background color */
+  font-size: 15px;
+  text-transform: uppercase;
+  outline: none;
+  transition: color 0.3s, background-color 0.3s, padding 0.3s;
+}
+
+.navbar-light .navbar-nav .nav-link:hover,
+.navbar-light .navbar-nav .nav-link.active {
+  color: #ffffff;
+  background-color: #0b4c78; /* Change background color on hover */
+  padding: 25px 10px; /* Add padding on hover */
+}
+
 .navbar .dropdown-toggle::after {
   border: none;
   content: "\f107";
@@ -83,21 +105,16 @@
   margin-left: 8px;
 }
 
-.navbar-light .navbar-nav .nav-link {
-  margin-right: 30px;
-  padding: 25px 0;
-  color: #ffffff;
-  font-size: 15px;
-  text-transform: uppercase;
-  outline: none;
+.navbar-light .navbar-nav .dropdown-menu .dropdown-item {
+  color: #0b4c78; /* Initial color for dropdown items */
+  transition: color 0.3s, background-color 0.3s, padding 0.3s;
 }
 
-.navbar-light .navbar-nav .nav-link:hover,
-.navbar-light .navbar-nav .nav-link.active {
-  color: #0b4c78;
-  /* background-color: #0b4c78; */
-  /* padding: 25px 30px;  */
-  /* box-shadow: inset 0 0 0 5px #0b4c78; */
+.navbar-light .navbar-nav .dropdown-menu .dropdown-item:hover,
+.navbar-light .navbar-nav .dropdown-menu .dropdown-item.active {
+  color: #ffffff;
+  background-color: #0b4c78; /* Change background color on hover and active */
+  padding: 10px 15px; /* Add padding on hover for dropdown items */
 }
 
 @media (max-width: 991.98px) {
@@ -114,11 +131,6 @@
 .navbar-light .navbar-brand,
 .navbar-light a.btn {
   height: 75px;
-}
-
-.navbar-light .navbar-nav .nav-link {
-  color: var(--dark);
-  font-weight: 500;
 }
 
 .navbar-light.sticky-top {
