@@ -16,6 +16,7 @@ def home(request):
     galleries = Gallery.objects.order_by('-id')[:4]
     events = News.objects.filter(is_active=True).order_by('-id')
     testimonials = Testimonial.objects.filter(is_active=True).order_by('-id')
+    video_testimonials = VideoTestimonial.objects.filter(is_active=True).order_by('-id')
     faqs = Faq.objects.all()
     if(len(events)>=6):
         events = events[:6]
@@ -30,7 +31,8 @@ def home(request):
         'galleries':galleries,
         'events':events,
         'testimonials':testimonials,
-        'faqs':faqs
+        'faqs':faqs,
+        'video_testimonials':video_testimonials
     }
     return render(request,'page/index.html',context_dict)
 

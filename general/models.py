@@ -453,3 +453,21 @@ class Testimonial(models.Model):
     def __str__(self):
         return self.name
 
+class VideoTestimonial(models.Model):
+    name = models.CharField(max_length=255, blank=True, null=True)
+    profession = models.CharField(max_length=255, blank=True, null=True)
+    video_url = models.CharField(max_length=255, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Video Testimonial"
+        verbose_name_plural = "Video Testimonials"
+
+    def __str__(self):
+        return self.name
+
+

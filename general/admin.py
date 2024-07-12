@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import (
     CoverImage, SliderHome, Feature, AboutUs, StaffType, Staff, Chairman,
     Syllabus, EntranceSyllabus, EligiblityCriteria, ProjectCategory, News,
-    Vaccancy, Notice, Result, ContactMessage, Faq, Gallery,Testimonial
+    Vaccancy, Notice, Result, ContactMessage, Faq, Gallery,Testimonial,VideoTestimonial
 )
 
 @admin.register(CoverImage)
@@ -155,6 +155,14 @@ class GalleryAdmin(admin.ModelAdmin):
 @admin.register(Testimonial)
 class TestimonialAdmin(admin.ModelAdmin):
     list_display = ('name','description', 'created_at', 'updated_at', 'is_active')
+    search_fields = ('description',)
+    list_filter = ('is_active', 'created_at')
+    ordering = ('-created_at',)
+
+
+@admin.register(VideoTestimonial)
+class VideoTestimonialAdmin(admin.ModelAdmin):
+    list_display = ('video_url','description', 'created_at', 'updated_at', 'is_active')
     search_fields = ('description',)
     list_filter = ('is_active', 'created_at')
     ordering = ('-created_at',)
