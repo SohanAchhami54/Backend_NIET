@@ -60,7 +60,7 @@ def get_faculties(request):
     return render(request,'page/staff.html',context_dict)
 
 def get_syllabus(request):
-    syllabus = Syllabus.objects.filter(is_active=True)
+    syllabus = Syllabus.objects.filter(is_active=True).order_by('-id')
     print(syllabus)
     context_dict = {
         'syllabus':syllabus

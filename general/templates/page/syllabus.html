@@ -1,24 +1,24 @@
 {% extends "base.html" %}
 
 {% block syllabusblock %}
- <!-- Header Start -->
-    <div class="container-fluid bg-primary py-5 mb-5 page-header">
-        <div class="container py-5">
-            <div class="row justify-content-center">
-                <div class="col-lg-10 text-center">
-                    <h1 class="display-3 text-white animated slideInDown">Syllabus</h1>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb justify-content-center">
-                            <li class="breadcrumb-item"><a class="text-white" href="/">Home</a></li>
-                            <li class="breadcrumb-item"><a class="text-white" href="#">Pages</a></li>
-                            <li class="breadcrumb-item text-white active" aria-current="page">About</li>
-                        </ol>
-                    </nav>
-                </div>
+<!-- Header Start -->
+<div class="container-fluid bg-primary py-5 mb-5 page-header">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 text-center">
+                <h1 class="display-3 text-white animated slideInDown">Syllabus</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center">
+                        <li class="breadcrumb-item"><a class="text-white" href="/">Home</a></li>
+                        <!-- <li class="breadcrumb-item"><a class="text-white" href="#">Pages</a></li> -->
+                        <li class="breadcrumb-item text-white active" aria-current="page">Syllabus</li>
+                    </ol>
+                </nav>
             </div>
         </div>
     </div>
-    <!-- Header End -->
+</div>
+<!-- Header End -->
 
 <div class="container-xxl py-5">
     <div class="container">
@@ -28,20 +28,23 @@
         </div>
         <div class="row g-4 justify-content-center">
             {% for syll in syllabus %}
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="card course-item bg-light h-100">
-                    <div class="card-body text-center">
+            <div class="col-lg-12 col-md-12 col-sm-12 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="card course-item  h-100">
+                    <div class="card-body ">
                         <h5 class="card-title mb-4">
                             <a href="/syllabus/{{syll.slug}}/" class="stretched-link text-decoration-none">
                                 {{ syll.title }}
                             </a>
                         </h5>
-                    </div>
-                    <div class="card-footer d-flex justify-content-center">
                         <small class="text-muted">
                             <i class="fa fa-clock text-primary me-2"></i>{{ syll.created_at|date:"F j, Y" }}
                         </small>
                     </div>
+                    <!-- <div class="card-footer d-flex justify-content-center">
+                        <small class="text-muted">
+                            <i class="fa fa-clock text-primary me-2"></i>{{ syll.created_at|date:"F j, Y" }}
+                        </small>
+                    </div> -->
                 </div>
             </div>
             {% endfor %}
