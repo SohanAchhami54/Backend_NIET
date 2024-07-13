@@ -38,7 +38,7 @@ def home(request):
 
 def aboutus(request):
     about = AboutUs.objects.last()
-    chairman = Chairman.objects.last()
+    chairman = CollegeChairman.objects.last()
     context_dict = {
         'about':about,
         'chairman':chairman,

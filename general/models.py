@@ -193,19 +193,37 @@ class Staff(models.Model):
     def __str__(self):
         return self.full_name
 
-class Chairman(models.Model):
-    staff = models.ForeignKey(Staff, on_delete=models.CASCADE)
+# class Chairman(models.Model):
+#     staff = models.ForeignKey(Staff, on_delete=models.CASCADE)
+#     message = CKEditor5Field('message', config_name='extends', blank=True, null=True)
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now=True)
+#     is_active = models.BooleanField(default=True)
+
+#     class Meta:
+#         verbose_name = "Chairman"
+#         verbose_name_plural = "Chairmen"
+
+#     def __str__(self) -> str:
+#         return self.staff.full_name
+
+class CollegeChairman(models.Model):
+    full_name = models.CharField(max_length=255, blank=True, null=True)
+    photo = models.FileField(upload_to="uploads/chairman/", blank=True, null=True)
+    education = models.CharField(max_length=255, blank=True, null=True)
+    designation = models.CharField(max_length=255, blank=True, null=True)
+    post_name = models.CharField(max_length=255, blank=True, null=True)
     message = CKEditor5Field('message', config_name='extends', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
 
     class Meta:
-        verbose_name = "Chairman"
-        verbose_name_plural = "Chairmen"
+        verbose_name = "College Chairman"
+        verbose_name_plural = "College Chairman"
 
     def __str__(self) -> str:
-        return self.staff.full_name
+        return self.full_name
 
 # models for syllabus 
 class Syllabus(models.Model):

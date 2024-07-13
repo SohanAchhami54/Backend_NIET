@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import (
-    CoverImage, SliderHome, Feature, AboutUs, StaffType, Staff, Chairman,
+    CoverImage, SliderHome, Feature, AboutUs, StaffType, Staff, CollegeChairman,
     Syllabus, EntranceSyllabus, EligiblityCriteria, ProjectCategory, News,
     Vaccancy, Notice, Result, ContactMessage, Faq, Gallery,Testimonial,VideoTestimonial
 )
@@ -51,10 +51,10 @@ class StaffAdmin(admin.ModelAdmin):
     ordering = ('-created_at',)
 
 
-@admin.register(Chairman)
-class ChairmanAdmin(admin.ModelAdmin):
-    list_display = ('staff', 'created_at', 'updated_at', 'is_active')
-    search_fields = ('staff__full_name', )
+@admin.register(CollegeChairman)
+class CollegeChairmanAdmin(admin.ModelAdmin):
+    list_display = ('full_name', 'created_at', 'updated_at', 'is_active')
+    search_fields = ('full_name', )
     list_filter = ('is_active', 'created_at')
     ordering = ('-created_at',)
 
