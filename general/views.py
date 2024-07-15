@@ -10,7 +10,7 @@ from rest_framework import status
 
 # Create your views here.
 def home(request):
-    sliders = SliderHome.objects.all()
+    sliders = SliderHome.objects.all().order_by('order_priority')
     features = Feature.objects.filter(is_active=True)
     about = AboutUs.objects.last()
     galleries = Gallery.objects.order_by('-id')[:4]
@@ -48,10 +48,10 @@ def aboutus(request):
 
 def get_faculties(request):
     ft = StaffType.objects.get(type_name="teaching")
-    fulltime_faculties = Staff.objects.filter(staff_type=ft,job_type="1")
+    fulltime_faculties = Staff.objects.filter(staff_type=ft,job_type="1").order_by('order_priority')
     print(fulltime_faculties)
 
-    visiting_faculties = Staff.objects.filter(staff_type=ft,job_type="2")
+    visiting_faculties = Staff.objects.filter(staff_type=ft,job_type="2").order_by('order_priority')
 
     context_dict = {
         'ff':fulltime_faculties,
@@ -263,7 +263,7 @@ def get_gallery(request):
 def get_staff(request):
     about = AboutUs.objects.last()
     ft = StaffType.objects.get(type_name="non-teaching")
-    staffs = Staff.objects.filter(staff_type=ft)
+    staffs = Staff.objects.filter(staff_type=ft).order_by('order_priority')
     context_dict = {
         'ff':staffs,
     }

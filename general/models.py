@@ -50,6 +50,7 @@ class SliderHome(models.Model):
     title = models.CharField(max_length=255, blank=True, null=True)
     photo = models.FileField(upload_to="uploads/home/slider/image/", blank=True, null=True)
     content  = models.TextField(blank=True, null=True)
+    order_priority = models.IntegerField(default=0,blank=True,null=True)
 
     # content  = CKEditor5Field('content_1', config_name='extends', blank=True, null=True)
     class Meta:
@@ -80,6 +81,7 @@ class Feature(models.Model):
     title = models.CharField(max_length=255, blank=True, null=True)
     feature_text = models.CharField(max_length=255, blank=True, null=True)
     feature_img = models.FileField(upload_to="uploads/home/feat/", blank=True, null=True)
+    order_priority = models.IntegerField(default=0,blank=True,null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
@@ -181,6 +183,7 @@ class Staff(models.Model):
     post_name = models.CharField(max_length=255, blank=True, null=True)
     job_type = models.TextField(choices=JOB_CHOICES, blank=True, null=True)
     staff_type = models.ForeignKey(StaffType, on_delete=models.CASCADE, blank=True, null=True)
+    order_priority = models.IntegerField(default=0,blank=True,null=True)
     linkedin_url = models.CharField(max_length=255, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
