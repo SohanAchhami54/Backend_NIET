@@ -27,34 +27,6 @@
 </div>
 <!-- Carousel End -->
 
-<!-- Service Start -->
-<div class="container-xxl py-5">
-  <div class="container">
-    <div class="text-center">
-      <h6 class="section-title bg-white text-center text-primary px-3">Our Features</h6>
-      <h1 class="mb-5">At CBEAS we provide our students with</h1>
-    </div>
-    <div class="row g-4">
-
-      {% for feature in features %}
-      <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-        <div class="service-item text-center pt-3">
-          <div class="p-4">
-            <span class="feature-logo">
-              <img src="{{ feature.feature_img.url }}" alt="Feature Logo" class="img-fluid logo-img">
-            </span>
-            <h5 class="mb-3">{{feature.title}}</h5>
-            <p style="text-align: justify;">{{feature.feature_text}}</p>
-          </div>
-        </div>
-      </div>
-      {% endfor %}
-
-    </div>
-  </div>
-</div>
-<!-- Service End -->
-
 
 <!-- About Start -->
 <div class="container-xxl py-5">
@@ -154,6 +126,34 @@
   </div>
 </div>
 <!-- News End -->
+
+<!-- Service Start -->
+<div class="container-xxl py-5">
+  <div class="container">
+    <div class="text-center">
+      <h6 class="section-title bg-white text-center text-primary px-3">Our Features</h6>
+      <h1 class="mb-5">At CBEAS we provide our students with</h1>
+    </div>
+    <div class="row g-4">
+
+      {% for feature in features %}
+      <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="service-item text-center pt-3">
+          <div class="p-4">
+            <span class="feature-logo">
+              <img src="{{ feature.feature_img.url }}" alt="Feature Logo" class="img-fluid logo-img">
+            </span>
+            <h5 class="mb-3">{{feature.title}}</h5>
+            <p style="text-align: justify;">{{feature.feature_text}}</p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+</div>
+<!-- Service End -->
 
 <!-- Testimonial Start -->
 <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
