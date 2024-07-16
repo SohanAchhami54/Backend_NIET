@@ -139,6 +139,7 @@ class AboutUs(models.Model):
     about_text = CKEditor5Field('about_text', config_name='extends', blank=True, null=True)
     logo = models.FileField(upload_to="uploads/logo/", blank=True, null=True, default='')
     about_image = models.FileField(upload_to="uploads/aboutus/", blank=True, null=True, default='')
+    video_url = models.CharField(max_length=255, blank=True, null=True)
     affiliation = models.CharField(max_length=255, blank=True, null=True)
     registration = models.CharField(max_length=255, blank=True, null=True)
     address = models.TextField(blank=True, null=True)

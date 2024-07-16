@@ -27,35 +27,33 @@
 </div>
 <!-- Carousel End -->
 
-<!-- video testimonial  -->
-<div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+<!-- Service Start -->
+<div class="container-xxl py-5">
   <div class="container">
     <div class="text-center">
-      <h6 class="section-title bg-white text-center text-primary px-3">Video Testimonial</h6>
-      <h1 class="mb-5">See What our Students say About Us!</h1>
+      <h6 class="section-title bg-white text-center text-primary px-3">Our Features</h6>
+      <h1 class="mb-5">At CBEAS we provide our students with</h1>
     </div>
-    <div class="owl-carousel testimonial-carousel position-relative">
-      {% for testimonial in video_testimonials %}
-      <div class="testimonial-item text-center" data-name="{{ testimonial.name }}"
-        data-profession="{{ testimonial.profession }}" data-description="{{ testimonial.description }}"
-        data-video="https://www.youtube.com/embed/{{ testimonial.video_url }}">
-        <div class="ratio ratio-16x9">
-          <iframe src="{{ testimonial.video_url }}" title="YouTube video" allowfullscreen
-            style="width: 100%; height: 100%;"></iframe>
-        </div>
-        <div class="bg-light p-4 mt-3">
-          <h5 class="mb-0">{{ testimonial.name }}</h5>
-          <p>{{ testimonial.profession }}</p>
-          <p class="mb-0">{{ testimonial.description }}</p>
+    <div class="row g-4">
+
+      {% for feature in features %}
+      <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="service-item text-center pt-3">
+          <div class="p-4">
+            <span class="feature-logo">
+              <img src="{{ feature.feature_img.url }}" alt="Feature Logo" class="img-fluid logo-img">
+            </span>
+            <h5 class="mb-3">{{feature.title}}</h5>
+            <p style="text-align: justify;">{{feature.feature_text}}</p>
+          </div>
         </div>
       </div>
       {% endfor %}
+
     </div>
   </div>
 </div>
-
-<!-- Testimonial End -->
-
+<!-- Service End -->
 
 
 <!-- About Start -->
@@ -71,7 +69,12 @@
       <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
         <h6 class="section-title bg-white text-start text-primary pe-3">About Us</h6>
         <h1 class="mb-4">Welcome to CBEAS.</h1>
-        <p class="mb-4">{{about.about_text | safe}}</p>
+        <div class="ratio ratio-16x9">
+          <iframe src="{{ about.video_url }}" title="YouTube video" allowfullscreen
+            style="width: 100%; height: 100%;"></iframe>
+        </div>
+        <p class="mb-2">{{about.about_text | safe}}</p>
+
         <a class="btn btn-primary py-3 px-5 mt-0" href="/about/us/">Read More</a>
       </div>
     </div>
@@ -176,33 +179,36 @@
   </div>
 </div>
 
-<!-- Service Start -->
-<div class="container-xxl py-5">
+<!-- video testimonial  -->
+<div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
   <div class="container">
     <div class="text-center">
-      <h6 class="section-title bg-white text-center text-primary px-3">Our Features</h6>
-      <h1 class="mb-5">At CBEAS we provide our students with</h1>
+      <h6 class="section-title bg-white text-center text-primary px-3">Video Testimonial</h6>
+      <h1 class="mb-5">See What our Students say About Us!</h1>
     </div>
-    <div class="row g-4">
-
-      {% for feature in features %}
-      <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-        <div class="service-item text-center pt-3">
-          <div class="p-4">
-            <span class="feature-logo">
-              <img src="{{ feature.feature_img.url }}" alt="Feature Logo" class="img-fluid logo-img">
-            </span>
-            <h5 class="mb-3">{{feature.title}}</h5>
-            <p style="text-align: justify;">{{feature.feature_text}}</p>
-          </div>
+    <div class="owl-carousel testimonial-carousel position-relative">
+      {% for testimonial in video_testimonials %}
+      <div class="testimonial-item text-center" data-name="{{ testimonial.name }}"
+        data-profession="{{ testimonial.profession }}" data-description="{{ testimonial.description }}"
+        data-video="https://www.youtube.com/embed/{{ testimonial.video_url }}">
+        <div class="ratio ratio-16x9">
+          <iframe src="{{ testimonial.video_url }}" title="YouTube video" allowfullscreen
+            style="width: 100%; height: 100%;"></iframe>
+        </div>
+        <div class="bg-light p-4 mt-3">
+          <h5 class="mb-0">{{ testimonial.name }}</h5>
+          <p>{{ testimonial.profession }}</p>
+          <p class="mb-0">{{ testimonial.description }}</p>
         </div>
       </div>
       {% endfor %}
-
     </div>
   </div>
 </div>
-<!-- Service End -->
+
+<!-- Testimonial End -->
+
+
 
 
 
