@@ -79,7 +79,7 @@ class SliderHome(models.Model):
 
 class Feature(models.Model):
     title = models.CharField(max_length=255, blank=True, null=True)
-    feature_text = models.CharField(max_length=255, blank=True, null=True)
+    feature_text = models.TextField(blank=True, null=True)
     feature_img = models.FileField(upload_to="uploads/home/feat/", blank=True, null=True)
     order_priority = models.IntegerField(default=0,blank=True,null=True)
     created_at = models.DateTimeField(auto_now_add=True)
