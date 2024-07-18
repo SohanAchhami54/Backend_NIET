@@ -7,6 +7,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
+from django.utils.html import strip_tags
+
 
 # Create your views here.
 def home(request):
@@ -15,6 +17,13 @@ def home(request):
     about = AboutUs.objects.last()
     galleries = Gallery.objects.order_by('-id')[:4]
     events = News.objects.filter(is_active=True).order_by('-id')
+    scroller_events = News.objects.filter(is_active=True,scroll=True).order_by('-id')
+    for scroll_event in scroller_events:
+        scroll_event.content = strip_tags(scroll_event.content)
+    
+    scroller_notices = Notice.objects.filter(is_active=True,scroll=True).order_by('-id')
+    for scroll_notice in scroller_notices:
+        scroll_notice.content = strip_tags(scroll_notice.content)
     testimonials = Testimonial.objects.filter(is_active=True).order_by('-id')
     video_testimonials = VideoTestimonial.objects.filter(is_active=True).order_by('-id')
     faqs = Faq.objects.all()
@@ -32,7 +41,9 @@ def home(request):
         'events':events,
         'testimonials':testimonials,
         'faqs':faqs,
-        'video_testimonials':video_testimonials
+        'video_testimonials':video_testimonials,
+        'scroll_events':scroller_events,
+        'scroll_notices':scroller_notices
     }
     return render(request,'page/index.html',context_dict)
 
@@ -77,7 +88,7 @@ def get_syllabus_detail(request,slug):
     return render(request,'page/syllabus_detail.html',context_dict)
 
 def get_news(request):
-    newscontents = News.objects.filter(is_active=True)
+    newscontents = News.objects.filter(is_active=True).order_by('-id')
 
     context_dict = {
         'events':newscontents,
