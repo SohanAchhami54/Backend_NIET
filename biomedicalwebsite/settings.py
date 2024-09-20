@@ -52,7 +52,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "corsheaders",
     "general",
-    "dashboard",
     "userprofile",
     "rest_framework",
     "django_ckeditor_5",
