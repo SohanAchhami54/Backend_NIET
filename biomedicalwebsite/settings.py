@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "general",
     "userprofile",
-    "dashboard",
+    "management",
     "rest_framework",
     "django_ckeditor_5",
 ]
