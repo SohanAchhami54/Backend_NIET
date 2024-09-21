@@ -8,11 +8,21 @@ from userprofile.managers import CustomUserManager
 
 # Create your models here.
 
-class AppUser(AbstractBaseUser, PermissionsMixin):
-    first_name = models.CharField(max_length=255,blank=True,null=True)
-    middle_name = models.CharField(max_length=255,blank=True,null=True)
-    last_name = models.CharField(max_length=255,blank=True,null=True)
 
+    
+# users of the application
+
+class UserType(models.Model):
+    name = models.CharField(max_length=10,blank=True,null=True)
+
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    def __str__(self):
+        return self.name 
+
+class AppUser(AbstractBaseUser, PermissionsMixin):
+    usertype = models.ForeignKey(UserType,on_delete=models.CASCADE,blank=True,null=True)
     email = models.EmailField(_("email address"), unique=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
@@ -25,15 +35,4 @@ class AppUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
-    
-# users of the application
-
-class UserType(models.Model):
-    name = models.CharField(max_length=10,blank=True,null=True)
-
-    is_active = models.BooleanField(default=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    def __str__(self):
-        return self.name 
 
