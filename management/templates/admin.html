@@ -1,0 +1,649 @@
+
+{% extends "base2.html" %}
+
+{% block dashboard_admin %}
+
+<div ng-controller="dashboardController">
+    <div class="sidebar" data-background-color="dark">
+        <div class="sidebar-logo">
+            <!-- Logo Header -->
+            <div class="logo-header" data-background-color="dark">
+                <a href="index.html" class="logo" style="color: white;">
+                    CBEAS ADMIN
+                    <!-- <img src="assets/img/kaiadmin/logo_light.svg" alt="navbar brand" class="navbar-brand" height="20" /> -->
+                </a>
+                <div class="nav-toggle">
+                    <button class="btn btn-toggle toggle-sidebar">
+                        <i class="gg-menu-right"></i>
+                    </button>
+                    <button class="btn btn-toggle sidenav-toggler">
+                        <i class="gg-menu-left"></i>
+                    </button>
+                </div>
+                <button class="topbar-toggler more">
+                    <i class="gg-more-vertical-alt"></i>
+                </button>
+            </div>
+            <!-- End Logo Header -->
+        </div>
+
+        <div class="sidebar-wrapper scrollbar scrollbar-inner">
+            <div class="sidebar-content">
+                <ul class="nav nav-secondary">
+                    <li class="nav-item">
+                        <a data-bs-toggle="collapse" href="#base">
+                            <i class="fas fa-layer-group"></i>
+                            <p>Admin Dashboard</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="base">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a class="btn" ng-click="handleStudent()">
+                                        <span class="sub-item">Student</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="btn" ng-click="handleStudentList()">
+                                        <span class="sub-item">Student List</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="btn" ng-click="handleTeacher()">
+                                        <span class="sub-item">Teacher</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="btn" ng-click="handleSubjectTeacher()">
+                                        <span class="sub-item">Assign Subject Teacher</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="btn" ng-click="upgradeStudentSemester()">
+                                        <span class="sub-item">Upgrade Student Semester</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="btn" ng-click="handlePasswordReset()">
+                                        <span class="sub-item">Password Reset</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <!-- End Sidebar -->
+
+
+    <div class="main-panel">
+        <div class="main-header">
+            <div class="main-header-logo">
+                <!-- Logo Header -->
+                <div class="logo-header" data-background-color="dark">
+                    <a href="index.html" class="logo">
+                        <img src="assets/img/kaiadmin/logo_light.svg" alt="navbar brand" class="navbar-brand"
+                            height="20" />
+                    </a>
+                    <div class="nav-toggle">
+                        <button class="btn btn-toggle toggle-sidebar">
+                            <i class="gg-menu-right"></i>
+                        </button>
+                        <button class="btn btn-toggle sidenav-toggler">
+                            <i class="gg-menu-left"></i>
+                        </button>
+                    </div>
+                    <button class="topbar-toggler more">
+                        <i class="gg-more-vertical-alt"></i>
+                    </button>
+                </div>
+                <!-- End Logo Header -->
+            </div>
+            <!-- Navbar Header -->
+            <nav class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom">
+                <div class="container-fluid">
+                    <nav class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <button type="submit" class="btn btn-search pe-1">
+                                    <i class="fa fa-search search-icon"></i>
+                                </button>
+                            </div>
+                            <input type="text" placeholder="Search ..." class="form-control" />
+                        </div>
+                    </nav>
+
+                    <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
+                        <li class="nav-item topbar-icon dropdown hidden-caret d-flex d-lg-none">
+                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                                aria-expanded="false" aria-haspopup="true">
+                                <i class="fa fa-search"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-search animated fadeIn">
+                                <form class="navbar-left navbar-form nav-search">
+                                    <div class="input-group">
+                                        <input type="text" placeholder="Search ..." class="form-control" />
+                                    </div>
+                                </form>
+                            </ul>
+                        </li>
+
+
+                        <li class="nav-item topbar-user dropdown hidden-caret">
+                            <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#"
+                                aria-expanded="false">
+                                <!-- <div class="avatar-sm">
+                                    <img src="assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle" />
+                                </div> -->
+                                <span class="profile-username">
+                                    <span class="op-7">Hi,</span>
+                                    <span class="fw-bold">{{user.email}}</span>
+                                </span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user animated fadeIn">
+                                <div class="dropdown-user-scroll scrollbar-outer">
+                                    <li>
+                                        <div class="user-box">
+                                            <!-- <div class="avatar-lg">
+                                                <img src="assets/img/profile.jpg" alt="image profile"
+                                                    class="avatar-img rounded" />
+                                            </div> -->
+                                            <div class="u-text">
+                                                <!-- <h4>Hizrian</h4> -->
+                                                <p class="text-muted">{{user.email}}</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="dropdown-divider"></div>
+                                        <!-- <div class="dropdown-divider"></div> -->
+                                        <a class="dropdown-item" href="/dashboard/logout">Logout</a>
+                                    </li>
+                                </div>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <!-- End Navbar -->
+        </div>
+
+
+        <div class="container">
+            <div class="page-inner">
+
+                <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
+                    {% verbatim %}
+                    <div>
+                        <h3 class="fw-bold mb-3">Admin Dashboard </h3>
+                    </div>
+                    {% endverbatim %}
+                </div>
+
+                <div ng-show="showStudent">
+
+                    <div class="container-fluid card pb-4">
+                        <h5>Register student here</h5>
+                        <div class="row">
+                            <div class="col">
+                                <div>
+                                    <form ng-submit="submitForm()" enctype="multipart/form-data">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-md-6 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label for="first_name">First Name</label>
+                                                        <input type="text" class="form-control" id="student.first_name"
+                                                            ng-model="student.first_name" required>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-6 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label for="last_name">Last Name</label>
+                                                        <input type="text" class="form-control" id="student.last_name"
+                                                            ng-model="student.last_name" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label for="email">Email</label>
+                                                        <input type="email" class="form-control" id="student.email"
+                                                            ng-model="student.email" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label for="registration_number">Registration Number</label>
+                                                        <input type="text" class="form-control" id="registration_number"
+                                                            ng-model="student.registration_number" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label for="photo">Upload Photo</label>
+                                                        <input type="file" class="form-control-file" id="student.photo"
+                                                            file-model="student.photo">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label for="batchSelect">Select Batch-Semester:</label>
+                                                        <select id="batchSelect" ng-model="student.batchsemester"
+                                                            ng-options="bs.id as bs.batch.year + '-' + bs.semester.number for bs in batchSemesterList"
+                                                            class="form-control">
+                                                            <option value="">Select student Batch-semester</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <button type="submit" class="btn btn-primary mt-4">Register</button>
+                                    </form>
+
+                                    <p ng-if="successMessage" class="text-success">{{ successMessage }}</p>
+                                    <p ng-if="errorMessage" class="text-danger">{{ errorMessage }}</p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div ng-show="showStudentList">
+                    {% verbatim %}
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col">
+                                <h1>Student List</h1>
+                                <div class="form-group">
+                                    <label for="teacherSelect">Select Batch-Semester:</label>
+                                    <select id="teacherSelect" ng-model="selectedBatchsemester"
+                                        ng-options="bs.id as 'Batch: ' + bs.batch.year + '- Semester: ' + bs.semester.number for bs in batchSemesterList"
+                                        ng-change="fetchStudentListByBatch(selectedBatchsemester)" class="form-control">
+                                        <option value="">Select student Batch-semester</option>
+                                    </select>
+                                    <hr>
+                                    <table class="table table-bordered table-hover  table-hover" id="studentDetail">
+                                        <thead>
+                                            <tr>
+                                                <th>Photo</th>
+                                                <th>Full Name</th>
+                                                <th>Registration Number</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="entry in studentListByBatch">
+                                                <td><img class="img-thumbnail" src="{{entry.student.photo}}"
+                                                        style="width: 100px;height: auto;"></td>
+                                                <td>{{entry.student.first_name}} &nbsp; {{entry.student.last_name}}</td>
+                                                <td>{{entry.student.registration_number}}</td>
+                                                <td><button class="btn btn-warning" ng-click="fetchStudentRecord(selectedBatchsemester,entry.student.id,entry.student)">show details</button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endverbatim %}
+
+                    <div ng-show="showStudentRecord">
+                        <div class="container">
+                            <div class="row card">
+                                {% verbatim %}
+                                <div class="col-md-12 col-sm-12">
+                                    <h1>Showing Details for: {{selectedStudent.first_name}} {{selectedStudent.last_name}} ({{selectedStudent.registration_number}})</h1>
+                                </div>
+                                {% endverbatim %}
+                            </div>
+
+                            <div class="row card">
+                                <h1>Attendace Record</h1>
+                                <div class="col-md-12 col-sm-12">
+                                    {% verbatim %}
+                                    <div ng-repeat="(subjectName, records) in studentRecord.attendance">
+                                        <h4>{{ subjectName }}</h4>
+                                        <table border="1" class="table table-bordered table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Day</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="record in records">
+                                                    <td>{{ record.day }}</td>
+                                                    <td ng-if="record.status"><span class="badge bg-success">Present</span></td>
+                                                    <td ng-if="!record.status"><span class="badge bg-danger">Absent</span></td>
+                                                    <!-- <td ng-class="{'text-green': record.status, 'text-red': !record.status}">
+                                                        {{ record.status ? 'Present' : 'Absent' }}
+                                                    </td> -->
+                                                </tr>
+
+                                                <tr>
+                                                    <td><strong>Total:</strong> {{ records.length }}</td>
+                                                    <td>
+                                                        <strong>Present:</strong> {{ presentCount(records) }}<br>
+                                                        <strong>Absent:</strong> {{ absentCount(records) }}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    {% endverbatim %}
+
+                                </div>
+
+                            </div>
+
+                            <div class="row card">
+                                <h1>Internal Exam Result</h1>
+                                <div class="col-md-12 col-sm-12">
+                                    {% verbatim %}
+                                        <div ng-repeat="(examName, subjects) in studentRecord.internal_marks">
+                                            <h3>{{ examName }}</h3>
+                                            <table class="table table-bordered table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Subject Name</th>
+                                                        <th>Exam Type</th>
+                                                        <th>Full Marks</th>
+                                                        <th>Pass Marks</th>
+                                                        <th>Marks Obtained</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="subjectGroup in subjects">
+                                                        <td>{{ subjectGroup[0].subject_internalexam.subject.name }}</td>
+                                                        <td>{{ subjectGroup[0].subject_internalexam.exam_type.name }}</td>
+                                                        <td>{{ subjectGroup[0].subject_internalexam.full_marks }}</td>
+                                                        <td>{{ subjectGroup[0].subject_internalexam.pass_marks }}</td>
+                                                        <td>{{ subjectGroup[0].marks_obtained }}</td>
+                                                    </tr>
+                                                    <tr ng-repeat="subjectData in subjectGroup.slice(1)">
+                                                        <td>{{ subjectData.subject_internalexam.subject.name }}</td>
+                                                        <td>{{ subjectData.subject_internalexam.exam_type.name }}</td>
+                                                        <td>{{ subjectData.subject_internalexam.full_marks }}</td>
+                                                        <td>{{ subjectData.subject_internalexam.pass_marks }}</td>
+                                                        <td>{{ subjectData.marks_obtained }}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    {% endverbatim %}
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+                
+
+
+                <div ng-show="showTeacher">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col">
+                                <h1>Register Teacher</h1>
+                                <div>
+                                    <form ng-submit="submitTeacherForm()">
+                                        <div class="container card pb-4">
+                                            <div class="row">
+                                                <div class="col-md-6 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label for="full_name">Full Name</label>
+                                                        <input type="text" class="form-control" id="tfull_name"
+                                                            ng-model="teacher.full_name" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label for="email">Email</label>
+                                                        <input type="email" class="form-control" id="temail"
+                                                            ng-model="teacher.email" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label for="photo">Upload Photo</label>
+                                                        <input type="file" class="form-control-file" id="photo"
+                                                            file-model="teacher.photo">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-3 col-sm-12">
+                                                    <button type="submit" class="btn btn-primary ">Register</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </form>
+
+                                    <p ng-if="successMessage" class="text-success">{{ successMessage }}</p>
+                                    <p ng-if="errorMessage" class="text-danger">{{ errorMessage }}</p>
+                                </div>
+
+                            </div>
+                            <h1>List Teacher</h1>
+                            <div class="row">
+                                {% verbatim %}
+                                <div class="col">
+                                    <div ng-repeat="(teacherName, subjects) in groupedTeachers">
+                                        <h3>{{teacherName}}</h3>
+
+                                        <table class="table table-bordered table-hover table-hover" id="subjectTeacher">
+                                            <thead>
+                                                <tr>
+                                                    <th>Subject Name</th>
+                                                    <th>Semester</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="subject in subjects">
+                                                    <td>{{subject.name}}</td>
+                                                    <td>{{subject.semester.number}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <br>
+                                    </div>
+
+                                </div>x
+                                {% endverbatim %}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div ng-show="showSubjectTeacher">
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            {% verbatim %}
+                            <div class="col-md-3 col-sm-12">
+                                <select class="form-select" ng-model="selectedSemester"
+                                    ng-options="semester.id as semester.number for semester in semesterList"
+                                    ng-change="onSemesterChange(selectedSemester)">
+                                    <option value="">Select a semester</option>
+                                </select>
+                            </div>
+                            {% endverbatim %}
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col">
+                                {% verbatim %}
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Subject Name</th>
+                                            <th>Assigned Teacher</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in subjectTeacherList">
+                                            <td>{{ item.subject.name }}</td>
+                                            <td>{{ item.teacher.full_name }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                {% endverbatim %}
+                            </div>
+                        </div>
+
+
+                        <div class="row card pb-4">
+                            <div class="col">
+                                <form ng-submit="submitSubjectTeacherAssignForm()" ng-if="subjectList">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-12">
+                                                <!-- Subject Selection -->
+                                                <div class="form-group">
+                                                    <label for="subjectSelect">Select Subject:</label>
+                                                    <select id="subjectSelect" ng-model="subjectteacher.selectedSubject"
+                                                        ng-options="subject.id as subject.name for subject in subjectList"
+                                                        class="form-control">
+                                                        <option value="">Select a subject</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+                                                <!-- Teacher Selection -->
+                                                <div class="form-group">
+                                                    <label for="teacherSelect">Select Teacher:</label>
+                                                    <select id="teacherSelect" ng-model="subjectteacher.selectedTeacher"
+                                                        ng-options="teacher.id as teacher.full_name for teacher in teacherList"
+                                                        class="form-control">
+                                                        <option value="">Select a teacher</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-12">
+                                                <button type="submit" class="btn btn-primary mt-4">Submit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div ng-show="showStudentUpgrade">
+                    <div class="container-fluid card pb-4">
+                        <div class="row">
+                            <div class="col">
+                                <form ng-submit="submitUpgradeForm()">
+                                    <div class="form-group">
+                                        <label for="registration_number">Registration Number List</label>
+                                        <textarea class="form-control" aria-label="With textarea"
+                                            id="registration_number_list"
+                                            ng-model="upgrade.registration_number"></textarea>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="teacherSelect">Select Batch-Semester:</label>
+                                        <select id="teacherSelect" ng-model="upgrade.batchsemester"
+                                            ng-options="bs.id as bs.batch.year + '-' + bs.semester.number for bs in batchSemesterList"
+                                            class="form-control">
+                                            <option value="">Select student Batch-semester</option>
+                                        </select>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary mt-4">Upgrade</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div ng-show="showStudentBatch"></div> -->
+                <div ng-show="showPasswordReset">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col">
+                                <div>
+                                    <form ng-submit="submitPasswordResetForm()">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-md-6 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label for="email">Email</label>
+                                                        <input type="email" class="form-control" id="email"
+                                                            ng-model="user.email" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label for="password">New Password</label>
+                                                        <input type="password" class="form-control" id="password"
+                                                            ng-model="user.password" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label for="confirm_password">Confirm Password</label>
+                                                        <input type="password" class="form-control"
+                                                            id="confirm_password" ng-model="user.confirm_password"
+                                                            required>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-3 col-sm-12">
+                                                    <p ng-if="passwordMismatch" class="text-danger">Passwords do not
+                                                        match!</p>
+                                                    <button type="submit" class="btn btn-primary">Reset
+                                                        Password</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </form>
+
+                                    <p ng-if="successMessage" class="text-success">{{ successMessage }}</p>
+                                    <p ng-if="errorMessage" class="text-danger">{{ errorMessage }}</p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

@@ -7,5 +7,10 @@ from userprofile.models import AppUser
 class AppUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = AppUser
-        fields = ('id','first_name','middle_name','last_name','email', 'password')
+        fields = ('id','email', 'password')
         extra_kwargs = {'password': {'write_only': True}}
+    
+    def create(self, validated_data):
+        user = AppUser.objects.create_user(**validated_data)
+        return user
+
