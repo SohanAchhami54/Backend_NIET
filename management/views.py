@@ -9,14 +9,18 @@ from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from django.contrib.auth.decorators import login_required
+
 
 
 # Create your views here.
 def handle_login(request):
     if request.method == 'POST':
+        print('i am here')
         email = request.POST['email']
         password = request.POST['password']
         user = authenticate(request,email=email,password=password)
+        print("at login")
         if user is not None:
             login(request,user)
             if user.is_staff or user.is_superuser:
@@ -35,18 +39,36 @@ def handle_logout(request):
     logout(request)
     return redirect('/dashboard/login/')
 
+@login_required(login_url='/dashboard/login/')
 def handle_admin(request):
-    return render(request,'admin.html')
+    print("hello")
+    print(request.user.is_superuser,request.user.is_staff)
+    if request.user.is_superuser or request.user.is_staff:
+        return render(request,'admin.html')
+    else:
+        logout(request)
+        return redirect("/")
 
+@login_required(login_url='/dashboard/login/')
 def handle_student(request):
-    user = AppUser.objects.get(id=request.user.id)
-    student = Student.objects.get(user=user)
-    return render(request,'student.html',{'student':student})
+    if request.user.usertype.name=='Student':
+        user = AppUser.objects.get(id=request.user.id)
+        student = Student.objects.get(user=user)
+        return render(request,'student.html',{'student':student})
+    else:
+        logout(request)
+        return redirect("/")
 
+@login_required(login_url='/dashboard/login/')
 def handle_teacher(request):
-    user = AppUser.objects.get(id=request.user.id)
-    teacher = Teacher.objects.get(user=user)
-    return render(request,'teacher.html',{'teacher':teacher})
+    print(request.user.usertype)
+    if request.user.usertype.name=='Teacher':
+        user = AppUser.objects.get(id=request.user.id)
+        teacher = Teacher.objects.get(user=user)
+        return render(request,'teacher.html',{'teacher':teacher})
+    else:
+        logout(request)
+        return redirect("/")       
 
 # register a student 
 class RegisterStudent(APIView):
