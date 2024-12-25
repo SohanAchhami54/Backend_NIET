@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block alumni %}
+
+<!-- Header Start -->
+<div class="container-fluid bg-primary py-5 mb-5 page-header">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 text-center">
+                <h1 class="display-3 text-white animated slideInDown">Our Alumni</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center">
+                        <li class="breadcrumb-item"><a class="text-white" href="/">Home</a></li>
+                        <li class="breadcrumb-item"><a class="text-white" href="#">Pages</a></li>
+                        <li class="breadcrumb-item text-white active" aria-current="page">Alumni</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Header End -->
+
+<!-- Alumni Section Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+            <h6 class="section-title bg-white text-center text-primary px-3">Our Alumni</h6>
+            <h1 class="mb-5">Meet Alumni of Our College</h1>
+        </div>
+        <div class="row g-4">
+            {% for alumni in alumnis %}
+            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="team-item bg-light">
+                    <div class="overflow-hidden">
+                        <img class="img-fluid" src="{{ alumni.profile_picture.url }}" alt="{{ alumni.full_name }}">
+                    </div>
+                    <div class="text-center p-4">
+                        <h5 class="mb-1">{{ alumni.full_name }}</h5>
+                        <p class="mb-1">{{ alumni.current_position }} at {{ alumni.company_name }}</p>
+                        <small class="text-muted">{{ alumni.department }} - Batch {{ alumni.batch }}</small>
+                    </div>
+                    <div class="text-center p-3">
+                        <a href="/alumni/message/{{ alumni.slug }}/" class="btn btn-primary btn-sm">Message</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<!-- Alumni Section End -->
+
+{% endblock %}

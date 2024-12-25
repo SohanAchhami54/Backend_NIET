@@ -619,7 +619,7 @@
 .news-ticker-content {
   display: inline-block;
   padding-left: 100%;
-  animation: scroll 15s linear infinite;
+  animation: scroll 85s linear infinite;
 }
 
 @keyframes scroll {
@@ -660,4 +660,48 @@
   /* color: inherit;  */
   display: block;
   margin-bottom: auto; /* Pushes the button to the bottom */
+}
+
+/* for alumni */
+
+/* Container */
+.alumni-details .container-xxl {
+  max-width: 1140px;
+}
+
+/* Blockquote for Message */
+.alumni-details .blockquote {
+  background: #f8f9fa;
+  padding: 15px;
+  border-left: 5px solid #007bff;
+  border-radius: 5px;
+  font-style: italic;
+}
+
+/* Image Styling */
+.alumni-details img.img-fluid {
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Light Background Box */
+.alumni-details .bg-light {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  border-radius: 10px;
+}
+
+/* Headers */
+.alumni-details h2 {
+  color: #0056b3;
+}
+
+/* Links */
+.alumni-details a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.alumni-details a:hover {
+  text-decoration: underline;
 }

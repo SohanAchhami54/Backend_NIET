@@ -112,6 +112,10 @@ class NoticeSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class StudentRecordUploadSerializer(serializers.Serializer):
+    file = serializers.FileField()
+
+
 # class StudentSubjectAttendanceSerializer(serializers.ModelSerializer):
 #     subject = SubjectSerializer(read_only=True)
 #     total_attendance = serializers.SerializerMethodField()

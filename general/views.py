@@ -188,6 +188,11 @@ def get_gallery(request):
     }
     return render(request,'page/gallery.html',context_dict)
 
+def get_alumni_message(request,slug):
+    alumni = Alumni.objects.get(slug=slug)
+    context_dict = {'alumni':alumni}
+    return render(request,'page/alumni_message.html',context_dict)
+
 
 
 # def get_chairman_message(request):
@@ -279,6 +284,14 @@ def get_staff(request):
         'ff':staffs,
     }
     return render(request,'page/nonstaff.html',context_dict)
+
+def get_alumni(request):
+    about = AboutUs.objects.last()
+    alumnis = Alumni.objects.all()
+    context_dict = {
+        'alumnis':alumnis,
+    }
+    return render(request,'page/alumni.html',context_dict)
 
 
 

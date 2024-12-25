@@ -31,6 +31,8 @@ urlpatterns = [
     path('gallery/',views.get_gallery,name='get_gallery'),
 
     path("our/staff/",views.get_staff,name='get_staffs'),
+    path("our/alumni/",views.get_alumni,name='get_alumni'),
+    path("alumni/message/<slug:slug>/",views.get_alumni_message,name='get_alumni_message'),
 
     # path("chairman/message/",views.get_chairman_message,name="chairman_message"),
 

@@ -496,4 +496,47 @@ class VideoTestimonial(models.Model):
     def __str__(self):
         return self.name
 
+# college alumni 
+
+class Alumni(models.Model):
+    # Basic Information
+    full_name = models.CharField(max_length=1255)
+    email = models.EmailField(unique=True, blank=True, null=True)
+    phone_number = models.CharField(max_length=15, blank=True, null=True)
+    
+    # Academic Information
+    batch = models.CharField(max_length=15, blank=True, null=True)
+    department = models.CharField(max_length=150)
+    
+    # Professional Information
+    current_position = models.CharField(max_length=150)  # New Field
+    company_name = models.CharField(max_length=150, blank=True, null=True)
+    current_occupation = models.CharField(max_length=150, blank=True, null=True)  
+    achievements = models.TextField(blank=True, null=True)
+    slug = models.SlugField(max_length=255, unique=True, blank=True, null=True)
+    
+    # Personal Message
+    message = models.TextField(blank=True, null=True, help_text="A message or advice from the alumni.")  # New Field
+    
+    # Media
+    profile_picture = models.ImageField(upload_to='alumni_pictures/', blank=True, null=True)
+    
+    # Metadata
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name_plural = "Alumni"
+        ordering = ['batch', 'full_name']
+
+    def __str__(self):
+        return f"{self.full_name}  ({self.batch})"
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            super().save(*args, **kwargs)
+            self.slug = slugify(f'{self.full_name.replace(" ","-")}-{self.id}')
+        super(Alumni, self).save(*args, **kwargs)
+
+
 

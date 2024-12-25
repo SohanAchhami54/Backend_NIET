@@ -35,7 +35,6 @@
     <div class="col-10">
       <div class="news-ticker">
         <div class="news-ticker-content">
-          <!-- Example News Items -->
            {% for scroll_event in scroll_events %}
           <span><span > <a style="font-weight: bold; color: white !important;" href="{% if scroll_event.redirect_to_url %} {{scroll_event.redirect_to_url}} {% else %} /news/{{scroll_event.slug}}{% endif %}">{{scroll_event.title}}</a></span>  <a style="font-weight: bold; color: white !important;" href="{% if scroll_event.redirect_to_url %} {{scroll_event.redirect_to_url}} {% else %} /news/{{scroll_event.slug}}{% endif %}">{{scroll_event.content | safe}}</a></span>
           {% endfor %}

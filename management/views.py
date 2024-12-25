@@ -1,15 +1,19 @@
 import random
+import pandas as pd
+
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login,logout
 from userprofile.models import AppUser,UserType
 from management.models import Student,Teacher,Semester,Subject,SubjectTeacher,BatchSemester,StudentInSemester,StudentSubjectAttendance,ExamType,SubjectInternalExam,StudentInternalExamResult,ExamSession,Notice
-from management.serializers import SemesterSerializer,SubjectSerializer,TeacherSerializer,SubjectTeacherDetailSerializer,BatchSemesterDetailSerializer,StudentInSemesterSerializer,ExamTypeSerializer,ExamSessionSerializer,StudentSubjectAttendanceSerializer,StudentInternalExamResultSerializer,DetailSubjectTeacherSerializer,NoticeSerializer,StudentSubjectAttendanceDetailSerializer
+from management.serializers import SemesterSerializer,SubjectSerializer,TeacherSerializer,SubjectTeacherDetailSerializer,BatchSemesterDetailSerializer,StudentInSemesterSerializer,ExamTypeSerializer,ExamSessionSerializer,StudentSubjectAttendanceSerializer,StudentInternalExamResultSerializer,DetailSubjectTeacherSerializer,NoticeSerializer,StudentSubjectAttendanceDetailSerializer,StudentRecordUploadSerializer
 
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.decorators import login_required
+from rest_framework.parsers import MultiPartParser, FormParser
+
 
 
 
@@ -68,7 +72,27 @@ def handle_teacher(request):
         return render(request,'teacher.html',{'teacher':teacher})
     else:
         logout(request)
-        return redirect("/")       
+        return redirect("/")  
+
+# upload student record 
+
+# class StudentRecordUpload(APIView):
+#     parser_classes = [MultiPartParser,FormParser]
+#     def post(self,request,*args,**kwargs):
+#         serializer = StudentRecordUploadSerializer(data=request.data)
+#         if serializer.is_valid():
+#             file = serializer.validated_data['file']
+#             df = pd.read_excel(file,header=0)
+#             records = df.to_dict('records')
+#             print(records)
+#             for record in records:
+#                 pass
+#                 # author,_ = Author.objects.get_or_create(name=record['Author Name'])
+#                 # publisher,_ = Publisher.objects.get_or_create(name=record['Publisher Name'])
+#                 # category,_ = Category.objects.get_or_create(name=record['Category'])
+#                 # book = Book.objects.filter(classification_number=record['Classification No'])
+#             return Response({'status':'success'},status=status.HTTP_201_CREATED)
+#         return Response({'status':'Error'},status=status.HTTP_400_BAD_REQUEST)     
 
 # register a student 
 class RegisterStudent(APIView):

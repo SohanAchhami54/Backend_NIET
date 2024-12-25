@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block alumni_message %}
+
+<div class="alumni-details">
+    <!-- Header Start -->
+    <div class="container-fluid bg-primary py-5 mb-5 page-header">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 text-center">
+                    <h1 class="display-3 text-white animated slideInDown">{{ alumni.full_name }}</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center">
+                            <li class="breadcrumb-item"><a class="text-white" href="/">Home</a></li>
+                            <li class="breadcrumb-item"><a class="text-white" href="/alumni">Alumni</a></li>
+                            <li class="breadcrumb-item text-white active" aria-current="page">{{ alumni.full_name }}</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Header End -->
+
+    <!-- Alumni Details Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5">
+                <!-- Alumni Image -->
+                <div class="col-lg-4 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="bg-light p-4 rounded shadow">
+                        <img src="{{ alumni.profile_picture.url }}" alt="{{ alumni.full_name }}" class="img-fluid rounded">
+                    </div>
+                </div>
+
+                <!-- Alumni Information -->
+                <div class="col-lg-8 wow fadeInUp" data-wow-delay="0.3s">
+                    <h2 class="mb-3">{{ alumni.full_name }}</h2>
+                    <p><strong>Current Position:</strong> {{ alumni.current_position }} at {{ alumni.company_name }}</p>
+                    <p><strong>Department:</strong> {{ alumni.department }}</p>
+                    <p><strong>Batch:</strong> {{ alumni.batch }}</p>
+                    <p><strong>Email:</strong> <a href="mailto:{{ alumni.email }}">{{ alumni.email }}</a></p>
+                    <p><strong>Phone:</strong> {{ alumni.phone_number }}</p>
+
+                    {% if alumni.achievements %}
+                    <h4 class="mt-4">Achievements</h4>
+                    <p>{{ alumni.achievements }}</p>
+                    {% endif %}
+
+                    {% if alumni.message %}
+                    <h4 class="mt-4">Message</h4>
+                    <blockquote class="blockquote">
+                        <p class="mb-0">{{ alumni.message }}</p>
+                    </blockquote>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Alumni Details End -->
+</div>
+
+{% endblock %}

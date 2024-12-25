@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import (
     CoverImage, SliderHome, Feature, AboutUs, StaffType, Staff, CollegeChairman,
     Syllabus, EntranceSyllabus, EligiblityCriteria, ProjectCategory, News,
-    Vaccancy, Notice, Result, ContactMessage, Faq, Gallery,Testimonial,VideoTestimonial
+    Vaccancy, Notice, Result, ContactMessage, Faq, Gallery,Testimonial,VideoTestimonial,Alumni
 )
 
 @admin.register(CoverImage)
@@ -166,6 +166,13 @@ class VideoTestimonialAdmin(admin.ModelAdmin):
     search_fields = ('description',)
     list_filter = ('is_active', 'created_at')
     ordering = ('-created_at',)
+
+@admin.register(Alumni)
+class AlumniAdmin(admin.ModelAdmin):
+    list_display = ('full_name', 'email', 'batch', 'department', 'current_position', 'company_name', 'created_at')
+    list_filter = ('batch', 'department', 'current_position', 'created_at')
+    search_fields = ('full_name', 'email', 'batch', 'department', 'current_position', 'company_name')
+    ordering = ('-created_at', 'full_name')
 
 
 

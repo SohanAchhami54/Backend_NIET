@@ -1,4 +1,5 @@
 app.controller("dashboardController", function ($scope, $http) {
+  $scope.file = null;
   $scope.showStudent = false;
   $scope.showTeacher = false;
   $scope.showPasswordReset = false;
@@ -114,6 +115,31 @@ app.controller("dashboardController", function ($scope, $http) {
       return record.status === false; // Count where status is 'Absent'
     }).length;
   };
+
+  // upload student record
+
+  // $scope.uploadFile = function (url) {
+  //   var formData = new FormData();
+  //   formData.append("file", $scope.file);
+
+  //   $http
+  //     .post(url, formData, {
+  //       headers: { "Content-Type": undefined },
+  //     })
+  //     .then(
+  //       function (response) {
+  //         $scope.file = null;
+  //         const toastElement = document.getElementById("uploadToast");
+  //         const toast = new bootstrap.Toast(toastElement);
+  //         toast.show();
+  //       },
+  //       function (error) {
+  //         $scope.file = null;
+  //         const toastElement = document.getElementById("uploadErrorToast");
+  //         const toast = new bootstrap.Toast(toastElement);
+  //       }
+  //     );
+  // };
 
   // handle student register
   $scope.submitForm = function () {
