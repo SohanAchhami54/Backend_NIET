@@ -104,7 +104,7 @@ class StudentInternalExamResultSerializer(serializers.ModelSerializer):
     subject_internalexam = SubjectInternalExamSerializer(read_only=True)
     class Meta:
         model = StudentInternalExamResult
-        fields = ('subject_internalexam','marks_obtained',)
+        fields = ('student','subject_internalexam','marks_obtained',)
 
 class NoticeSerializer(serializers.ModelSerializer):
     class Meta:

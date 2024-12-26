@@ -27,54 +27,109 @@
             <!-- End Logo Header -->
         </div>
 
-        <div class="sidebar-wrapper scrollbar scrollbar-inner">
-            <div class="sidebar-content">
-                <ul class="nav nav-secondary">
-                    <li class="nav-item">
-                        <a data-bs-toggle="collapse" href="#base">
-                            <i class="fas fa-layer-group"></i>
-                            <p>Admin Dashboard</p>
-                            <span class="caret"></span>
+      <div class="sidebar-wrapper scrollbar scrollbar-inner">
+        <div class="sidebar-content">
+          <ul class="nav nav-secondary">
+            <li class="nav-item active">
+              <a data-bs-toggle="collapse" href="#dashboard" class="collapsed" aria-expanded="false">
+                <i class="fas fa-home"></i>
+                <p>Dashboard</p>
+                <span class="caret"></span>
+              </a>
+              <div class="collapse" id="dashboard">
+                <ul class="nav nav-collapse">
+                  <li>
+                    <a href="#" ng-click="ShowDashboard()">
+                      <span class="sub-item"><i class="fas fa-chart-bar	"></i>Dashboard</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <li class="nav-section">
+              <span class="sidebar-mini-icon">
+                <i class="fa fa-ellipsis-h"></i>
+              </span>
+              <h4 class="text-section">Components</h4>
+            </li>
+
+            <li class="nav-item">
+              <a data-bs-toggle="collapse" href="#base">
+                <i class="fas fa-graduation-cap"></i>
+                <p>STUDENT</p>
+                <span class="caret"></span>
+              </a>
+              <div class="collapse" id="base">
+                <ul class="nav nav-collapse" style="list-style-type: none;">
+                    <li>
+                        <a class="btn" ng-click="handleStudent()">
+                            <span class="sub-item">Student</span>
                         </a>
-                        <div class="collapse" id="base">
-                            <ul class="nav nav-collapse">
-                                <li>
-                                    <a class="btn" ng-click="handleStudent()">
-                                        <span class="sub-item">Student</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="btn" ng-click="handleStudentList()">
-                                        <span class="sub-item">Student List</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="btn" ng-click="handleTeacher()">
-                                        <span class="sub-item">Teacher</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="btn" ng-click="handleSubjectTeacher()">
-                                        <span class="sub-item">Assign Subject Teacher</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="btn" ng-click="upgradeStudentSemester()">
-                                        <span class="sub-item">Upgrade Student Semester</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="btn" ng-click="handlePasswordReset()">
-                                        <span class="sub-item">Password Reset</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                    </li>
+
+                    <li>
+                        <a class="btn" ng-click="assignStudentSemester()">
+                            <span class="sub-item">Assign Student Semester</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="btn" ng-click="upgradeStudentSemester()">
+                            <span class="sub-item">Upgrade Student Semester</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="btn" ng-click="handleStudentList()">
+                            <span class="sub-item">Student List</span>
+                        </a>
                     </li>
 
                 </ul>
-            </div>
+              </div>
+            </li>
+
+            <li class="nav-item">
+              <a data-bs-toggle="collapse" href="#sidebarLayouts">
+                <i class="fas fa-user-cog"></i>
+                <p>TEACHERS</p>
+                <span class="caret"></span>
+              </a>
+              <div class="collapse" id="sidebarLayouts">
+                <ul class="nav nav-collapse">
+                    <li>
+                        <a class="btn" ng-click="handleTeacher()">
+                            <span class="sub-item">Teacher</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="btn" ng-click="handleSubjectTeacher()">
+                            <span class="sub-item">Assign Subject Teacher</span>
+                        </a>
+                    </li>
+                </ul>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a data-bs-toggle="collapse" href="#forms">
+                <i class="fas fa-users-cog"></i>
+                <p>SETTINGS</p>
+                <span class="caret"></span>
+              </a>
+              <div class="collapse" id="forms">
+                <ul class="nav nav-collapse">
+                    <li>
+                        <a class="btn" ng-click="handlePasswordReset()">
+                            <span class="sub-item">Password Reset</span>
+                        </a>
+                    </li>
+                </ul>
+              </div>
+            </li>
+
+          </ul>
         </div>
+      </div>
 
     </div>
     <!-- End Sidebar -->
@@ -186,12 +241,12 @@
 
                 <div ng-show="showStudent">
 
-                    <!-- <div class="container-fluid card pb-4">
+                    <div class="container-fluid card pb-4">
                         <h5>Upload Student Record here</h5>
                         <div class="row">
                             <div class="col">
                                 <h3>Upload Excel File</h3>
-                                <form ng-submit="uploadFile('/library/book/record/upload/')" enctype="multipart/form-data" novalidate>
+                                <form ng-submit="uploadFile('/dashboard/student/record/upload/')" enctype="multipart/form-data" novalidate>
                                     <div class="mb-3">
                                         <label for="excelFile" class="form-label">Select Excel|csv File</label>
                                         <input type="file" class="form-control" id="excelBookFile" accept=".xlsx, .xls" ng-model="file" required
@@ -201,7 +256,7 @@
                                 </form>
                             </div>
                         </div>
-                    </div> -->
+                    </div>
 
                     <div class="container-fluid card pb-4">
                         <h5>Register student here</h5>
@@ -571,10 +626,41 @@
                     </div>
                 </div>
 
+                <!-- assign student  -->
+                <div ng-show="showStudentAssign">
+                    <div class="container-fluid card pb-4">
+                        <div class="row">
+                            <h1>Assign Student to Current Semester</h1>
+                            <div class="col">
+                                <form ng-submit="submitAssignForm()">
+                                    <div class="form-group">
+                                        <label for="registration_number">Registration Number List</label>
+                                        <textarea class="form-control" aria-label="With textarea"
+                                            id="registration_number_list1"
+                                            ng-model="upgrade.registration_number"></textarea>
+                                    </div>
 
+                                    <div class="form-group">
+                                        <label for="teacherSelect">Select Batch-Semester:</label>
+                                        <select id="teacherSelect1" ng-model="upgrade.batchsemester"
+                                            ng-options="bs.id as bs.batch.year + '-' + bs.semester.number for bs in batchSemesterList"
+                                            class="form-control">
+                                            <option value="">Select student Batch-semester</option>
+                                        </select>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary mt-4">Assign Student</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- upgrade student  -->
                 <div ng-show="showStudentUpgrade">
                     <div class="container-fluid card pb-4">
                         <div class="row">
+                            <h1>Upgrade student to next immediate semester</h1>
                             <div class="col">
                                 <form ng-submit="submitUpgradeForm()">
                                     <div class="form-group">
@@ -599,6 +685,9 @@
                         </div>
                     </div>
                 </div>
+
+
+
                 <!-- <div ng-show="showStudentBatch"></div> -->
                 <div ng-show="showPasswordReset">
                     <div class="container-fluid">
@@ -661,6 +750,37 @@
         </div>
     </div>
 </div>
+
+
+    <!-- upload toast  -->
+    <div class="position-fixed top-0 end-0 p-3" style="z-index: 1055">
+        <div id="uploadToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true"
+            data-bs-delay="1000">
+            <!-- <div class="toast-header">
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div> -->
+            <div class="toast-body bg-success">
+                <i class="fas fa-check pr-4"></i>
+                <strong class="me-auto">SUCCESS!!</strong>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+        <!-- upload Error toast  -->
+    <div class="position-fixed top-0 end-0 p-3" style="z-index: 1055">
+        <div id="uploadErrorToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true"
+            data-bs-delay="1000">
+            <!-- <div class="toast-header">
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div> -->
+            <div class="toast-body bg-danger">
+                <i class="fas fa-check pr-4"></i>
+                <strong class="me-auto">Error!!</strong>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
 
 
 {% endblock %}

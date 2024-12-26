@@ -263,16 +263,18 @@
                             <div class="row">
                                 <div class="col-md-12 col-sm-12">
                                     {% verbatim %}
-                                    <table class="table" style="overflow-x: scroll;">
+                                    <table class="table table-bordered" style="overflow-x: scroll;">
                                         <thead>
                                             <tr>
-                                                <th>Registration Number</th>
+                                                <th>Registration#</th>
+                                                <th>Name</th>
                                                 <th ng-repeat="date in dates">{{ date }}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr ng-repeat="student in attendanceRecords">
                                                 <td>{{ student.registration_number }}</td>
+                                                <td>{{student.full_name}}</td>
                                                 <td ng-repeat="date in dates" 
                                                     ng-class="{'present': student.attendance[date], 'absent': !student.attendance[date]}">
                                                     <!-- {{ student.attendance[date] ? 'Present' : 'Absent' }} -->
@@ -357,7 +359,8 @@
                                                 </tr>
                                             </tbody>
                                         </table>
-                                        <button type="submit" class="btn btn-primary mt-4">Submit Marks</button>
+                                        <button type="button" ng-click="fetchInternalExamMarksList()"  class="btn btn-danger mt-4">Show Marks</button>
+                                        <button type="submit" class="btn btn-primary mt-4">Submit Marks</button>                                      
                                     </div>
                                 </div>
                             </div>
@@ -370,4 +373,34 @@
         </div>
     </div>
 </div>
+
+    <!-- upload toast  -->
+    <div class="position-fixed top-0 end-0 p-3" style="z-index: 1055">
+        <div id="uploadToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true"
+            data-bs-delay="1000">
+            <!-- <div class="toast-header">
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div> -->
+            <div class="toast-body bg-success">
+                <i class="fas fa-check pr-4"></i>
+                <strong class="me-auto">SUCCESS!!</strong>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+        <!-- upload Error toast  -->
+    <div class="position-fixed top-0 end-0 p-3" style="z-index: 1055">
+        <div id="uploadErrorToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true"
+            data-bs-delay="1000">
+            <!-- <div class="toast-header">
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div> -->
+            <div class="toast-body bg-danger">
+                <i class="fas fa-check pr-4"></i>
+                <strong class="me-auto">Error!!</strong>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -122,7 +122,9 @@
                             <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#"
                                 aria-expanded="false">
                                 <div class="avatar-sm">
-                                    <img src="{{student.photo.url}}" alt="..." class="avatar-img rounded-circle" />
+                                    {% if student.photo %}
+                                    <img src="{{student.photo.url }}" alt="..." class="avatar-img rounded-circle" />
+                                    {% endif %}
                                 </div>
                                 <span class="profile-username">
                                     <span class="op-7">Hi,</span>

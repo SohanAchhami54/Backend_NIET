@@ -28,6 +28,7 @@ urlpatterns = [
     path('subject/teacher/lists/',views.SubjectTeacherListDetail.as_view(),name='subject_teacher_listdetail'),
     path('assign/subject/teacher/',views.AssignSubjectTeacher.as_view(),name='assign_subject_teacher'),
     path('upgrade/student/',views.UpgradeStudent.as_view(),name='upgrade_student'),
+    path('assign/student/',views.AssignStudent.as_view(),name='assign_student'),
     path('student/notice/list/',views.StudentNoticeList.as_view(),name='student_notice_list'),
     path('individual/student/record/<int:batch_sem_id>/<int:student_id>/',views.IndividualStudentRecord.as_view(),name='individual_student_record'),
     path('attendance/record/list/<int:subject_id>/',views.AttendanceRecordList.as_view(),name='attendance_record_list'),
@@ -35,4 +36,6 @@ urlpatterns = [
 
     path('student/current/attendance/record/',views.StudentCurrentAttendanceRecord.as_view(),name='student_attendance_record'),
     path('student/internal/exam/record/',views.StudentInternalExamRecord.as_view(),name='student_internalexam_record'),
+    path('student/record/upload/',views.StudentRecordUpload.as_view(),name='student_record_upload'),
+    path('student/internal/exam/marks/list/',views.StudentStudentInternalExamMarksList.as_view(),name='student_internalexam_marks_list'),
 ]

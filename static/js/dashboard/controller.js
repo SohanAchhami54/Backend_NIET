@@ -5,6 +5,7 @@ app.controller("dashboardController", function ($scope, $http) {
   $scope.showPasswordReset = false;
   $scope.showSubjectTeacher = false;
   $scope.showStudentUpgrade = false;
+  $scope.showStudentAssign = false;
   $scope.showStudentList = false;
   $scope.showStudentRecord = false;
 
@@ -48,6 +49,11 @@ app.controller("dashboardController", function ($scope, $http) {
     registration_number: "",
     batchsemester: "",
   };
+
+  $scope.assign = {
+    registration_number: "",
+    batchsemester: "",
+  };
   $scope.handleStudent = function () {
     $scope.showStudent = true;
     $scope.showTeacher = false;
@@ -56,6 +62,7 @@ app.controller("dashboardController", function ($scope, $http) {
     $scope.showStudentUpgrade = false;
     $scope.showStudentList = false;
     $scope.showStudentRecord = false;
+    $scope.showStudentAssign = false;
     console.log($scope.showStudent);
   };
   $scope.handleTeacher = function () {
@@ -66,6 +73,7 @@ app.controller("dashboardController", function ($scope, $http) {
     $scope.showStudentUpgrade = false;
     $scope.showStudentList = false;
     $scope.showStudentRecord = false;
+    $scope.showStudentAssign = false;
   };
   $scope.handlePasswordReset = function () {
     $scope.showStudent = false;
@@ -75,6 +83,7 @@ app.controller("dashboardController", function ($scope, $http) {
     $scope.showStudentUpgrade = false;
     $scope.showStudentList = false;
     $scope.showStudentRecord = false;
+    $scope.showStudentAssign = false;
   };
   $scope.handleSubjectTeacher = function () {
     $scope.showStudent = false;
@@ -84,6 +93,7 @@ app.controller("dashboardController", function ($scope, $http) {
     $scope.showStudentUpgrade = false;
     $scope.showStudentList = false;
     $scope.showStudentRecord = false;
+    $scope.showStudentAssign = false;
   };
   $scope.upgradeStudentSemester = function () {
     $scope.showStudent = false;
@@ -93,6 +103,7 @@ app.controller("dashboardController", function ($scope, $http) {
     $scope.showStudentUpgrade = true;
     $scope.showStudentList = false;
     $scope.showStudentRecord = false;
+    $scope.showStudentAssign = false;
   };
   $scope.handleStudentList = function () {
     $scope.showStudent = false;
@@ -102,6 +113,18 @@ app.controller("dashboardController", function ($scope, $http) {
     $scope.showStudentUpgrade = false;
     $scope.showStudentList = true;
     $scope.showStudentRecord = false;
+    $scope.showStudentAssign = false;
+  };
+
+  $scope.assignStudentSemester = function () {
+    $scope.showStudent = false;
+    $scope.showTeacher = false;
+    $scope.showPasswordReset = false;
+    $scope.showSubjectTeacher = false;
+    $scope.showStudentUpgrade = false;
+    $scope.showStudentList = false;
+    $scope.showStudentRecord = false;
+    $scope.showStudentAssign = true;
   };
 
   $scope.presentCount = function (records) {
@@ -118,28 +141,36 @@ app.controller("dashboardController", function ($scope, $http) {
 
   // upload student record
 
-  // $scope.uploadFile = function (url) {
-  //   var formData = new FormData();
-  //   formData.append("file", $scope.file);
+  $scope.setFile = function (element) {
+    $scope.$apply(function ($scope) {
+      $scope.file = element.files[0];
+    });
+  };
 
-  //   $http
-  //     .post(url, formData, {
-  //       headers: { "Content-Type": undefined },
-  //     })
-  //     .then(
-  //       function (response) {
-  //         $scope.file = null;
-  //         const toastElement = document.getElementById("uploadToast");
-  //         const toast = new bootstrap.Toast(toastElement);
-  //         toast.show();
-  //       },
-  //       function (error) {
-  //         $scope.file = null;
-  //         const toastElement = document.getElementById("uploadErrorToast");
-  //         const toast = new bootstrap.Toast(toastElement);
-  //       }
-  //     );
-  // };
+  $scope.uploadFile = function (url) {
+    var formData = new FormData();
+    formData.append("file", $scope.file);
+    console.log(formData);
+
+    $http
+      .post(url, formData, {
+        headers: { "Content-Type": undefined },
+      })
+      .then(
+        function (response) {
+          $scope.file = null;
+          const toastElement = document.getElementById("uploadToast");
+          const toast = new bootstrap.Toast(toastElement);
+          toast.show();
+        },
+        function (error) {
+          $scope.file = null;
+          const toastElement = document.getElementById("uploadErrorToast");
+          const toast = new bootstrap.Toast(toastElement);
+          toast.show();
+        }
+      );
+  };
 
   // handle student register
   $scope.submitForm = function () {
@@ -163,8 +194,9 @@ app.controller("dashboardController", function ($scope, $http) {
       transformRequest: angular.identity,
     }).then(
       function successCallback(response) {
-        $scope.successMessage = "Student registered successfully!";
-        $scope.errorMessage = null;
+        const toastElement = document.getElementById("uploadToast");
+        const toast = new bootstrap.Toast(toastElement);
+        toast.show();
 
         // Reset form data
         $scope.student = {
@@ -176,8 +208,9 @@ app.controller("dashboardController", function ($scope, $http) {
         };
       },
       function errorCallback(response) {
-        $scope.errorMessage = "Error occurred during registration!";
-        $scope.successMessage = null;
+        const toastElement = document.getElementById("uploadErrorToast");
+        const toast = new bootstrap.Toast(toastElement);
+        toast.show();
       }
     );
   };
@@ -196,14 +229,6 @@ app.controller("dashboardController", function ($scope, $http) {
       function successCallback(response) {
         $scope.studentRecord = response.data;
         console.log($scope.studentRecord);
-
-        // setTimeout(function () {
-        //   $("#studentDetail").DataTable({
-        //     searching: true, // Enable search functionality
-        //     paging: true, // Enable pagination
-        //     ordering: true, // Enable sorting
-        //   });
-        // }, 0);
       },
       function errorCallback(response) {
         console.log(response);
@@ -235,6 +260,32 @@ app.controller("dashboardController", function ($scope, $http) {
     );
   };
 
+  // handle student assign
+  $scope.submitAssignForm = function () {
+    $http({
+      method: "POST",
+      url: "/dashboard/assign/student/",
+      data: $scope.upgrade,
+    }).then(
+      function successCallback(response) {
+        // Reset form data
+        $scope.upgrade = {
+          registration_number: "",
+          batchsemester: "",
+        };
+
+        const toastElement = document.getElementById("uploadToast");
+        const toast = new bootstrap.Toast(toastElement);
+        toast.show();
+      },
+      function errorCallback(response) {
+        const toastElement = document.getElementById("uploadErrorToast");
+        const toast = new bootstrap.Toast(toastElement);
+        toast.show();
+      }
+    );
+  };
+
   // handle student upgrade
   $scope.submitUpgradeForm = function () {
     $http({
@@ -243,18 +294,19 @@ app.controller("dashboardController", function ($scope, $http) {
       data: $scope.upgrade,
     }).then(
       function successCallback(response) {
-        $scope.successMessage = "Student upgraded successfully!";
-        $scope.errorMessage = null;
-
         // Reset form data
         $scope.upgrade = {
           registration_number: "",
           batchsemester: "",
         };
+        const toastElement = document.getElementById("uploadToast");
+        const toast = new bootstrap.Toast(toastElement);
+        toast.show();
       },
       function errorCallback(response) {
-        $scope.errorMessage = "Error occurred during upgrade!";
-        $scope.successMessage = null;
+        const toastElement = document.getElementById("uploadErrorToast");
+        const toast = new bootstrap.Toast(toastElement);
+        toast.show();
       }
     );
   };
@@ -278,9 +330,6 @@ app.controller("dashboardController", function ($scope, $http) {
       transformRequest: angular.identity,
     }).then(
       function successCallback(response) {
-        $scope.successMessage = "Teacher registered successfully!";
-        $scope.errorMessage = null;
-
         // Reset form data
         $scope.teacher = {
           email: "",
@@ -288,10 +337,14 @@ app.controller("dashboardController", function ($scope, $http) {
           full_name: "",
           photo: "",
         };
+        const toastElement = document.getElementById("uploadToast");
+        const toast = new bootstrap.Toast(toastElement);
+        toast.show();
       },
       function errorCallback(response) {
-        $scope.errorMessage = "Error occurred during registration!";
-        $scope.successMessage = null;
+        const toastElement = document.getElementById("uploadErrorToast");
+        const toast = new bootstrap.Toast(toastElement);
+        toast.show();
       }
     );
   };
@@ -308,8 +361,9 @@ app.controller("dashboardController", function ($scope, $http) {
       data: $scope.user,
     }).then(
       function successCallback(response) {
-        $scope.successMessage = "Password reset successfully!";
-        $scope.errorMessage = null;
+        const toastElement = document.getElementById("uploadToast");
+        const toast = new bootstrap.Toast(toastElement);
+        toast.show();
 
         // Reset form data
         $scope.user = {
@@ -319,8 +373,9 @@ app.controller("dashboardController", function ($scope, $http) {
         };
       },
       function errorCallback(response) {
-        $scope.errorMessage = "Error occurred during reset!";
-        $scope.successMessage = null;
+        const toastElement = document.getElementById("uploadErrorToast");
+        const toast = new bootstrap.Toast(toastElement);
+        toast.show();
       }
     );
   };
@@ -408,8 +463,9 @@ app.controller("dashboardController", function ($scope, $http) {
       data: $scope.subjectteacher,
     }).then(
       function successCallback(response) {
-        $scope.successMessage = "subject Teacher registered successfully!";
-        $scope.errorMessage = null;
+        const toastElement = document.getElementById("uploadToast");
+        const toast = new bootstrap.Toast(toastElement);
+        toast.show();
 
         // Reset form data
         $scope.subjectteacher = {
@@ -418,8 +474,9 @@ app.controller("dashboardController", function ($scope, $http) {
         };
       },
       function errorCallback(response) {
-        $scope.errorMessage = "Error occurred during registration!";
-        $scope.successMessage = null;
+        const toastElement = document.getElementById("uploadErrorToast");
+        const toast = new bootstrap.Toast(toastElement);
+        toast.show();
       }
     );
   };
@@ -514,6 +571,7 @@ app.controller("teacherDashboardController", function ($scope, $http) {
     }).then(
       function successCallback(response) {
         $scope.records = response.data;
+        console.log($scope.records);
         if ($scope.records && $scope.records.length > 0) {
           // Step 1: Extract unique dates
           $scope.dates = [...new Set($scope.records.map((item) => item.day))];
@@ -522,9 +580,12 @@ app.controller("teacherDashboardController", function ($scope, $http) {
           let groupedData = {};
           $scope.records.forEach((record) => {
             let regNumber = record.student.registration_number;
+            let name =
+              record.student.first_name + " " + record.student.last_name;
             if (!groupedData[regNumber]) {
               groupedData[regNumber] = {
                 registration_number: regNumber,
+                full_name: name,
                 attendance: {},
               };
             }
@@ -533,6 +594,7 @@ app.controller("teacherDashboardController", function ($scope, $http) {
 
           // Step 3: Convert grouped data into array for ng-repeat
           $scope.attendanceRecords = Object.values(groupedData);
+          console.log($scope.attendanceRecords);
         }
       },
       function errorCallback(response) {
@@ -606,12 +668,14 @@ app.controller("teacherDashboardController", function ($scope, $http) {
       data: data,
     }).then(
       function successCallback(response) {
-        $scope.successMessage = "subject Teacher registered successfully!";
-        $scope.errorMessage = null;
+        const toastElement = document.getElementById("uploadToast");
+        const toast = new bootstrap.Toast(toastElement);
+        toast.show();
       },
       function errorCallback(response) {
-        $scope.errorMessage = "Error occurred during registration!";
-        $scope.successMessage = null;
+        const toastElement = document.getElementById("uploadErrorToast");
+        const toast = new bootstrap.Toast(toastElement);
+        toast.show();
       }
     );
   };
@@ -621,7 +685,6 @@ app.controller("teacherDashboardController", function ($scope, $http) {
       attendance: $scope.attendance,
       date: new Date($scope.attendanceStatus.date).toDateString(),
     };
-    console.log(data);
 
     $http({
       method: "POST",
@@ -629,12 +692,17 @@ app.controller("teacherDashboardController", function ($scope, $http) {
       data: data,
     }).then(
       function successCallback(response) {
-        $scope.successMessage = "subject Teacher registered successfully!";
-        $scope.errorMessage = null;
+        const toastElement = document.getElementById("uploadToast");
+        const toast = new bootstrap.Toast(toastElement);
+        toast.show();
+        $scope.selectedSubjectAttendance = null;
+        $scope.attendance = null;
+        $scope.attendanceStatus.date = null;
       },
       function errorCallback(response) {
-        $scope.errorMessage = "Error occurred during registration!";
-        $scope.successMessage = null;
+        const toastElement = document.getElementById("uploadErrorToast");
+        const toast = new bootstrap.Toast(toastElement);
+        toast.show();
       }
     );
   };
@@ -655,12 +723,14 @@ app.controller("teacherDashboardController", function ($scope, $http) {
       data: data,
     }).then(
       function successCallback(response) {
-        $scope.successMessage = "Internal Marks updated successfully!";
-        $scope.errorMessage = null;
+        const toastElement = document.getElementById("uploadToast");
+        const toast = new bootstrap.Toast(toastElement);
+        toast.show();
       },
       function errorCallback(response) {
-        $scope.errorMessage = "Error occurred during marks update!";
-        $scope.successMessage = null;
+        const toastElement = document.getElementById("uploadErrorToast");
+        const toast = new bootstrap.Toast(toastElement);
+        toast.show();
       }
     );
   };
@@ -710,9 +780,44 @@ app.controller("teacherDashboardController", function ($scope, $http) {
     );
   };
 
+  $scope.fetchInternalExamMarksList = function () {
+    if (
+      $scope.selectedSubjectForMarks &&
+      $scope.selectedExamType &&
+      $scope.selectedExamSession
+    ) {
+      var data = {
+        subject: $scope.selectedSubjectForMarks,
+        exam_type: $scope.selectedExamType,
+        session_id: $scope.selectedExamSession,
+      };
+      $http({
+        method: "POST",
+        url: "/dashboard/student/internal/exam/marks/list/",
+        data: data,
+      }).then(
+        function successCallback(response) {
+          $scope.marks = JSON.parse(response.data);
+          $scope.successMessage = "Internal Marks updated successfully!";
+          $scope.errorMessage = null;
+
+          const toastElement = document.getElementById("uploadToast");
+          const toast = new bootstrap.Toast(toastElement);
+          toast.show();
+        },
+        function errorCallback(response) {
+          const toastElement = document.getElementById("uploadErrorToast");
+          const toast = new bootstrap.Toast(toastElement);
+          toast.show();
+        }
+      );
+    }
+  };
+
   $scope.fetchBatchSemester();
   $scope.fetchExamTypes();
   $scope.fetchExamSession();
+  $scope.fetchInternalExamMarksList();
 });
 
 // teacher dashboard controller

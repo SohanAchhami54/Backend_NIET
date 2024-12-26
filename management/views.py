@@ -1,5 +1,6 @@
 import random
 import pandas as pd
+import json
 
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login,logout
@@ -76,23 +77,42 @@ def handle_teacher(request):
 
 # upload student record 
 
-# class StudentRecordUpload(APIView):
-#     parser_classes = [MultiPartParser,FormParser]
-#     def post(self,request,*args,**kwargs):
-#         serializer = StudentRecordUploadSerializer(data=request.data)
-#         if serializer.is_valid():
-#             file = serializer.validated_data['file']
-#             df = pd.read_excel(file,header=0)
-#             records = df.to_dict('records')
-#             print(records)
-#             for record in records:
-#                 pass
-#                 # author,_ = Author.objects.get_or_create(name=record['Author Name'])
-#                 # publisher,_ = Publisher.objects.get_or_create(name=record['Publisher Name'])
-#                 # category,_ = Category.objects.get_or_create(name=record['Category'])
-#                 # book = Book.objects.filter(classification_number=record['Classification No'])
-#             return Response({'status':'success'},status=status.HTTP_201_CREATED)
-#         return Response({'status':'Error'},status=status.HTTP_400_BAD_REQUEST)     
+class StudentRecordUpload(APIView):
+    parser_classes = [MultiPartParser,FormParser]
+    def post(self,request,*args,**kwargs):
+        serializer = StudentRecordUploadSerializer(data=request.data)
+        if serializer.is_valid():
+            file = serializer.validated_data['file']
+            df = pd.read_excel(file,header=0)
+            records = df.to_dict('records')
+            for record in records:
+                try:
+                    first_name = record.get('First Name ', '').strip()
+                    last_name = record.get('Last Name ', '').strip()
+                    email_address = record.get('Email Address ', '').strip()
+                    registration_num = record.get('Registration No.', '').strip()
+                except Exception as e:
+                    continue
+
+                student_obj = Student.objects.filter(registration_number=registration_num)
+                if not email_address and first_name and last_name and registration_num:
+                    continue
+                if not student_obj:
+                    user_type = UserType.objects.get(name='Student')
+                    generated_password = ''.join([str(random.randint(0, 9)) for _ in range(4)])
+                    user = AppUser.objects.create_user(email=email_address,password=generated_password)
+                    user.usertype = user_type
+                    user.save()
+                    student = Student.objects.create(
+                        user = user,
+                        first_name = first_name,
+                        last_name = last_name,
+                        registration_number = registration_num,
+                        password = generated_password,
+                        )
+            return Response({'status':'success'},status=status.HTTP_201_CREATED)
+        else:
+            return Response({'status':'Error'},status=status.HTTP_400_BAD_REQUEST)     
 
 # register a student 
 class RegisterStudent(APIView):
@@ -105,7 +125,7 @@ class RegisterStudent(APIView):
         registration_number = request.data['registration_number']
         batch_semester_id = request.data['batchsemester']
         photo = request.FILES.get('file')
-        print(photo)
+        # print(photo)
 
         user_type = UserType.objects.get(name='Student')
         generated_password = ''.join([str(random.randint(0, 9)) for _ in range(4)])
@@ -216,6 +236,9 @@ class AssignSubjectTeacher(APIView):
 
         subject = Subject.objects.get(id=subject_id)
         teacher = Teacher.objects.get(id=teacher_id)
+        sub = SubjectTeacher.objects.filter(subject=subject)
+        if sub:
+            return Response({'message':"Error assigning subject teacher "},status=status.HTTP_400_BAD_REQUEST)
         obj = SubjectTeacher.objects.filter(subject=subject,teacher=teacher)
         if obj:
             return Response({'message':"Error assigning subject teacher "},status=status.HTTP_400_BAD_REQUEST)
@@ -251,9 +274,24 @@ class UpgradeStudent(APIView):
         for reg_no in registration_numbers:
             student = Student.objects.get(registration_number = reg_no)
             prev_semesters = StudentInSemester.objects.filter(student=student)
+            if not prev_semesters:
+                continue
             for sem in prev_semesters:
                 sem.is_current = False
                 sem.save()
+            in_semester = StudentInSemester.objects.create(student=student,semester=batch_semester)
+            in_semester.save()
+        return Response({'message':"student semester upgraded successfully"},status=status.HTTP_200_OK)
+    
+
+class AssignStudent(APIView):
+    def post(self,request):
+        registration_numbers = request.data['registration_number'].split(',')
+        batch_semester_id = request.data['batchsemester']
+        batch_semester = BatchSemester.objects.get(id=batch_semester_id)
+        for reg_no in registration_numbers:
+            print(reg_no)
+            student = Student.objects.get(registration_number = reg_no.strip())
             in_semester = StudentInSemester.objects.create(student=student,semester=batch_semester)
             in_semester.save()
         return Response({'message':"student semester upgraded successfully"},status=status.HTTP_200_OK)
@@ -329,6 +367,29 @@ class ExamSessionList(APIView):
         exam_session = ExamSession.objects.all()
         serializer = ExamSessionSerializer(exam_session,many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
+
+class StudentStudentInternalExamMarksList(APIView):
+    def post(self,request):
+        print(request.data)
+        subject_id = request.data['subject']
+        exam_type_id = request.data['exam_type']
+        # student_marks = request.data['marks']
+        session_id = request.data['session_id']
+        
+        subj_obj = Subject.objects.get(id=subject_id)
+        exam_type_obj = ExamType.objects.get(id=exam_type_id)
+        exam_session_obj = ExamSession.objects.get(id=session_id)
+
+        subject_internal_obj = SubjectInternalExam.objects.get(subject=subj_obj,exam_type=exam_type_obj)
+        results = StudentInternalExamResult.objects.filter(subject_internalexam=subject_internal_obj,exam_session=exam_session_obj)
+        data = {}
+        for result in results:
+            data[result.student.id] = float(result.marks_obtained)
+        print(data)
+        data = json.dumps(data)
+        return Response(data,status=status.HTTP_200_OK)
+    
+
 
 class StudentInternalExamMarksUpdate(APIView):
     def post(self,request):
@@ -439,7 +500,7 @@ class StudentNoticeList(APIView):
         return Response(serializer.data,status=status.HTTP_200_OK)
 
     
-import json
+
 class StudentInternalExamRecord(APIView):
     def get(self,request):
         user_id = request.user.id 

@@ -107,7 +107,7 @@ class Student(models.Model):
     first_name = models.CharField(max_length=255,blank=True,null=True)
     last_name = models.CharField(max_length=255,blank=True,null=True)
 
-    registration_number =  models.CharField(max_length=255,blank=True,null=True)
+    registration_number =  models.CharField(unique=True,max_length=255,blank=True,null=True)
     password = models.CharField(max_length=255,blank=True,null=True)
     photo = models.FileField(upload_to="student/",blank=True,null=True)
 
@@ -120,7 +120,7 @@ class Student(models.Model):
         verbose_name_plural = "students"
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name}"
+        return f"{self.first_name} {self.last_name} {self.registration_number}"
 
 class StudentInSemester(models.Model):
     student = models.ForeignKey(Student,on_delete=models.CASCADE)
