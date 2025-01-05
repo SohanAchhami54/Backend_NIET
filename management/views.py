@@ -87,9 +87,9 @@ class StudentRecordUpload(APIView):
             records = df.to_dict('records')
             for record in records:
                 try:
-                    first_name = record.get('First Name ', '').strip()
-                    last_name = record.get('Last Name ', '').strip()
-                    email_address = record.get('Email Address ', '').strip()
+                    first_name = record.get('First Name', '').strip()
+                    last_name = record.get('Last Name', '').strip()
+                    email_address = record.get('Email Address', '').strip()
                     registration_num = record.get('Registration No.', '').strip()
                 except Exception as e:
                     continue
