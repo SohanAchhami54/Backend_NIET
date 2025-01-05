@@ -86,13 +86,13 @@ class StudentRecordUpload(APIView):
             df = pd.read_excel(file,header=0)
             records = df.to_dict('records')
             for record in records:
-                # try:
-                first_name = record.get('First Name', '').strip()
-                last_name = record.get('Last Name', '').strip()
-                email_address = record.get('Email Address', '').strip()
-                registration_num = record.get('Registration No.', '').strip()
-                # except Exception as e:
-                #     continue
+                try:
+                    first_name = record.get('First Name', '').strip()
+                    last_name = record.get('Last Name', '').strip()
+                    email_address = record.get('Email Address', '').strip()
+                    registration_num = record.get('Registration No.', '').strip()
+                except Exception as e:
+                    continue
 
                 student_obj = Student.objects.filter(registration_number=registration_num)
                 if not email_address and first_name and last_name and registration_num:
