@@ -150,26 +150,38 @@ app.controller("dashboardController", function ($scope, $http) {
   $scope.uploadFile = function (url) {
     var formData = new FormData();
     formData.append("file", $scope.file);
-    console.log(formData);
+    $scope.uploadProgress = 0; // Initialize progress
 
-    $http
-      .post(url, formData, {
-        headers: { "Content-Type": undefined },
-      })
-      .then(
-        function (response) {
-          $scope.file = null;
-          const toastElement = document.getElementById("uploadToast");
-          const toast = new bootstrap.Toast(toastElement);
-          toast.show();
+    var config = {
+      headers: { "Content-Type": undefined },
+      uploadEventHandlers: {
+        progress: function (event) {
+          if (event.lengthComputable) {
+            $scope.uploadProgress = Math.round(
+              (event.loaded / event.total) * 100
+            );
+            $scope.$apply(); // Update scope manually
+          }
         },
-        function (error) {
-          $scope.file = null;
-          const toastElement = document.getElementById("uploadErrorToast");
-          const toast = new bootstrap.Toast(toastElement);
-          toast.show();
-        }
-      );
+      },
+    };
+
+    $http.post(url, formData, config).then(
+      function (response) {
+        $scope.file = null;
+        $scope.uploadProgress = 0; // Reset progress
+        const toastElement = document.getElementById("uploadToast");
+        const toast = new bootstrap.Toast(toastElement);
+        toast.show();
+      },
+      function (error) {
+        $scope.file = null;
+        $scope.uploadProgress = 0; // Reset progress
+        const toastElement = document.getElementById("uploadErrorToast");
+        const toast = new bootstrap.Toast(toastElement);
+        toast.show();
+      }
+    );
   };
 
   // handle student register

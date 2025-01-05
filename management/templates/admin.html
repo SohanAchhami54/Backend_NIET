@@ -1,4 +1,3 @@
-
 {% extends "base2.html" %}
 
 {% block dashboard_admin %}
@@ -27,109 +26,109 @@
             <!-- End Logo Header -->
         </div>
 
-      <div class="sidebar-wrapper scrollbar scrollbar-inner">
-        <div class="sidebar-content">
-          <ul class="nav nav-secondary">
-            <li class="nav-item active">
-              <a data-bs-toggle="collapse" href="#dashboard" class="collapsed" aria-expanded="false">
-                <i class="fas fa-home"></i>
-                <p>Dashboard</p>
-                <span class="caret"></span>
-              </a>
-              <div class="collapse" id="dashboard">
-                <ul class="nav nav-collapse">
-                  <li>
-                    <a href="#" ng-click="ShowDashboard()">
-                      <span class="sub-item"><i class="fas fa-chart-bar	"></i>Dashboard</span>
-                    </a>
-                  </li>
+        <div class="sidebar-wrapper scrollbar scrollbar-inner">
+            <div class="sidebar-content">
+                <ul class="nav nav-secondary">
+                    <li class="nav-item active">
+                        <a data-bs-toggle="collapse" href="#dashboard" class="collapsed" aria-expanded="false">
+                            <i class="fas fa-home"></i>
+                            <p>Dashboard</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="dashboard">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="#" ng-click="ShowDashboard()">
+                                        <span class="sub-item"><i class="fas fa-chart-bar	"></i>Dashboard</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-section">
+                        <span class="sidebar-mini-icon">
+                            <i class="fa fa-ellipsis-h"></i>
+                        </span>
+                        <h4 class="text-section">Components</h4>
+                    </li>
+
+                    <li class="nav-item">
+                        <a data-bs-toggle="collapse" href="#base">
+                            <i class="fas fa-graduation-cap"></i>
+                            <p>STUDENT</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="base">
+                            <ul class="nav nav-collapse" style="list-style-type: none;">
+                                <li>
+                                    <a class="btn" ng-click="handleStudent()">
+                                        <span class="sub-item">Student</span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a class="btn" ng-click="assignStudentSemester()">
+                                        <span class="sub-item">Assign Student Semester</span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a class="btn" ng-click="upgradeStudentSemester()">
+                                        <span class="sub-item">Upgrade Student Semester</span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a class="btn" ng-click="handleStudentList()">
+                                        <span class="sub-item">Student List</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a data-bs-toggle="collapse" href="#sidebarLayouts">
+                            <i class="fas fa-user-cog"></i>
+                            <p>TEACHERS</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="sidebarLayouts">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a class="btn" ng-click="handleTeacher()">
+                                        <span class="sub-item">Teacher</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="btn" ng-click="handleSubjectTeacher()">
+                                        <span class="sub-item">Assign Subject Teacher</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a data-bs-toggle="collapse" href="#forms">
+                            <i class="fas fa-users-cog"></i>
+                            <p>SETTINGS</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="forms">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a class="btn" ng-click="handlePasswordReset()">
+                                        <span class="sub-item">Password Reset</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
                 </ul>
-              </div>
-            </li>
-            <li class="nav-section">
-              <span class="sidebar-mini-icon">
-                <i class="fa fa-ellipsis-h"></i>
-              </span>
-              <h4 class="text-section">Components</h4>
-            </li>
-
-            <li class="nav-item">
-              <a data-bs-toggle="collapse" href="#base">
-                <i class="fas fa-graduation-cap"></i>
-                <p>STUDENT</p>
-                <span class="caret"></span>
-              </a>
-              <div class="collapse" id="base">
-                <ul class="nav nav-collapse" style="list-style-type: none;">
-                    <li>
-                        <a class="btn" ng-click="handleStudent()">
-                            <span class="sub-item">Student</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a class="btn" ng-click="assignStudentSemester()">
-                            <span class="sub-item">Assign Student Semester</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a class="btn" ng-click="upgradeStudentSemester()">
-                            <span class="sub-item">Upgrade Student Semester</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a class="btn" ng-click="handleStudentList()">
-                            <span class="sub-item">Student List</span>
-                        </a>
-                    </li>
-
-                </ul>
-              </div>
-            </li>
-
-            <li class="nav-item">
-              <a data-bs-toggle="collapse" href="#sidebarLayouts">
-                <i class="fas fa-user-cog"></i>
-                <p>TEACHERS</p>
-                <span class="caret"></span>
-              </a>
-              <div class="collapse" id="sidebarLayouts">
-                <ul class="nav nav-collapse">
-                    <li>
-                        <a class="btn" ng-click="handleTeacher()">
-                            <span class="sub-item">Teacher</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="btn" ng-click="handleSubjectTeacher()">
-                            <span class="sub-item">Assign Subject Teacher</span>
-                        </a>
-                    </li>
-                </ul>
-              </div>
-            </li>
-            <li class="nav-item">
-              <a data-bs-toggle="collapse" href="#forms">
-                <i class="fas fa-users-cog"></i>
-                <p>SETTINGS</p>
-                <span class="caret"></span>
-              </a>
-              <div class="collapse" id="forms">
-                <ul class="nav nav-collapse">
-                    <li>
-                        <a class="btn" ng-click="handlePasswordReset()">
-                            <span class="sub-item">Password Reset</span>
-                        </a>
-                    </li>
-                </ul>
-              </div>
-            </li>
-
-          </ul>
+            </div>
         </div>
-      </div>
 
     </div>
     <!-- End Sidebar -->
@@ -246,17 +245,26 @@
                         <div class="row">
                             <div class="col">
                                 <h3>Upload Excel File</h3>
-                                <form ng-submit="uploadFile('/dashboard/student/record/upload/')" enctype="multipart/form-data" novalidate>
+                                <form ng-submit="uploadFile('/dashboard/student/record/upload/')"
+                                    enctype="multipart/form-data" novalidate>
                                     <div class="mb-3">
                                         <label for="excelFile" class="form-label">Select Excel|csv File</label>
-                                        <input type="file" class="form-control" id="excelBookFile" accept=".xlsx, .xls" ng-model="file" required
+                                        <input type="file" class="form-control" id="excelBookFile" accept=".xlsx, .xls"
+                                            ng-model="file" required
                                             onchange="angular.element(this).scope().setFile(this)">
+                                    </div>
+                                    <div class="progress mb-3" ng-show="uploadProgress > 0">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="{{uploadProgress}}"
+                                            aria-valuemin="0" aria-valuemax="100" style="width: {{uploadProgress}}%;">
+                                            {{uploadProgress}}%
+                                        </div>
                                     </div>
                                     <button type="submit" class="btn btn-primary" ng-disabled="!file">Upload</button>
                                 </form>
                             </div>
                         </div>
                     </div>
+
 
                     <div class="container-fluid card pb-4">
                         <h5>Register student here</h5>
@@ -363,7 +371,9 @@
                                                         style="width: 100px;height: auto;"></td>
                                                 <td>{{entry.student.first_name}} &nbsp; {{entry.student.last_name}}</td>
                                                 <td>{{entry.student.registration_number}}</td>
-                                                <td><button class="btn btn-warning" ng-click="fetchStudentRecord(selectedBatchsemester,entry.student.id,entry.student)">show details</button></td>
+                                                <td><button class="btn btn-warning"
+                                                        ng-click="fetchStudentRecord(selectedBatchsemester,entry.student.id,entry.student)">show
+                                                        details</button></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -378,7 +388,8 @@
                             <div class="row card">
                                 {% verbatim %}
                                 <div class="col-md-12 col-sm-12">
-                                    <h1>Showing Details for: {{selectedStudent.first_name}} {{selectedStudent.last_name}} ({{selectedStudent.registration_number}})</h1>
+                                    <h1>Showing Details for: {{selectedStudent.first_name}}
+                                        {{selectedStudent.last_name}} ({{selectedStudent.registration_number}})</h1>
                                 </div>
                                 {% endverbatim %}
                             </div>
@@ -399,8 +410,10 @@
                                             <tbody>
                                                 <tr ng-repeat="record in records">
                                                     <td>{{ record.day }}</td>
-                                                    <td ng-if="record.status"><span class="badge bg-success">Present</span></td>
-                                                    <td ng-if="!record.status"><span class="badge bg-danger">Absent</span></td>
+                                                    <td ng-if="record.status"><span
+                                                            class="badge bg-success">Present</span></td>
+                                                    <td ng-if="!record.status"><span
+                                                            class="badge bg-danger">Absent</span></td>
                                                     <!-- <td ng-class="{'text-green': record.status, 'text-red': !record.status}">
                                                         {{ record.status ? 'Present' : 'Absent' }}
                                                     </td> -->
@@ -426,36 +439,36 @@
                                 <h1>Internal Exam Result</h1>
                                 <div class="col-md-12 col-sm-12">
                                     {% verbatim %}
-                                        <div ng-repeat="(examName, subjects) in studentRecord.internal_marks">
-                                            <h3>{{ examName }}</h3>
-                                            <table class="table table-bordered table-hover">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Subject Name</th>
-                                                        <th>Exam Type</th>
-                                                        <th>Full Marks</th>
-                                                        <th>Pass Marks</th>
-                                                        <th>Marks Obtained</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr ng-repeat="subjectGroup in subjects">
-                                                        <td>{{ subjectGroup[0].subject_internalexam.subject.name }}</td>
-                                                        <td>{{ subjectGroup[0].subject_internalexam.exam_type.name }}</td>
-                                                        <td>{{ subjectGroup[0].subject_internalexam.full_marks }}</td>
-                                                        <td>{{ subjectGroup[0].subject_internalexam.pass_marks }}</td>
-                                                        <td>{{ subjectGroup[0].marks_obtained }}</td>
-                                                    </tr>
-                                                    <tr ng-repeat="subjectData in subjectGroup.slice(1)">
-                                                        <td>{{ subjectData.subject_internalexam.subject.name }}</td>
-                                                        <td>{{ subjectData.subject_internalexam.exam_type.name }}</td>
-                                                        <td>{{ subjectData.subject_internalexam.full_marks }}</td>
-                                                        <td>{{ subjectData.subject_internalexam.pass_marks }}</td>
-                                                        <td>{{ subjectData.marks_obtained }}</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                    <div ng-repeat="(examName, subjects) in studentRecord.internal_marks">
+                                        <h3>{{ examName }}</h3>
+                                        <table class="table table-bordered table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Subject Name</th>
+                                                    <th>Exam Type</th>
+                                                    <th>Full Marks</th>
+                                                    <th>Pass Marks</th>
+                                                    <th>Marks Obtained</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="subjectGroup in subjects">
+                                                    <td>{{ subjectGroup[0].subject_internalexam.subject.name }}</td>
+                                                    <td>{{ subjectGroup[0].subject_internalexam.exam_type.name }}</td>
+                                                    <td>{{ subjectGroup[0].subject_internalexam.full_marks }}</td>
+                                                    <td>{{ subjectGroup[0].subject_internalexam.pass_marks }}</td>
+                                                    <td>{{ subjectGroup[0].marks_obtained }}</td>
+                                                </tr>
+                                                <tr ng-repeat="subjectData in subjectGroup.slice(1)">
+                                                    <td>{{ subjectData.subject_internalexam.subject.name }}</td>
+                                                    <td>{{ subjectData.subject_internalexam.exam_type.name }}</td>
+                                                    <td>{{ subjectData.subject_internalexam.full_marks }}</td>
+                                                    <td>{{ subjectData.subject_internalexam.pass_marks }}</td>
+                                                    <td>{{ subjectData.marks_obtained }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                     {% endverbatim %}
                                 </div>
                             </div>
@@ -466,7 +479,7 @@
 
                 </div>
 
-                
+
 
 
                 <div ng-show="showTeacher">
@@ -752,35 +765,35 @@
 </div>
 
 
-    <!-- upload toast  -->
-    <div class="position-fixed top-0 end-0 p-3" style="z-index: 1055">
-        <div id="uploadToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true"
-            data-bs-delay="1000">
-            <!-- <div class="toast-header">
+<!-- upload toast  -->
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 1055">
+    <div id="uploadToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="1000">
+        <!-- <div class="toast-header">
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div> -->
-            <div class="toast-body bg-success">
-                <i class="fas fa-check pr-4"></i>
-                <strong class="me-auto">SUCCESS!!</strong>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
+        <div class="toast-body bg-success">
+            <i class="fas fa-check pr-4"></i>
+            <strong class="me-auto">SUCCESS!!</strong>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                aria-label="Close"></button>
         </div>
     </div>
+</div>
 
-        <!-- upload Error toast  -->
-    <div class="position-fixed top-0 end-0 p-3" style="z-index: 1055">
-        <div id="uploadErrorToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true"
-            data-bs-delay="1000">
-            <!-- <div class="toast-header">
+<!-- upload Error toast  -->
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 1055">
+    <div id="uploadErrorToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="1000">
+        <!-- <div class="toast-header">
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div> -->
-            <div class="toast-body bg-danger">
-                <i class="fas fa-check pr-4"></i>
-                <strong class="me-auto">Error!!</strong>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
+        <div class="toast-body bg-danger">
+            <i class="fas fa-check pr-4"></i>
+            <strong class="me-auto">Error!!</strong>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                aria-label="Close"></button>
         </div>
     </div>
+</div>
 
 
 {% endblock %}

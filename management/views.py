@@ -76,7 +76,6 @@ def handle_teacher(request):
         return redirect("/")  
 
 # upload student record 
-
 class StudentRecordUpload(APIView):
     parser_classes = [MultiPartParser,FormParser]
     def post(self,request,*args,**kwargs):
@@ -292,9 +291,13 @@ class AssignStudent(APIView):
         for reg_no in registration_numbers:
             print(reg_no)
             student = Student.objects.get(registration_number = reg_no.strip())
-            in_semester = StudentInSemester.objects.create(student=student,semester=batch_semester)
-            in_semester.save()
+            in_semester_exists = StudentInSemester.objects.filter(student=student,semester=batch_semester)
+            if not in_semester_exists:
+                in_semester = StudentInSemester.objects.create(student=student,semester=batch_semester)
+                in_semester.save()
+        
         return Response({'message':"student semester upgraded successfully"},status=status.HTTP_200_OK)
+            
 
 
 class SubjectListBatchSemester(APIView):
