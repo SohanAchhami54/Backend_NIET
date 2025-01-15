@@ -21,7 +21,6 @@ from rest_framework.parsers import MultiPartParser, FormParser
 # Create your views here.
 def handle_login(request):
     if request.method == 'POST':
-        print('i am here')
         email = request.POST['email']
         password = request.POST['password']
         user = authenticate(request,email=email,password=password)
