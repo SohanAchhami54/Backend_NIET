@@ -120,7 +120,9 @@
                             <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#"
                                 aria-expanded="false">
                                 <div class="avatar-sm">
+                                    {% if teacher.photo %}
                                     <img src="{{teacher.photo.url}}" alt="..." class="avatar-img rounded-circle" />
+                                    {% endif %}
                                 </div>
                                 <span class="profile-username">
                                     <span class="op-7">Hi,</span>
