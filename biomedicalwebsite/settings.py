@@ -28,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(" ")
 
@@ -55,7 +55,10 @@ INSTALLED_APPS = [
     "general",
     "userprofile",
     "management",
+    "student_management",
+    "library_management",
     "rest_framework",
+    "rest_framework_simplejwt",
     "django_ckeditor_5",
 ]
 
@@ -77,6 +80,8 @@ MIDDLEWARE = [
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",  # Frontend origin
+    "http://localhost:3000"
+
     # other origins...
 ]
 
@@ -166,9 +171,9 @@ USE_TZ = True
 
 
 # for vercel 
-# STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATIC_URL = "static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+# STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 
 
@@ -316,6 +321,29 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
     'SLIDING_TOKEN_LIFETIME': timedelta.Timedelta(minutes=5),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta.Timedelta(days=1),
+}
+
+
+# for simple jwt 
+# settings.py
+from datetime import timedelta # import this library top of the settings.py file
+
+# put on your settings.py file below INSTALLED_APPS
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
+    'SLIDING_TOKEN_LIFETIME': timedelta(days=30),
+    'SLIDING_TOKEN_REFRESH_LIFETIME_LATE_USER': timedelta(days=1),
+    'SLIDING_TOKEN_LIFETIME_LATE_USER': timedelta(days=30),
 }
 
 

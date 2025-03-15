@@ -8,7 +8,32 @@ from rest_framework.parsers import JSONParser, MultiPartParser, FormParser
 from userprofile.models import AppUser
 from userprofile.serializers import AppUserSerializer
 
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.tokens import RefreshToken
+
 # Create your views here.
+
+class GetAccessTokenView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        refresh = RefreshToken.for_user(request.user)
+        access_token = refresh.access_token
+
+        # Manually add custom claims
+        
+
+        access_token['email'] = request.user.email
+        if request.user.is_superuser:
+            access_token['user_type'] = 'Superuser'
+        else:
+            if hasattr(request.user, 'usertype'):
+                access_token['user_type'] = request.user.usertype.name if request.user.usertype else None
+
+        return Response({
+            "access": str(access_token),
+            "refresh": str(refresh)
+        })
 
 class RegisterUserView(APIView):
     parser_classes = [JSONParser, MultiPartParser, FormParser]

@@ -1,0 +1,128 @@
+from rest_framework import serializers
+from student_management.models import *
+
+class UniversitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = University
+        fields = '__all__'
+
+class DegreeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Degree
+        fields = '__all__'
+
+class AcademicBatchSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AcademicBatch
+        fields = '__all__'
+
+class AcademicSemesterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AcademicSemester
+        fields = '__all__'
+
+class StudentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Student
+        fields = '__all__'
+
+class StudentViewSerializer(serializers.ModelSerializer):
+    semester = serializers.SerializerMethodField()
+    batch = serializers.SerializerMethodField()
+    class Meta:
+        model = Student
+        fields = ('first_name','last_name','registration_number','photo','semester','batch')
+    def get_semester(self,obj):
+        sem = StudentBatchSemester.objects.get(student__id=obj.id,batch_semester__is_running=True)
+        return sem.batch_semester.academic_semester.number
+    def get_batch(self,obj):
+        sem = StudentBatchSemester.objects.get(student__id=obj.id,batch_semester__is_running=True)
+        return sem.batch_semester.degree_batch.academic_batch.year
+
+class ExternalExamTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ExternalExamType
+        fields = '__all__'
+
+class StudentRegisterSerializer(serializers.Serializer):
+    university = serializers.CharField()
+    degree = serializers.CharField()
+    academic_batch = serializers.CharField()
+    academic_semester = serializers.CharField()
+    excel_file = serializers.FileField()
+
+class StudentBatchSemesterSerializer(serializers.ModelSerializer):
+    student = StudentSerializer()
+    email = serializers.SerializerMethodField()
+    class Meta:
+        model = StudentBatchSemester
+        fields = ('student','email',)
+    def get_email(self,obj):
+        user_email = obj.student.user.email
+        return user_email
+
+
+class StudentBatchSemesterBaseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StudentBatchSemester
+        fields = '__all__'
+
+
+class ExternalExamResultSerializer(serializers.ModelSerializer):
+    program = serializers.CharField()
+    examination_held_on = serializers.CharField()
+    year_semester = serializers.CharField()
+    exam_type = serializers.CharField()
+    result_published_date = serializers.CharField()
+    result_record = serializers.FileField()
+    class Meta:
+        model = ExternalExamResult
+        fields = '__all__'
+
+class ExternalExamResultContentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ExternalExamResultContent
+        fields = '__all__'
+
+class ExternalExamResultContentDetailSerializer(serializers.ModelSerializer):
+    result_meta = ExternalExamResultSerializer()
+    class Meta:
+        model = ExternalExamResultContent
+        fields = '__all__'
+
+class ExternalExamResultScoreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ExternalExamResultScore
+        fields = '__all__'
+
+class ExternalExamResultScoreDetailSerializer(serializers.ModelSerializer):
+    external_result_content = ExternalExamResultContentDetailSerializer()
+    class Meta:
+        model = ExternalExamResultScore
+        fields = '__all__'
+
+class BatchSemesterNoticeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BatchSemesterNotice
+        fields = '__all__'
+
+
+class BatchSemesterNoticeCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BatchSemesterNotice
+        fields = ('batch_semester','attachment','messages','title')
+
+class BatchSemesterNoticeDetailSerializer(serializers.ModelSerializer):
+    semester = serializers.SerializerMethodField()
+    batch = serializers.SerializerMethodField()
+    class Meta:
+        model = BatchSemesterNotice
+        fields = ('id','batch','semester','attachment','messages','title')
+    def get_semester(self,obj):
+        return obj.batch_semester.academic_semester.number
+    def get_batch(self,obj):
+        return obj.batch_semester.degree_batch.academic_batch.year
+
+
+    
+
