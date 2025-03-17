@@ -12,4 +12,9 @@ urlpatterns = [
     path('transaction/',views.TransactionList.as_view(),name='transaction_list'),
     path('borrowed/book/<int:id>/',views.BorrowedBookList.as_view(),name='borrowed_book_list'),
     path('return/book/',views.ReturnBook.as_view(),name='return_book'),
+
+    path("borrower/record/upload/",views.BorrowerRecordUpload.as_view(),name="borrower_record_upload"),
+    path('borrower/',views.BorrowerList.as_view(),name='borrower_list'),
+    path('student/history/<int:user_id>/',views.StudentLibraryHistory.as_view(),name='student_library_history'),
+
 ]

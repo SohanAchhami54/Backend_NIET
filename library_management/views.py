@@ -5,6 +5,9 @@ from django.shortcuts import render
 
 from library_management.models import *
 from library_management.serializers import *
+from student_management.models import *
+from student_management.serializers import *
+from userprofile.models import AppUser
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -156,6 +159,64 @@ class ReturnBook(APIView):
             return Response({'status':'success'},status=status.HTTP_201_CREATED)
         except Exception as e:
             return Response({'status':repr(e)},status=status.HTTP_400_BAD_REQUEST)
+
+class BorrowerList(APIView):
+    def get(self,request):
+        borrowers = Borrower.objects.filter(is_active=True)
+        serializer = BorrowerBaseSerializer(borrowers,many=True)
+        df = pd.DataFrame(serializer.data)
+        df['borrower_type'] = df['borrower_type'].map(lambda id:BorrowerType.objects.get(id=id).name)
+        return Response(df.to_dict(orient='records'),status=status.HTTP_200_OK)
+
+
+class BorrowerRecordUpload(APIView):
+    parser_classes = [MultiPartParser,FormParser]
+    def post(self,request,*args,**kwargs):
+        students = Student.objects.filter(is_active=True)
+        for student in students:
+            borrower = Borrower.objects.filter(registration_number=student.registration_number)
+            if not borrower:
+                borrower = Borrower.objects.create(
+                    borrower_type = BorrowerType.objects.get(name='student'),
+                    name = f'{student.first_name} {student.last_name}',
+                    registration_number=student.registration_number
+                    )
+
+        serializer = BookRecordUploadSerializer(data=request.data)
+        if serializer.is_valid():
+            file = serializer.validated_data['file']
+            df = pd.read_excel(file,header=0)      
+            records = df.to_dict('records')
+            try:
+                for record in records:
+                    borrower = Borrower.objects.filter(registration_number=record['RegistrationNumber'])
+                    if not borrower:
+                        borrower = Borrower.objects.create(
+                            borrower_type = BorrowerType.objects.get(name=record['Type']),
+                            name = record['Name'],
+                            phone = record['Phone'],
+                            email = record['Email'],
+                            registration_number=record['RegistrationNumber']
+                            )
+                return Response({'status':'success'},status=status.HTTP_201_CREATED)
+            except Exception as e:
+                return Response({'Message':'Error Adding records'},status=status.HTTP_400_BAD_REQUEST)
+
+class StudentLibraryHistory(APIView):
+        def get(self,request,user_id):
+            user = AppUser.objects.get(id=user_id)
+            student = Student.objects.get(user=user)
+            borrower = Borrower.objects.get(registration_number=student.registration_number)
+            object = Transaction.objects.filter(borrower=borrower).order_by('-created_at')
+            serializer = TransactionBaseSerializer(object,many=True)
+            df = pd.DataFrame(serializer.data)
+            df['book_name'] = df['book'].map(lambda id:BookDetail.objects.get(id=id).book.name)
+            df['accession_number'] = df['book'].map(lambda id:BookDetail.objects.get(id=id).accession_number)
+            df['issued_by'] = df['issued_by'].map(lambda id: AppUser.objects.get(id=id).email)
+            return Response(df.to_dict(orient='records'),status=status.HTTP_200_OK)
+
+
+
 
 
 

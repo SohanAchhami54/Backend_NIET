@@ -69,6 +69,11 @@ class BorrowerTypeSerializer(serializers.ModelSerializer):
         model = BorrowerType
         fields = '__all__'
 
+class BorrowerBaseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Borrower
+        fields = '__all__'
+
 class BorrowerSerializer(serializers.ModelSerializer):
     borrower_type = BorrowerTypeSerializer()
     class Meta:
@@ -91,5 +96,9 @@ class TransactionSerializer(serializers.ModelSerializer):
 
 
 class BookRecordUploadSerializer(serializers.Serializer):
+    file = serializers.FileField()
+
+
+class BorrowerRecordUploadSerializer(serializers.Serializer):
     file = serializers.FileField()
 
