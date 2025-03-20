@@ -12,7 +12,7 @@
         <div class="container">
           <div class="row justify-content-start">
             <div class="col-sm-10 col-lg-8">
-              <h3 class="text-white text-uppercase mb-3 animated slideInDown">CBEAS</h3>
+              <h3 class="text-white text-uppercase mb-3 animated slideInDown">NIET</h3>
               <p class="display-5 text-white animated slideInDown">{{slider.title}}</p>
               <p class="fs-5 text-white mb-4 pb-2">{{slider.content|safe}}</p>
               <!-- <a href="" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Read More</a>
@@ -28,26 +28,34 @@
 <!-- Carousel End -->
 
 <!-- news scroll starts  -->
-  <div class="row mt-1">
-    <div class="col-2 d-flex align-items-center justify-content-center bg-danger text-white">
-      <strong>NEWS</strong>
-    </div>
-    <div class="col-10">
-      <div class="news-ticker">
-        <div class="news-ticker-content">
-           {% for scroll_event in scroll_events %}
-          <span><span > <a style="font-weight: bold; color: white !important;" href="{% if scroll_event.redirect_to_url %} {{scroll_event.redirect_to_url}} {% else %} /news/{{scroll_event.slug}}{% endif %}">{{scroll_event.title}}</a></span>  <a style="font-weight: bold; color: white !important;" href="{% if scroll_event.redirect_to_url %} {{scroll_event.redirect_to_url}} {% else %} /news/{{scroll_event.slug}}{% endif %}">{{scroll_event.content | safe}}</a></span>
-          {% endfor %}
-          {% for scroll_notice in scroll_notices %}
-          <span><span style="font-weight: bold; color: white !important;"> <a href="{% if scroll_notice.redirect_to_url %} {{scroll_notice.redirect_to_url}} {% else %} /news/{{scroll_notice.slug}}{% endif %}">{{scroll_notice.title}}</a></span>  <a style="font-weight: bold; color: white !important;" href="{% if scroll_notice.redirect_to_url %} {{scroll_notice.redirect_to_url}} {% else %} /news/{{scroll_notice.slug}}{% endif %}">{{scroll_notice.content | safe}}</a></span>
-          {% endfor %}
+<div class="row mt-1">
+  <div class="col-2 d-flex align-items-center justify-content-center bg-danger text-white">
+    <strong>NEWS</strong>
+  </div>
+  <div class="col-10">
+    <div class="news-ticker">
+      <div class="news-ticker-content">
+        {% for scroll_event in scroll_events %}
+        <span><span> <a style="font-weight: bold; color: white !important;"
+              href="{% if scroll_event.redirect_to_url %} {{scroll_event.redirect_to_url}} {% else %} /news/{{scroll_event.slug}}{% endif %}">{{scroll_event.title}}</a></span>
+          <a style="font-weight: bold; color: white !important;"
+            href="{% if scroll_event.redirect_to_url %} {{scroll_event.redirect_to_url}} {% else %} /news/{{scroll_event.slug}}{% endif %}">{{scroll_event.content
+            | safe}}</a></span>
+        {% endfor %}
+        {% for scroll_notice in scroll_notices %}
+        <span><span style="font-weight: bold; color: white !important;"> <a
+              href="{% if scroll_notice.redirect_to_url %} {{scroll_notice.redirect_to_url}} {% else %} /news/{{scroll_notice.slug}}{% endif %}">{{scroll_notice.title}}</a></span>
+          <a style="font-weight: bold; color: white !important;"
+            href="{% if scroll_notice.redirect_to_url %} {{scroll_notice.redirect_to_url}} {% else %} /news/{{scroll_notice.slug}}{% endif %}">{{scroll_notice.content
+            | safe}}</a></span>
+        {% endfor %}
 
-        </div>
       </div>
     </div>
   </div>
 </div>
- <!-- news scroll ends  -->
+</div>
+<!-- news scroll ends  -->
 
 
 <!-- About Start -->
@@ -62,7 +70,7 @@
       </div>
       <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
         <h6 class="section-title bg-white text-start text-primary pe-3">About Us</h6>
-        <h1 class="mb-4">Welcome to CBEAS.</h1>
+        <h1 class="mb-4">Welcome to NIET.</h1>
         <div class="ratio ratio-16x9">
           <iframe src="{{ about.video_url }}" title="YouTube video" allowfullscreen
             style="width: 100%; height: 100%;"></iframe>
@@ -83,7 +91,7 @@
 <div class="container-xxl py-5 category">
   <div class="container">
     <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-      <h6 class="section-title bg-white text-center text-primary px-3">Life At CBEAS.</h6>
+      <h6 class="section-title bg-white text-center text-primary px-3">Life At NIET.</h6>
       <h1 class="mb-5">Explore our Vibrating Campus with us</h1>
     </div>
     <div class="row g-3">
@@ -139,7 +147,7 @@
           <img src="{{event.photo.url}}" class="card-img-top news-image-home" alt="{{event.title}}">
           {% endif %}
           <div class="card-body d-flex flex-column">
-            <h5 class="card-title flex-grow-1"><a href="/news/{{event.slug}}/" >{{event.title|upper}}</a></h5>
+            <h5 class="card-title flex-grow-1"><a href="/news/{{event.slug}}/">{{event.title|upper}}</a></h5>
             <!-- <a href="/news/{{event.slug}}/" class="btn btn-primary btn-sm align-self-start">Read More</a> -->
           </div>
         </div>
@@ -156,7 +164,7 @@
   <div class="container">
     <div class="text-center">
       <h6 class="section-title bg-white text-center text-primary px-3">Our Features</h6>
-      <h1 class="mb-5">At CBEAS we provide our students with</h1>
+      <h1 class="mb-5">At NIET we provide our students with</h1>
     </div>
     <div class="row g-4">
 
@@ -266,6 +274,36 @@
 </div>
 
 <!-- faq ends  -->
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitle">NATIONAL INSTITUTE OF ENGINEERING AND TECHNOLOGY</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <img class="img-fluid" src="{{modal_image.photo.url}}" alt="" style="object-fit: cover;">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var myModal = new bootstrap.Modal(document.getElementById("myModal"), {
+                backdrop: 'static', // Prevent clicking outside to close
+                keyboard: false // Prevent keyboard close
+            });
+            myModal.show();
+
+            setTimeout(function () {
+                myModal.hide();
+            }, 10000); // Auto close after 10 seconds
+        });
+    </script>
 
 
 

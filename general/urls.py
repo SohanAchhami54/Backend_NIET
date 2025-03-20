@@ -36,4 +36,9 @@ urlpatterns = [
 
     # path("chairman/message/",views.get_chairman_message,name="chairman_message"),
 
+    # for API
+    path('aboutus/',views.AboutUsList.as_view(),name='aboutus_list'),
+    path('slider/',views.SliderHomeList.as_view(),name='slider_images'),
+    path('scrollnews/',views.ScrollNewsList.as_view(),name='scroll_news_list'),
+    path('gallery/list/',views.GalleryList.as_view(),name='gallery_list'),
 ] 

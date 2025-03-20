@@ -2,13 +2,19 @@ from django.contrib import admin
 from .models import (
     CoverImage, SliderHome, Feature, AboutUs, StaffType, Staff, CollegeChairman,
     Syllabus, EntranceSyllabus, EligiblityCriteria, ProjectCategory, News,
-    Vaccancy, Notice, Result, ContactMessage, Faq, Gallery,Testimonial,VideoTestimonial,Alumni
+    Vaccancy, Notice, Result, ContactMessage, Faq, Gallery,Testimonial,VideoTestimonial,Alumni,ModalImage
 )
 
 @admin.register(CoverImage)
 class CoverImageAdmin(admin.ModelAdmin):
     list_display = ('title', 'created_at', 'updated_at', 'is_active')
     search_fields = ('title',)
+    list_filter = ('is_active', 'created_at')
+    ordering = ('-created_at',)
+
+@admin.register(ModalImage)
+class ModalImageAdmin(admin.ModelAdmin):
+    list_display = ('created_at', 'updated_at', 'is_active')
     list_filter = ('is_active', 'created_at')
     ordering = ('-created_at',)
 

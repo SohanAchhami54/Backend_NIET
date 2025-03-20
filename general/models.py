@@ -46,6 +46,19 @@ class CoverImage(models.Model):
     def __str__(self):
         return self.title_1
 
+class ModalImage(models.Model):
+    title = models.CharField(max_length=255, blank=True, null=True)
+    photo = models.FileField(upload_to="uploads/home/modal/", blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = "Modal Image"
+        verbose_name_plural = "Modal Images"
+
+
+
 class SliderHome(models.Model):
     title = models.CharField(max_length=255, blank=True, null=True)
     photo = models.FileField(upload_to="uploads/home/slider/image/", blank=True, null=True)

@@ -15,6 +15,7 @@ def home(request):
     sliders = SliderHome.objects.all().order_by('order_priority')
     features = Feature.objects.filter(is_active=True)
     about = AboutUs.objects.last()
+    modal_image = ModalImage.objects.last()
     galleries = Gallery.objects.order_by('-id')[:4]
     events = News.objects.filter(is_active=True).order_by('-id')
     scroller_events = News.objects.filter(is_active=True,scroll=True).order_by('-id')
@@ -43,8 +44,10 @@ def home(request):
         'faqs':faqs,
         'video_testimonials':video_testimonials,
         'scroll_events':scroller_events,
-        'scroll_notices':scroller_notices
+        'scroll_notices':scroller_notices,
+        'modal_image':modal_image
     }
+    print(modal_image.photo.url)
     return render(request,'page/index.html',context_dict)
 
 def aboutus(request):
@@ -339,6 +342,42 @@ class ContactMessageCreate(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# for api 
+from rest_framework.permissions import AllowAny
+
+class AboutUsList(APIView):
+    authentication_classes = []  
+    permission_classes = [AllowAny]
+    def get(self,request):
+        object = AboutUs.objects.all()[0]
+        serializer = AboutUsSerializer(object)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
+class SliderHomeList(APIView):
+    authentication_classes = []  
+    permission_classes = [AllowAny]
+    def get(self,request):
+        object = SliderHome.objects.all()
+        serializer = SliderHomeSerializer(object,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
+class GalleryList(APIView):
+    authentication_classes = []  
+    permission_classes = [AllowAny]
+    def get(self,request):
+        object = Gallery.objects.all()
+        serializer = GallerySerializer(object,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
+class ScrollNewsList(APIView):
+    authentication_classes = []  
+    permission_classes = [AllowAny]
+    def get(self,request):
+        object = News.objects.all()
+        serializer = NewsSerializer(object,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
 
 
 
