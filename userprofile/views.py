@@ -10,6 +10,8 @@ from userprofile.serializers import AppUserSerializer
 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth.models import AnonymousUser
+
 
 # Create your views here.
 
@@ -22,7 +24,6 @@ class GetAccessTokenView(APIView):
 
         # Manually add custom claims
         
-
         access_token['email'] = request.user.email
         if request.user.is_superuser:
             access_token['user_type'] = 'Superuser'
@@ -34,6 +35,42 @@ class GetAccessTokenView(APIView):
             "access": str(access_token),
             "refresh": str(refresh)
         })
+
+class GetRefreshTokenView(APIView):
+    permission_classes = [IsAuthenticated]  
+
+    def post(self, request):
+        refresh_token = request.data.get("refresh")
+
+        if not refresh_token:
+            return Response({"detail": "Refresh token is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            # Decode the refresh token
+            refresh = RefreshToken(refresh_token)
+
+            # Get user from the token
+            user = refresh.user
+            if not user or isinstance(user, AnonymousUser):
+                return Response({"detail": "Invalid user."}, status=status.HTTP_401_UNAUTHORIZED)
+
+            # Generate new access token
+            access_token = refresh.access_token
+
+            # Add custom claims
+            access_token["email"] = user.email
+            if user.is_superuser:
+                access_token["user_type"] = "Superuser"
+            else:
+                if hasattr(user, "usertype"):
+                    access_token["user_type"] = user.usertype.name if user.usertype else None
+
+            return Response({
+                "access": str(access_token)
+            })
+
+        except Exception as e:
+            return Response({"detail": "Invalid refresh token."}, status=status.HTTP_401_UNAUTHORIZED)
 
 class RegisterUserView(APIView):
     parser_classes = [JSONParser, MultiPartParser, FormParser]

@@ -25,6 +25,7 @@ class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
         fields = '__all__'
+        
 
 class StudentViewSerializer(serializers.ModelSerializer):
     semester = serializers.SerializerMethodField()
@@ -50,6 +51,15 @@ class StudentRegisterSerializer(serializers.Serializer):
     academic_batch = serializers.CharField()
     academic_semester = serializers.CharField()
     excel_file = serializers.FileField()
+
+class TeacherRegisterSerializer(serializers.Serializer):
+    excel_file = serializers.FileField()
+
+class StudentBatchSemesterBaseSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = StudentBatchSemester
+        fields = '__all__'
 
 class StudentBatchSemesterSerializer(serializers.ModelSerializer):
     student = StudentSerializer()
@@ -122,6 +132,41 @@ class BatchSemesterNoticeDetailSerializer(serializers.ModelSerializer):
         return obj.batch_semester.academic_semester.number
     def get_batch(self,obj):
         return obj.batch_semester.degree_batch.academic_batch.year
+
+class TeacherSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Teacher
+        fields = '__all__'
+
+class TeacherViewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Teacher
+        exclude = ('password',)
+
+class SubjectTeacherSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SubjectTeacher
+        fields = '__all__'
+
+class SubjectAttendanceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SubjectAttendance
+        fields = '__all__'
+
+class StudentSubjectAttendanceRecordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StudentSubjectAttendanceRecord
+        fields = '__all__'
+
+class StudentGradeSheetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StudentGradeSheet
+        fields = '__all__'
+
+class StudentGradeSheetUploadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StudentGradeSheet
+        fields = ('student_batch_semester','grade_sheet')
 
 
     

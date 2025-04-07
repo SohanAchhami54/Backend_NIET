@@ -190,12 +190,14 @@ class AcademicSubject(models.Model):
         verbose_name_plural = "academic_subject"
     
     def __str__(self):
-        return self.name
+        return f'{self.name} [{self.code}]'
 
 
 class Teacher(models.Model):
     user = models.ForeignKey(AppUser,on_delete=models.CASCADE,related_name='teacher_user',blank=True,null=True)
     full_name = models.CharField(max_length=25,blank=True,null=True)
+    education = models.CharField(max_length=255, blank=True, null=True)
+    designation = models.CharField(max_length=255, blank=True, null=True)
     password = models.CharField(max_length=255,blank=True,null=True)
     photo = models.FileField(upload_to="teacher/",blank=True,null=True)
 
@@ -225,10 +227,23 @@ class SubjectTeacher(models.Model):
     def __str__(self):
         return f'{self.academic_subject.name} {self.teacher.full_name}'
 
+class SubjectAttendance(models.Model):
+    batch_semester = models.ForeignKey(BatchSemester,on_delete=models.CASCADE,blank=True,null=True)
+    academic_subject = models.ForeignKey(AcademicSubject,on_delete=models.CASCADE,blank=True,null=True)
+    day = models.DateField()
 
-class StudentSubjectAttendance(models.Model):
-    student = models.ForeignKey(Student,on_delete=models.CASCADE)
-    academic_subject = models.ForeignKey(AcademicSubject,on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = "subject_attendance"
+        verbose_name_plural = "subject_attendance"
+
+
+class StudentSubjectAttendanceRecord(models.Model):
+    subject_attendance = models.ForeignKey(SubjectAttendance,on_delete=models.CASCADE)
+    student_batch_semester = models.ForeignKey(StudentBatchSemester,on_delete=models.CASCADE,blank=True,null=True)
     day = models.DateField()
     status = models.BooleanField(default=True)
 
@@ -240,8 +255,8 @@ class StudentSubjectAttendance(models.Model):
         verbose_name = "student_subject_attendance"
         verbose_name_plural = "student_subject_attendance"
     
-    def __str__(self):
-        return f'{self.student.first_name} {self.student.registration_number} {self.academic_subject.name} {self.day} {self.status}'
+    # def __str__(self):
+    #     return f'{self.student_batch_semester.student.first_name} {self.student_batch_semester.student.registration_number} {self.academic_subject.name} {self.day} {self.status}'
 
     
 class StudentAttendanceRecord(models.Model):
@@ -256,6 +271,18 @@ class StudentAttendanceRecord(models.Model):
     class Meta:
         verbose_name = "student_subject_attendance"
         verbose_name_plural = "student_subject_attendance"
+
+class StudentGradeSheet(models.Model):
+    student_batch_semester = models.ForeignKey(StudentBatchSemester,on_delete=models.CASCADE,blank=True,null=True)
+    grade_sheet = models.FileField(upload_to="student/gradesheet/",blank=True,null=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = "student_gradesheet"
+        verbose_name_plural = "student_gradesheet"
 
 class ExternalExamType(models.Model):
     name = models.CharField(max_length=255)
@@ -321,6 +348,8 @@ class BatchSemesterNotice(models.Model):
     created_at = models.DateTimeField(auto_now_add=True,blank=True,null=True)
     updated_at = models.DateTimeField(auto_now=True,blank=True,null=True)
     is_active = models.BooleanField(default=True,blank=True,null=True)
+
+
 
 
 

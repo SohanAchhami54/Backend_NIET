@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import (
     University, Degree, UniversityDegree, AcademicBatch, AcademicSemester, DegreeBatch, DegreeSemester,
     BatchSemester, Student, StudentBatchSemester, AcademicSubject, Teacher, SubjectTeacher,
-    StudentSubjectAttendance, StudentAttendanceRecord, ExternalExamType,ExternalExamResult,
+    StudentSubjectAttendanceRecord, StudentAttendanceRecord, ExternalExamType,ExternalExamResult,
     BatchSemesterNotice
 )
 
@@ -84,11 +84,11 @@ class SubjectTeacherAdmin(admin.ModelAdmin):
     search_fields = ('academic_subject__name', 'teacher__full_name')
     list_filter = ('is_active',)
 
-@admin.register(StudentSubjectAttendance)
-class StudentSubjectAttendanceAdmin(admin.ModelAdmin):
-    list_display = ('student', 'academic_subject', 'day', 'status', 'is_active')
-    search_fields = ('student__first_name', 'academic_subject__name')
-    list_filter = ('status', 'is_active')
+# @admin.register(StudentSubjectAttendance)
+# class StudentSubjectAttendanceAdmin(admin.ModelAdmin):
+#     list_display = ('student_batch_semester', 'academic_subject', 'day', 'status', 'is_active')
+#     search_fields = ('student_batch_semester__student__first_name', 'academic_subject__name')
+#     list_filter = ('status', 'is_active')
 
 @admin.register(StudentAttendanceRecord)
 class StudentAttendanceRecordAdmin(admin.ModelAdmin):

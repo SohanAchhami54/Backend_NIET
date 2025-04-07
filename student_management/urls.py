@@ -18,6 +18,7 @@ urlpatterns = [
 
     # for students 
     path('student/<int:user_id>/',views.StudentDetail.as_view(),name='student_detail'),
+    path('student/semester/<int:user_id>/',views.StudentSemesterList.as_view(),name='student_semester_list'),
     path('student/external/result/<int:user_id>/',views.StudentExternalResultDetail.as_view(),name='student_external_result_detail'),
     # for notices 
     path('semester/notice/create/',views.BatchSemesterNoticeCreate.as_view(),name='semester_notice_create'),
@@ -25,5 +26,25 @@ urlpatterns = [
     path('semester/notice/<int:id>/',views.SemesterNoticeDetail.as_view(),name='notice_detail'),
     path('student/semester/notice/',views.StudentNoticeList.as_view(),name='student_notice_list'),
 
+    # for teacher 
+    path('register/faculty/',views.RegisterFaculty.as_view(),name='register_faculty'),
+    path('teacher/',views.TeacherList.as_view(),name='teacher_list'),
+    path('teacher/<int:id>/',views.TeacherDetail.as_view(),name='teacher_detail'),
+    path('teacher/detail/<int:id>/',views.TeacherDetailById.as_view(),name='teacher_detail_byId'),
+
+
+    path('assigned/teacher/subject/<int:id>/',views.AssignedTeacherSubjectList.as_view(),name='teacher_subject_list'),
+    path('assigned/teacher/running/subject/',views.AssignedTeacherRunningSubjectList.as_view(),name='teacher_running_subject_list'),
+    path('take/student/attendance/',views.TakeStudentAttendance.as_view(),name='take_student_attendance'),
+    path('student/attendance/update/<int:id>/',views.StudentAttendanceUpdate.as_view(),name='student_attendance_update'),
+
+    path('subject/attendance/list/',views.SubjectAttendanceList.as_view(),name='subject_attendance_list'),
+    path('attendance/record/list/<int:id>/',views.AttendanceRecordList.as_view(),name='attendance_record_list'),
+
+    # for admin view
+    path('student/attendance/summary/<int:id>/',views.StudentAttendanceSummary.as_view(),name='student_attendance_summary'), 
+    path('student/admin/summary/<int:id>/',views.StudentAdminSummary.as_view(),name='student_admin_summary'),
+    path('student/gradesheet/upload/',views.StudentGradeSheetUpload.as_view(),name='student_gradesheet_upload'),
+    path('student/gradesheet/summary/<int:id>/',views.StudentGradeSheetSummary.as_view(),name='student_admin_summary'),
 
 ]

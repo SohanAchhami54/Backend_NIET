@@ -6,12 +6,17 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
+from userprofile.serializers import MyTokenObtainPairSerializer
+
 app_name = "userprofile"
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
 
 urlpatterns = [
     path('register/', RegisterUserView.as_view()),
     path('get/token/',views.GetAccessTokenView.as_view(),name='get_access_token'),
-    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', views.GetRefreshTokenView.as_view(), name='token_refresh'),
 
 ]
