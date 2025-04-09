@@ -17,4 +17,7 @@ urlpatterns = [
     path('borrower/',views.BorrowerList.as_view(),name='borrower_list'),
     path('student/history/<int:user_id>/',views.StudentLibraryHistory.as_view(),name='student_library_history'),
 
+    path('librarian/',views.LibrarianCreate.as_view(),name='librarian_create'),
+
+
 ]

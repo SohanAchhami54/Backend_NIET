@@ -1,5 +1,6 @@
 import pandas as pd
 import json
+import random
 
 from django.shortcuts import render
 
@@ -7,7 +8,7 @@ from library_management.models import *
 from library_management.serializers import *
 from student_management.models import *
 from student_management.serializers import *
-from userprofile.models import AppUser
+from userprofile.models import AppUser,UserType
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -214,6 +215,30 @@ class StudentLibraryHistory(APIView):
             df['accession_number'] = df['book'].map(lambda id:BookDetail.objects.get(id=id).accession_number)
             df['issued_by'] = df['issued_by'].map(lambda id: AppUser.objects.get(id=id).email)
             return Response(df.to_dict(orient='records'),status=status.HTTP_200_OK)
+
+class LibrarianCreate(APIView):
+    def post(self,request):
+        full_name = request.data['full_name']
+        email = request.data['email']
+        user_type = UserType.objects.get(name='Librarian')
+        app_user = AppUser.objects.filter(email=email)
+        if app_user:
+            return Response({'message':'App user with email already exists'},status=status.HTTP_400_BAD_REQUEST)
+
+        generated_password = ''.join([str(random.randint(0, 9)) for _ in range(4)])
+        user = AppUser.objects.create_user(email=email,password=generated_password)
+        user.usertype = user_type
+        user.save()
+        librarian = Librarian.objects.create(
+            user = user,
+            full_name = full_name,
+            password = generated_password,
+            )
+        return Response({'status':'success'},status=status.HTTP_201_CREATED)
+
+
+        
+        
 
 
 

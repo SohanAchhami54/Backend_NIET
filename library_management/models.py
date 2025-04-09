@@ -133,6 +133,23 @@ class Transaction(models.Model):
     class Meta:
         verbose_name = "transaction"
         verbose_name_plural = "transactions"
+
+class Librarian(models.Model):
+    user = models.ForeignKey(AppUser,on_delete=models.CASCADE,related_name='library_user',blank=True,null=True)
+    full_name = models.CharField(max_length=25,blank=True,null=True)
+    password = models.CharField(max_length=255,blank=True,null=True)
+    photo = models.FileField(upload_to="librarian/",blank=True,null=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = "librarian"
+        verbose_name_plural = "librarian"
+    
+    def __str__(self):
+        return f'{self.full_name}'
     
 
 

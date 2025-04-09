@@ -102,3 +102,8 @@ class BookRecordUploadSerializer(serializers.Serializer):
 class BorrowerRecordUploadSerializer(serializers.Serializer):
     file = serializers.FileField()
 
+class LibrarianSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Librarian
+        fields = '__all__'
+

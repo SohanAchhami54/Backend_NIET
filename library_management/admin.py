@@ -75,3 +75,22 @@ class TransactionAdmin(admin.ModelAdmin):
 
     # Optionally, make fields read-only or add custom validation
     readonly_fields = ('created_at', 'updated_at')
+
+
+@admin.register(Librarian)
+class LibrarianAdmin(admin.ModelAdmin):
+    list_display = ('id', 'full_name', 'user', 'is_active', 'created_at', 'updated_at')
+    list_filter = ('is_active', 'created_at')
+    search_fields = ('full_name', 'user__username')  # assuming AppUser has a username field
+    readonly_fields = ('created_at', 'updated_at')
+    ordering = ('-created_at',)
+
+    fieldsets = (
+        (None, {
+            'fields': ('user', 'full_name', 'password', 'photo', 'is_active')
+        }),
+        ('Timestamps', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',),
+        }),
+    )
