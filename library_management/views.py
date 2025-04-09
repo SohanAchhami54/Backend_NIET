@@ -43,7 +43,7 @@ class BookList(APIView):
 
 class AvailableBookList(APIView):
     def get(self,request):
-        object = BookDetail.objects.all()[:10]
+        object = BookDetail.objects.all()
 
         serializer = BookDetailSerializer(object,many=True)
         df = pd.DataFrame(serializer.data)
