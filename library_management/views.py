@@ -14,6 +14,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.pagination import PageNumberPagination
+
 
 from datetime import datetime
 
@@ -25,21 +27,71 @@ class BorrowerList(APIView):
         serializer = BorrowerSerializer(object,many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
 
-class BookList(APIView):
+class CategoryList(APIView):
     def get(self,request):
-        object = BookDetail.objects.all()
+        object = Category.objects.filter(is_active=True)
+        serializer = CategorySerializer(object,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
 
-        serializer = BookDetailSerializer(object,many=True)
+class BookByCategoryList(APIView):
+    def get(self,request,id):
+        category = Category.objects.get(id=id)
+        objects = BookDetail.objects.filter(book__category=category)
+        
+        serializer = BookDetailSerializer(objects,many=True)
         df = pd.DataFrame(serializer.data)
-        print(df.head())
         df['book_name'] = df['book'].map(lambda id:Book.objects.get(id=id).name)
         df['keyword'] = df['book'].map(lambda id:Book.objects.get(id=id).keyword)
         df['classification_number'] = df['book'].map(lambda id:Book.objects.get(id=id).classification_number)
         df['author'] = df['book'].map(lambda id:Book.objects.get(id=id).author.name)
         df['publisher'] = df['book'].map(lambda id:Book.objects.get(id=id).publisher.name)
         df['category'] = df['book'].map(lambda id:Book.objects.get(id=id).category.name)
+        df = df[df['available']]
 
         return Response(df.to_dict(orient='records'),status=status.HTTP_200_OK)
+
+
+class BookListPagination(PageNumberPagination):
+    page_size = 20  # You can adjust this as needed
+    page_size_query_param = 'page_size'
+    max_page_size = 100
+
+class BookList(APIView):
+    def get(self, request):
+        objects = BookDetail.objects.all()
+        
+        # Apply pagination
+        paginator = BookListPagination()
+        page = paginator.paginate_queryset(objects, request)
+        serializer = BookDetailSerializer(page, many=True)
+
+        # Data transformation
+        df = pd.DataFrame(serializer.data)
+        if not df.empty:
+            df['book_name'] = df['book'].map(lambda id: Book.objects.get(id=id).name)
+            df['keyword'] = df['book'].map(lambda id: Book.objects.get(id=id).keyword)
+            df['classification_number'] = df['book'].map(lambda id: Book.objects.get(id=id).classification_number)
+            df['author'] = df['book'].map(lambda id: Book.objects.get(id=id).author.name)
+            df['publisher'] = df['book'].map(lambda id: Book.objects.get(id=id).publisher.name)
+            df['category'] = df['book'].map(lambda id: Book.objects.get(id=id).category.name)
+
+        # Return paginated response
+        return paginator.get_paginated_response(df.to_dict(orient='records'))
+
+# class BookList(APIView):
+#     def get(self,request):
+#         object = BookDetail.objects.all()
+
+#         serializer = BookDetailSerializer(object,many=True)
+#         df = pd.DataFrame(serializer.data)
+#         df['book_name'] = df['book'].map(lambda id:Book.objects.get(id=id).name)
+#         df['keyword'] = df['book'].map(lambda id:Book.objects.get(id=id).keyword)
+#         df['classification_number'] = df['book'].map(lambda id:Book.objects.get(id=id).classification_number)
+#         df['author'] = df['book'].map(lambda id:Book.objects.get(id=id).author.name)
+#         df['publisher'] = df['book'].map(lambda id:Book.objects.get(id=id).publisher.name)
+#         df['category'] = df['book'].map(lambda id:Book.objects.get(id=id).category.name)
+
+#         return Response(df.to_dict(orient='records'),status=status.HTTP_200_OK)
 
 class AvailableBookList(APIView):
     def get(self,request):
@@ -57,15 +109,39 @@ class AvailableBookList(APIView):
 
         return Response(df.to_dict(orient='records'),status=status.HTTP_200_OK)
 
+# class TransactionList(APIView):
+#     def get(self,request):
+#         object = Transaction.objects.all().order_by('-created_at')
+#         serializer = TransactionBaseSerializer(object,many=True)
+#         df = pd.DataFrame(serializer.data)
+#         df['book_name'] = df['book'].map(lambda id:BookDetail.objects.get(id=id).book.name)
+#         df['accession_number'] = df['book'].map(lambda id:BookDetail.objects.get(id=id).accession_number)
+#         df['issued_by'] = df['issued_by'].map(lambda id: AppUser.objects.get(id=id).email)
+#         return Response(df.to_dict(orient='records'),status=status.HTTP_200_OK)
+
+class TransactionPagination(PageNumberPagination):
+    page_size = 20  
+    page_size_query_param = 'page_size'  
+    max_page_size = 100  
+
 class TransactionList(APIView):
-    def get(self,request):
-        object = Transaction.objects.all().order_by('-created_at')
-        serializer = TransactionBaseSerializer(object,many=True)
+    def get(self, request):
+        # Apply pagination
+        paginator = TransactionPagination()
+        object_list = Transaction.objects.all().order_by('-created_at')
+        paginated_object_list = paginator.paginate_queryset(object_list, request)
+
+        # Serialize data
+        serializer = TransactionBaseSerializer(paginated_object_list, many=True)
         df = pd.DataFrame(serializer.data)
-        df['book_name'] = df['book'].map(lambda id:BookDetail.objects.get(id=id).book.name)
-        df['accession_number'] = df['book'].map(lambda id:BookDetail.objects.get(id=id).accession_number)
+        
+        # Add additional fields to dataframe
+        df['book_name'] = df['book'].map(lambda id: BookDetail.objects.get(id=id).book.name)
+        df['accession_number'] = df['book'].map(lambda id: BookDetail.objects.get(id=id).accession_number)
         df['issued_by'] = df['issued_by'].map(lambda id: AppUser.objects.get(id=id).email)
-        return Response(df.to_dict(orient='records'),status=status.HTTP_200_OK)
+
+        # Paginated response
+        return paginator.get_paginated_response(df.to_dict(orient='records'))
 
 class BorrowedBookList(APIView):
     def get(self,request,id):
