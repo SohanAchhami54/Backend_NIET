@@ -148,7 +148,6 @@ class StudentBatchSemesterList(APIView):
         return Response(df.to_dict('records'),status=status.HTTP_200_OK)
 
 
-
 class RegisterStudent(APIView):
     parser_classes = [MultiPartParser,FormParser]
     def post(self,request):
@@ -162,9 +161,23 @@ class RegisterStudent(APIView):
             degree = Degree.objects.get(id=data['degree'])
             academic_batch = AcademicBatch.objects.get(id=data['academic_batch'])
             academic_semester = AcademicSemester.objects.get(id=data['academic_semester'])
+            try:
+                university_degree = UniversityDegree.objects.get(
+                    degree = degree,
+                    university= university
+                )
+                degree_batch = DegreeBatch.objects.get(
+                    university_degree = university_degree,
+                    academic_batch = academic_batch
+                )
+                batch_semester = BatchSemester.objects.get(
+                    degree_batch = degree_batch,
+                    academic_semester = academic_semester
+                )
+            except Exception as e:
+                return Response({'message':e},status=status.HTTP_400_BAD_REQUEST)
 
             for record in records:
-                print(record)
                 try:
                     first_name = record.get('FirstName', '').strip()
                     last_name = record.get('LastName', '').strip()
@@ -172,12 +185,10 @@ class RegisterStudent(APIView):
                     registration_num = record.get('Registration', '').strip()
                 except Exception as e:
                     return Response({'message':f'Please correct error at index: {record.get('index')+1}'},status=status.HTTP_400_BAD_REQUEST)
-                
-                student_obj = Student.objects.filter(registration_number=registration_num)
                 if not email_address and first_name and last_name and registration_num:
                     return Response({'message':f'Please correct error at index: {record.get('index')+1}'},status=status.HTTP_400_BAD_REQUEST)
-                if student_obj:
-                    return Response({'message':f'Please correct error at index: {record.get('index')+1} Email already exists'},status=status.HTTP_400_BAD_REQUEST)
+                
+                student_obj = Student.objects.filter(registration_number=registration_num)
                 if not student_obj:
                     user_type = UserType.objects.get(name='Student')
                     generated_password = ''.join([str(random.randint(0, 9)) for _ in range(4)])
@@ -192,24 +203,18 @@ class RegisterStudent(APIView):
                         password = generated_password,
                         )
                     try:
-                        university_degree = UniversityDegree.objects.get(
-                            degree = degree,
-                            university= university
-                        )
-                        degree_batch = DegreeBatch.objects.get(
-                            university_degree = university_degree,
-                            academic_batch = academic_batch
-                        )
-                        batch_semester = BatchSemester.objects.get(
-                            degree_batch = degree_batch,
-                            academic_semester = academic_semester
-                        )
                         student_batch_semester,created =  StudentBatchSemester.objects.get_or_create(
                             student = student,
                             batch_semester = batch_semester
                         )
                     except Exception as e:
                         return Response({'message':e},status=status.HTTP_400_BAD_REQUEST)
+                else:
+                    student = student_obj[0]
+                    student_batch_semester,created =  StudentBatchSemester.objects.get_or_create(
+                            student = student,
+                            batch_semester = batch_semester
+                        )
             return Response({'status':'success'},status=status.HTTP_201_CREATED)
 
 class UploadExternalExamResult(APIView):
