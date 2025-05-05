@@ -33,6 +33,20 @@ class Degree(models.Model):
     def __str__(self):
         return self.name
 
+class Section(models.Model):
+    name = models.CharField(max_length=255)
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = "section"
+        verbose_name_plural = "section"
+
+    def __str__(self):
+        return self.name
+
 class UniversityDegree(models.Model):
     degree = models.ForeignKey(Degree,on_delete=models.CASCADE,related_name='university_degree')
     university = models.ForeignKey(University,on_delete=models.CASCADE,related_name='degree_university')
@@ -163,6 +177,7 @@ class Student(models.Model):
 class StudentBatchSemester(models.Model):
     student = models.ForeignKey(Student,on_delete=models.CASCADE)
     batch_semester = models.ForeignKey(BatchSemester,on_delete=models.CASCADE)
+    section = models.ForeignKey(Section,on_delete=models.CASCADE,blank=True,null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -231,6 +246,7 @@ class SubjectAttendance(models.Model):
     batch_semester = models.ForeignKey(BatchSemester,on_delete=models.CASCADE,blank=True,null=True)
     academic_subject = models.ForeignKey(AcademicSubject,on_delete=models.CASCADE,blank=True,null=True)
     day = models.DateField()
+    section = models.ForeignKey(Section,on_delete=models.CASCADE,blank=True,null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -297,24 +313,6 @@ class ExternalExamType(models.Model):
     
     def __str__(self):
         return self.name
-
-# class ExternalExamResult(models.Model):
-#     exam_type = models.ForeignKey(ExternalExamType,on_delete=models.CASCADE,blank=True,null=True)
-#     degree_semester = models.ForeignKey(DegreeSemester,on_delete=models.CASCADE,blank=True,null=True)
-#     exam_held_on = models.CharField(max_length=100,blank=True,null=True)
-#     result_published_date = models.CharField(max_length=100,blank=True,null=True)
-#     result_record = models.FileField(upload_to="external/result/",blank=True,null=True)
-
-#     created_at = models.DateTimeField(auto_now_add=True,blank=True,null=True)
-#     updated_at = models.DateTimeField(auto_now=True,blank=True,null=True)
-#     is_active = models.BooleanField(default=True,blank=True,null=True)
-
-#     class Meta:
-#         verbose_name = "external_exam_result"
-#         verbose_name_plural = "external_exam_result"
-    
-#     def __str__(self):
-#         return f'{self.exam_type.name} {self.degree_semester.academic_semester.number} {self.result_published_date}'
 
 class ExternalExamResult(models.Model):
     program = models.CharField(max_length=255,blank=True,null=True)

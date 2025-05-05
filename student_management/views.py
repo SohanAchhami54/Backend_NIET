@@ -30,6 +30,12 @@ class DegreeDetail(APIView):
         serializer = DegreeSerializer(object,many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
 
+class SectionDetail(APIView):
+    def get(self,request):
+        object = Section.objects.filter(is_active=True)
+        serializer = SectionSerializer(object,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
 class TeacherList(APIView):
     def get(self,request):
         object = Teacher.objects.filter(is_active=True)
@@ -71,15 +77,10 @@ class ExternalExamResultDetail(APIView):
         content_df = pd.DataFrame(result_content_serializer.data)
         scores_df = pd.DataFrame(result_scores_serializer.data)
 
-        print(content_df.head())
-        print(scores_df.head())
+
         
         merged_df = content_df.merge(scores_df, left_on="id", right_on="external_result_content", how="left")
-        # merged_df = pd.concat()
-        # print(merged_df.head(10))
 
-
-        
         # Group subjects and scores into a list of dictionaries per student
         result = merged_df.groupby(["id_x", "symbol_number", "registration_number", "student_name", "sgpa", "pass_fail", "result_meta"]).apply(
             lambda x: {
@@ -102,7 +103,6 @@ class ExternalOriginalExamResultDetail(APIView):
         file_path = external_exam_result.original_result_record.path
         with open(file_path, "r", encoding="utf-8") as file:
             html_content = file.read()
-        print(type(html_content))
         return Response({"html_content": html_content}, status=status.HTTP_200_OK)
 
 
@@ -116,7 +116,6 @@ class StudentBatchSemesterList(APIView):
         degree = Degree.objects.get(id=data['degree'])
         academic_batch = AcademicBatch.objects.get(id=data['academic_batch'])
         academic_semester = AcademicSemester.objects.get(id=data['academic_semester'])
-        print(data)
         try:
             university_degree = UniversityDegree.objects.get(
                 degree = degree,
@@ -139,11 +138,10 @@ class StudentBatchSemesterList(APIView):
         )
         serializer = StudentBatchSemesterBaseSerializer(student_batch_semester,many=True)
         df = pd.DataFrame(serializer.data) [['id','student','batch_semester']]
-        print(df.head())
+
         df['name'] = df['student'].map(lambda id: Student.objects.get(id=id).first_name +" "+ Student.objects.get(id=id).last_name)
         df['registration_number'] = df['student'].map(lambda id:Student.objects.get(id=id).registration_number)
         df['photo'] = df['student'].map(lambda id:Student.objects.get(id=id).photo.url if Student.objects.get(id=id).photo else "")
-        print(df.head())
 
         return Response(df.to_dict('records'),status=status.HTTP_200_OK)
 
@@ -226,7 +224,6 @@ class UploadExternalExamResult(APIView):
             df = pd.read_excel(excel_file,header=0)
             records = df.values.tolist()
             subjects = list(df.columns[4:-2])
-            print(records[0])
             
             for record in records:
                 info_record = record[1:4]
@@ -256,7 +253,7 @@ class StudentDetail(APIView):
         student = Student.objects.get(user=user)
         serializer = StudentViewSerializer(student)
         batch_semester_obj = StudentBatchSemester.objects.filter(student=student,batch_semester__is_running=True)[0]
-        batch_serializer = StudentBatchSemesterBaseSerializer(batch_semester_obj)
+        batch_serializer = StudentBatchSemesterDetailSerializer(batch_semester_obj)
         return Response({'student':serializer.data,'batch':batch_serializer.data},status=status.HTTP_200_OK)
 
 class StudentExternalResultDetail(APIView):
@@ -266,7 +263,6 @@ class StudentExternalResultDetail(APIView):
         content_obj = ExternalExamResultContent.objects.filter(registration_number=student.registration_number)
         result_score = ExternalExamResultScore.objects.filter(external_result_content__in=content_obj)
         serializer = ExternalExamResultScoreDetailSerializer(result_score,many=True)
-        print(serializer.data)
         content = []
         for data in serializer.data:
             content.append({
@@ -284,7 +280,6 @@ class StudentExternalResultDetail(APIView):
             })
         
         df = pd.DataFrame(content)
-        # print(df.iloc[0].values)
         grouped_data = (
             df.groupby("result_meta")
             .apply(lambda g: {
@@ -370,11 +365,9 @@ class RegisterFaculty(APIView):
             excel_file = serializer.validated_data['excel_file']
             df = pd.read_excel(excel_file,header=0).reset_index()
             records = df.to_dict('records')
-            print(records)
 
             for record in records:
                 full_name = record['FullName']
-                print(full_name)
                 user_type = UserType.objects.get(name='Teacher')
                 generated_password = ''.join([str(random.randint(0, 9)) for _ in range(4)])
                 # register a student 
@@ -400,7 +393,6 @@ class AssignedTeacherSubjectList(APIView):
         subject_teacher = SubjectTeacher.objects.filter(teacher=teacher)
         serializer = SubjectTeacherSerializer(subject_teacher,many=True)
         df = pd.DataFrame(serializer.data)
-        print(df)
         df['subject_name'] = df['academic_subject'].map(lambda id:AcademicSubject.objects.get(id=id).name)
         df['subject_code'] = df['academic_subject'].map(lambda id:AcademicSubject.objects.get(id=id).code)
         df['semester'] = df['academic_subject'].map(lambda id:AcademicSubject.objects.get(id=id).degree_semester.academic_semester.number)
@@ -432,6 +424,8 @@ class AssignedTeacherRunningSubjectList(APIView):
         degree = Degree.objects.get(id=data['degree'])
         academic_batch = AcademicBatch.objects.get(id=data['academic_batch'])
         academic_semester = AcademicSemester.objects.get(id=data['academic_semester'])
+        section = Section.objects.get(id=data['section'])
+
         user_id = data['user_id']
         user = AppUser.objects.get(id=user_id)
         teacher = Teacher.objects.get(user=user)
@@ -453,13 +447,12 @@ class AssignedTeacherRunningSubjectList(APIView):
         except Exception as e:
             return Response({'message':e},status=status.HTTP_400_BAD_REQUEST)
         
-        students = StudentBatchSemester.objects.filter(batch_semester=batch_semester_obj,batch_semester__is_running=True)
+        students = StudentBatchSemester.objects.filter(batch_semester=batch_semester_obj,batch_semester__is_running=True,section=section)
         subject_teacher = SubjectTeacher.objects.filter(teacher=teacher,academic_subject__degree_semester=degree_semester)
         students_df = pd.DataFrame(StudentBatchSemesterBaseSerializer(students,many=True).data)[['id','student','batch_semester']]
         students_df['name'] = students_df['student'].map(lambda id:Student.objects.get(id=id).first_name+" "+Student.objects.get(id=id).last_name)
         students_df['registration_number'] = students_df['student'].map(lambda id:Student.objects.get(id=id).registration_number)
         # students_df['photo'] = students_df['student'].map(lambda id:Student.objects.get(id=id).photo or "")
-        # print(students_df.head())
         subject_teacher_df = pd.DataFrame(SubjectTeacherSerializer(subject_teacher,many=True).data)[['id','academic_subject','teacher']]
         subject_teacher_df['subject_name'] = subject_teacher_df['academic_subject'].map(lambda id: AcademicSubject.objects.get(id=id).name)
         subject_teacher_df['subject_code'] = subject_teacher_df['academic_subject'].map(lambda id: AcademicSubject.objects.get(id=id).code)
@@ -478,6 +471,7 @@ class TakeStudentAttendance(APIView):
         degree = Degree.objects.get(id=form_data['degree'])
         academic_batch = AcademicBatch.objects.get(id=form_data['academic_batch'])
         academic_semester = AcademicSemester.objects.get(id=form_data['academic_semester'])
+        section = Section.objects.get(id=form_data['section'])
         
         try:
             university_degree = UniversityDegree.objects.get(
@@ -500,11 +494,11 @@ class TakeStudentAttendance(APIView):
         selected_subject_id = data['selected_subject']
         attendance = json.loads(data['attendance'])
         academic_subject = AcademicSubject.objects.get(id=selected_subject_id)
-        attendance_obj = SubjectAttendance.objects.filter(day=selected_date,academic_subject = academic_subject,batch_semester=batch_semester_obj)
+        attendance_obj = SubjectAttendance.objects.filter(day=selected_date,academic_subject = academic_subject,batch_semester=batch_semester_obj,section=section)
         if attendance_obj:
             return Response({'message':"Attendance Record already exists for this date"},status=status.HTTP_400_BAD_REQUEST)
         
-        attendance_obj = SubjectAttendance.objects.create(day=selected_date,academic_subject = academic_subject,batch_semester=batch_semester_obj)
+        attendance_obj = SubjectAttendance.objects.create(day=selected_date,academic_subject = academic_subject,batch_semester=batch_semester_obj,section=section)
         for student_batch_id,attendance_status in attendance.items():
             student_batch_semester = StudentBatchSemester.objects.get(id=student_batch_id)
             subject_attendance_obj = StudentSubjectAttendanceRecord.objects.create(
@@ -542,6 +536,7 @@ class SubjectAttendanceList(APIView):
         degree = Degree.objects.get(id=form_data['degree'])
         academic_batch = AcademicBatch.objects.get(id=form_data['academic_batch'])
         academic_semester = AcademicSemester.objects.get(id=form_data['academic_semester'])
+        section = Section.objects.get(id=form_data['section'])
         
         try:
             university_degree = UniversityDegree.objects.get(
@@ -562,16 +557,42 @@ class SubjectAttendanceList(APIView):
 
         selected_subject_id = data['selected_subject']
         academic_subject = AcademicSubject.objects.get(id=selected_subject_id)
-        subject_attendance = SubjectAttendance.objects.filter(batch_semester=batch_semester_obj,academic_subject=academic_subject)
+        subject_attendance = SubjectAttendance.objects.filter(batch_semester=batch_semester_obj,academic_subject=academic_subject,section=section)
         serializer = SubjectAttendanceSerializer(subject_attendance,many=True)
         attendance_records = StudentSubjectAttendanceRecord.objects.filter(subject_attendance__in=subject_attendance)
         record_serializer= StudentSubjectAttendanceRecordSerializer(attendance_records,many=True)
         df = pd.DataFrame(record_serializer.data)[['id','student_batch_semester','day','status']]
         df['registration_number'] = df['student_batch_semester'].map(lambda id: StudentBatchSemester.objects.get(id=id).student.registration_number)
         df['name'] = df['student_batch_semester'].map(lambda id: StudentBatchSemester.objects.get(id=id).student.first_name)
-
-        
         return Response({'date_wise':serializer.data,'record':df.to_dict('records')},status=status.HTTP_200_OK)
+
+class DayWiseAttendanceRecordUpdate(APIView):
+    def post(self,request):
+        data = request.data 
+        subject_attendance = SubjectAttendance.objects.get(id=data['record_id'])
+        section = Section.objects.get(id=data['section'])
+
+        records = StudentSubjectAttendanceRecord.objects.filter(subject_attendance=subject_attendance)
+        serializer = StudentSubjectAttendanceRecordSerializer(records,many=True)
+
+
+        df = pd.DataFrame(serializer.data)
+        
+        students = StudentBatchSemester.objects.filter(batch_semester__id=subject_attendance.batch_semester.id,section=section)
+        students_df = pd.DataFrame(StudentBatchSemesterBaseSerializer(students,many=True).data)[['id','student','batch_semester']]
+        students_df['name'] = students_df['student'].map(lambda id:Student.objects.get(id=id).first_name+" "+Student.objects.get(id=id).last_name)
+        students_df['registration_number'] = students_df['student'].map(lambda id:Student.objects.get(id=id).registration_number)
+
+
+        attendance = dict(zip(df["student_batch_semester"], df["status"].astype(int)))
+
+        return Response({
+            'student':students_df.to_dict(orient='records'),
+            'attendance': attendance
+            },status=status.HTTP_200_OK)
+
+
+
 
 class AttendanceRecordList(APIView):
     def get(self,request,id):
@@ -579,14 +600,12 @@ class AttendanceRecordList(APIView):
         records = StudentSubjectAttendanceRecord.objects.filter(subject_attendance=subject_attendance)
         serializer = StudentSubjectAttendanceRecordSerializer(records,many=True)
         df = pd.DataFrame(serializer.data)
-        print(df.head())
         
         students = StudentBatchSemester.objects.filter(batch_semester__id=subject_attendance.batch_semester.id)
         students_df = pd.DataFrame(StudentBatchSemesterBaseSerializer(students,many=True).data)[['id','student','batch_semester']]
         students_df['name'] = students_df['student'].map(lambda id:Student.objects.get(id=id).first_name+" "+Student.objects.get(id=id).last_name)
         students_df['registration_number'] = students_df['student'].map(lambda id:Student.objects.get(id=id).registration_number)
 
-        print(students_df.head())
 
         attendance = dict(zip(df["student_batch_semester"], df["status"].astype(int)))
 
@@ -605,10 +624,15 @@ class StudentAdminSummary(APIView):
 
 
 class StudentAttendanceSummary(APIView):
-    def get(self,request,id):
-        student_batch_semester_id = id 
-        student_batch_semester=  StudentBatchSemester.objects.get(id=student_batch_semester_id)
-        student = Student.objects.get(id=student_batch_semester.student.id)
+    def get(self,request):
+        app_user = AppUser.objects.get(id=request.user.id)
+        student = Student.objects.get(user = app_user)
+        student_batch_semester = StudentBatchSemester.objects.get(student=student,batch_semester__is_running=True)
+
+        # student_batch_semester_id = id 
+        # student_batch_semester=  StudentBatchSemester.objects.get(id=student_batch_semester_id)
+        # student = Student.objects.get(id=student_batch_semester.student.id)
+
         student_serializer = StudentViewSerializer(student) 
 
         subject_attendance_record = StudentSubjectAttendanceRecord.objects.filter(student_batch_semester=student_batch_semester)
@@ -649,9 +673,45 @@ class StudentSemesterList(APIView):
             user = AppUser.objects.get(id=user_id)
             student = Student.objects.get(user=user)
             batch_semester_obj = StudentBatchSemester.objects.filter(student=student)
-            batch_serializer = StudentBatchSemesterBaseSerializer(batch_semester_obj,many=True)
+            batch_serializer = StudentBatchSemesterDetailSerializer(batch_semester_obj,many=True)
             
             return Response(batch_serializer.data,status=status.HTTP_200_OK)
+
+class AcademicSubjectList(APIView):
+    def get(self,request,semester_number):
+        academic_semester = AcademicSemester.objects.get(number=semester_number)
+        degree_semester = DegreeSemester.objects.get(academic_semester=academic_semester)
+        academic_subjects = AcademicSubject.objects.filter(degree_semester=degree_semester)
+        serializer = AcademicSubjectSerializer(academic_subjects,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
+class StudentSubjectAttendanceList(APIView):
+    def post(self,request):
+        data = request.data
+        academic_semester = AcademicSemester.objects.get(number=data['academic_semester'])
+        academic_subject = AcademicSubject.objects.get(id=data['subject'])
+        from_date = datetime.strptime(data['from_date'], '%Y-%m-%d').date()
+        to_date = datetime.strptime(data['to_date'], '%Y-%m-%d').date()
+
+        app_user = AppUser.objects.get(id=request.user.id)
+        student = Student.objects.get(user = app_user)
+        student_batch_semester = StudentBatchSemester.objects.get(student=student,batch_semester__academic_semester=academic_semester)
+        batch_semester_obj = student_batch_semester.batch_semester
+
+        subject_attendance = SubjectAttendance.objects.filter(batch_semester=batch_semester_obj,academic_subject=academic_subject)
+        serializer = SubjectAttendanceSerializer(subject_attendance,many=True)
+        attendance_records = StudentSubjectAttendanceRecord.objects.filter(student_batch_semester=student_batch_semester,subject_attendance__in=subject_attendance,day__range=(from_date, to_date))
+        record_serializer= StudentSubjectAttendanceRecordSerializer(attendance_records,many=True)
+        df = pd.DataFrame(record_serializer.data)[['id','student_batch_semester','day','status']]
+        df['registration_number'] = df['student_batch_semester'].map(lambda id: StudentBatchSemester.objects.get(id=id).student.registration_number)
+        df['name'] = df['student_batch_semester'].map(lambda id: StudentBatchSemester.objects.get(id=id).student.first_name)
+        return Response({'date_wise':serializer.data,'record':df.to_dict('records')},status=status.HTTP_200_OK)
+
+
+
+
+
+
 
 
 

@@ -5,10 +5,16 @@ class UniversitySerializer(serializers.ModelSerializer):
     class Meta:
         model = University
         fields = '__all__'
+    
 
 class DegreeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Degree
+        fields = '__all__'
+
+class SectionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Section
         fields = '__all__'
 
 class AcademicBatchSerializer(serializers.ModelSerializer):
@@ -24,6 +30,11 @@ class AcademicSemesterSerializer(serializers.ModelSerializer):
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
+        fields = '__all__'
+
+class AcademicSubjectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AcademicSubject
         fields = '__all__'
         
 
@@ -60,6 +71,19 @@ class StudentBatchSemesterBaseSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentBatchSemester
         fields = '__all__'
+
+class StudentBatchSemesterDetailSerializer(serializers.ModelSerializer):
+    semester = serializers.SerializerMethodField()
+    is_running_semester = serializers.SerializerMethodField()
+    class Meta:
+        model = StudentBatchSemester
+        fields = ('id','student','batch_semester','section','semester','is_running_semester')
+    def get_semester(self,obj):
+        semester = obj.batch_semester.academic_semester.number
+        return semester
+    def get_is_running_semester(self,obj):
+        is_running = obj.batch_semester.is_running
+        return is_running
 
 class StudentBatchSemesterSerializer(serializers.ModelSerializer):
     student = StudentSerializer()
