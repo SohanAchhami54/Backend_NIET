@@ -40,7 +40,7 @@ urlpatterns = [
     path('student/attendance/update/<int:id>/',views.StudentAttendanceUpdate.as_view(),name='student_attendance_update'),
 
     path('subject/attendance/list/',views.SubjectAttendanceList.as_view(),name='subject_attendance_list'),
-    path('attendance/record/list/<int:id>/',views.AttendanceRecordList.as_view(),name='attendance_record_list'),
+    path('attendance/record/list/<int:id>/<int:section>/',views.AttendanceRecordList.as_view(),name='attendance_record_list'),
     path('attendance/daywise/update/',views.DayWiseAttendanceRecordUpdate.as_view(),name='daywise_attendance_update'),
 
     # for admin view

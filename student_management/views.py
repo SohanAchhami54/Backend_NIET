@@ -595,13 +595,14 @@ class DayWiseAttendanceRecordUpdate(APIView):
 
 
 class AttendanceRecordList(APIView):
-    def get(self,request,id):
-        subject_attendance = SubjectAttendance.objects.get(id=id)
+    def get(self,request,id,section):
+        section = Section.objects.get(id=section)
+        subject_attendance = SubjectAttendance.objects.get(id=id,section=section)
         records = StudentSubjectAttendanceRecord.objects.filter(subject_attendance=subject_attendance)
         serializer = StudentSubjectAttendanceRecordSerializer(records,many=True)
         df = pd.DataFrame(serializer.data)
         
-        students = StudentBatchSemester.objects.filter(batch_semester__id=subject_attendance.batch_semester.id)
+        students = StudentBatchSemester.objects.filter(batch_semester__id=subject_attendance.batch_semester.id,section=section)
         students_df = pd.DataFrame(StudentBatchSemesterBaseSerializer(students,many=True).data)[['id','student','batch_semester']]
         students_df['name'] = students_df['student'].map(lambda id:Student.objects.get(id=id).first_name+" "+Student.objects.get(id=id).last_name)
         students_df['registration_number'] = students_df['student'].map(lambda id:Student.objects.get(id=id).registration_number)
