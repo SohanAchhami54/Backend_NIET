@@ -647,7 +647,38 @@ class StudentAttendanceSummary(APIView):
             total_absent=("status", lambda x: (x == False).sum())
             ).reset_index()
         return Response({'student':student_serializer.data,'attendance':result.to_dict('records')},status=status.HTTP_200_OK)
-    
+
+class StudentInternalResultSummary(APIView):
+    def get(self,request):
+        app_user = AppUser.objects.get(id=request.user.id)
+        student = Student.objects.get(user = app_user)
+        student_batch_semester = StudentBatchSemester.objects.get(student=student,batch_semester__is_running=True)
+
+        student_serializer = StudentViewSerializer(student)
+
+
+        batch_semester = student_batch_semester.batch_semester
+        internal_examresult = StudentInternalExamResultContent.objects.filter(student_batch_semester=student_batch_semester)
+        result_serializer = StudentInternalExamResultContentDetailSerializer(internal_examresult,many=True)
+
+        return Response({'student':student_serializer.data,'results':result_serializer.data},status=status.HTTP_200_OK)
+
+class StudentInternalResultBySemester(APIView):
+    def post(self,request):
+        data = request.data
+        semester = AcademicSemester.objects.get(number=data['academic_semester'])
+        
+        app_user = AppUser.objects.get(id=request.user.id)
+        student = Student.objects.get(user = app_user)
+        student_batch_semester = StudentBatchSemester.objects.get(student=student,batch_semester__academic_semester=semester)
+
+        batch_semester = student_batch_semester.batch_semester
+        internal_examresult = StudentInternalExamResultContent.objects.filter(student_batch_semester=student_batch_semester)
+        result_serializer = StudentInternalExamResultContentDetailSerializer(internal_examresult,many=True)
+
+        return Response(result_serializer.data,status=status.HTTP_200_OK)
+
+
 
 class StudentGradeSheetUpload(APIView):
     def post(self,request):
@@ -707,6 +738,113 @@ class StudentSubjectAttendanceList(APIView):
         df['registration_number'] = df['student_batch_semester'].map(lambda id: StudentBatchSemester.objects.get(id=id).student.registration_number)
         df['name'] = df['student_batch_semester'].map(lambda id: StudentBatchSemester.objects.get(id=id).student.first_name)
         return Response({'date_wise':serializer.data,'record':df.to_dict('records')},status=status.HTTP_200_OK)
+
+class AcademicSubjectFilterList(APIView):
+    def post(self,request):
+        data = request.data
+
+        university = University.objects.get(id=data['university'])
+        degree = Degree.objects.get(id=data['degree'])
+        academic_batch = AcademicBatch.objects.get(id=data['academic_batch'])
+        academic_semester = AcademicSemester.objects.get(id=data['academic_semester'])
+
+        print(university,degree,academic_batch,academic_semester)
+        
+        try:
+            university_degree = UniversityDegree.objects.get(
+                degree = degree,
+                university= university
+            )
+            degree_batch = DegreeBatch.objects.get(
+                university_degree = university_degree,
+                academic_batch = academic_batch
+            )
+            batch_semester_obj = BatchSemester.objects.get(
+                degree_batch = degree_batch,
+                academic_semester = academic_semester
+            )
+            degree_semester = DegreeSemester.objects.get(university_degree=university_degree,academic_semester=academic_semester)
+        except Exception as e:
+            return Response({'message':e},status=status.HTTP_400_BAD_REQUEST)
+        
+        academic_subjects = AcademicSubject.objects.filter(degree_semester=degree_semester)
+        serializer = AcademicSubjectSerializer(academic_subjects,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
+
+class UploadInternalExamResult(APIView):
+    def post(self,request):
+        data = request.data
+
+        form_data = json.loads(data['form_data'])
+        record_file = data['record']
+        excel_file = data['excel_file']
+
+        university = University.objects.get(id=form_data['university'])
+        degree = Degree.objects.get(id=form_data['degree'])
+        academic_batch = AcademicBatch.objects.get(id=form_data['academic_batch'])
+        academic_semester = AcademicSemester.objects.get(id=form_data['academic_semester'])
+        academic_subject = AcademicSubject.objects.get(id=data['selected_subject'])
+
+        
+        try:
+            university_degree = UniversityDegree.objects.get(
+                degree = degree,
+                university= university
+            )
+            degree_batch = DegreeBatch.objects.get(
+                university_degree = university_degree,
+                academic_batch = academic_batch
+            )
+            batch_semester_obj = BatchSemester.objects.get(
+                degree_batch = degree_batch,
+                academic_semester = academic_semester
+            )
+            degree_semester = DegreeSemester.objects.get(university_degree=university_degree,academic_semester=academic_semester)
+        except Exception as e:
+            return Response({'message':e},status=status.HTTP_400_BAD_REQUEST)
+        
+        internal_result_obj = StudentInternalExamResult.objects.filter(academic_subject=academic_subject,batch_semester=batch_semester_obj)
+        if not internal_result_obj:
+            internal_result_serializer = StudentInternalExamResultSerializer(
+                data={
+                    'academic_subject':academic_subject.id,
+                    'batch_semester':batch_semester_obj.id,
+                    'record':record_file
+                }
+            )
+            if internal_result_serializer.is_valid():
+                internal_result_obj = internal_result_serializer.save()
+            
+            else:
+                return Response({'message':'error in serializer'},status=status.HTTP_400_BAD_REQUEST)
+        else:
+            internal_result_obj = internal_result_obj[0]
+        
+        df = pd.read_excel(excel_file,header=0)
+        records = df.values.tolist()
+        for record in records:
+            try:
+                student_batch_sem = StudentBatchSemester.objects.get(batch_semester=batch_semester_obj,student__registration_number=record[1])
+                internal_result_content,created = StudentInternalExamResultContent.objects.get_or_create(
+                    student_internalexam_result = internal_result_obj,
+                    student_batch_semester = student_batch_sem
+                )
+                internal_result_content.marks_obtained = record[2]
+                internal_result_content.save()
+            except Exception as e:
+                return Response({'message':e},status=status.HTTP_400_BAD_REQUEST)
+        
+        return Response({'message':'record uploaded successfully'},status=status.HTTP_200_OK)
+        
+
+                
+
+
+        
+
+
+
 
 
 

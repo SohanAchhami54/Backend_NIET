@@ -16,11 +16,16 @@ urlpatterns = [
     path('external/exam/result/<int:id>/',views.ExternalExamResultDetail.as_view(),name='external_exam_result'),
     path('external/original/exam/result/<int:id>/',views.ExternalOriginalExamResultDetail.as_view(),name='external_original_exam_result'),
     path('upload/external/exam/result/',views.UploadExternalExamResult.as_view(),name='upload_external_exam_result'),
+    path('upload/internal/exam/result/',views.UploadInternalExamResult.as_view(),name='upload_internal_exam_result'),
+
 
     # for students 
     path('student/<int:user_id>/',views.StudentDetail.as_view(),name='student_detail'),
     path('student/semester/<int:user_id>/',views.StudentSemesterList.as_view(),name='student_semester_list'),
     path('student/external/result/<int:user_id>/',views.StudentExternalResultDetail.as_view(),name='student_external_result_detail'),
+    path('student/internal/result/summary/',views.StudentInternalResultSummary.as_view(),name='student_internal_result'),
+    path('student/internal/result/by/semester/',views.StudentInternalResultBySemester.as_view(),name='student_internal_result_bysem'),
+
     # for notices 
     path('semester/notice/create/',views.BatchSemesterNoticeCreate.as_view(),name='semester_notice_create'),
     path('semester/notice/',views.SemesterNoticeList.as_view(),name='notice_list'),
@@ -52,5 +57,7 @@ urlpatterns = [
 
     
     path('academic/subject/<str:semester_number>/',views.AcademicSubjectList.as_view(),name='academic_subject_list'),
+    path('academic/subject/',views.AcademicSubjectFilterList.as_view(),name='academic_subject_filter_list'),
+
 
 ]

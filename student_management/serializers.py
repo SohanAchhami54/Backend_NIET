@@ -192,6 +192,31 @@ class StudentGradeSheetUploadSerializer(serializers.ModelSerializer):
         model = StudentGradeSheet
         fields = ('student_batch_semester','grade_sheet')
 
+# for internalresult 
+class StudentInternalExamResultSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StudentInternalExamResult
+        fields = '__all__'
+
+class StudentInternalExamResultContentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StudentInternalExamResultContent
+        fields = '__all__'
+
+class StudentInternalExamResultContentDetailSerializer(serializers.ModelSerializer):
+    record = serializers.SerializerMethodField()
+    academic_subject = serializers.SerializerMethodField()
+
+    class Meta:
+        model = StudentInternalExamResultContent
+        fields = ('marks_obtained', 'academic_subject', 'record')
+
+    def get_record(self, obj):
+        return obj.student_internalexam_result.record.url.lstrip('/') if obj.student_internalexam_result and obj.student_internalexam_result.record else None
+
+    def get_academic_subject(self, obj):
+        return obj.student_internalexam_result.academic_subject.name if obj.student_internalexam_result and obj.student_internalexam_result.academic_subject else None
+
 
     
 

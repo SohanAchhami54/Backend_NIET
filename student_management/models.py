@@ -274,6 +274,34 @@ class StudentSubjectAttendanceRecord(models.Model):
     # def __str__(self):
     #     return f'{self.student_batch_semester.student.first_name} {self.student_batch_semester.student.registration_number} {self.academic_subject.name} {self.day} {self.status}'
 
+
+class StudentInternalExamResult(models.Model):
+    academic_subject = models.ForeignKey(AcademicSubject,on_delete=models.CASCADE,blank=True,null=True)
+    batch_semester = models.ForeignKey(BatchSemester,on_delete=models.CASCADE,blank=True,null=True)
+    record = models.FileField(upload_to="internal/exam/",blank=True,null=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = "student_internalexam_result"
+        verbose_name_plural = "student_internalexam_result"
+
+class StudentInternalExamResultContent(models.Model):
+    student_internalexam_result = models.ForeignKey(StudentInternalExamResult,on_delete=models.CASCADE,blank=True,null=True)
+    student_batch_semester = models.ForeignKey(StudentBatchSemester,on_delete=models.CASCADE,blank=True,null=True)
+    marks_obtained = models.CharField(max_length=255,blank=True,null=True)
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = "student_internalexam_result_content"
+        verbose_name_plural = "student_internalexam_content"
+
+
     
 class StudentAttendanceRecord(models.Model):
     student = models.ForeignKey(Student,on_delete=models.CASCADE)

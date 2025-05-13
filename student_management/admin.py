@@ -1,10 +1,5 @@
 from django.contrib import admin
-from .models import (
-    University, Degree, UniversityDegree, AcademicBatch, AcademicSemester, DegreeBatch, DegreeSemester,
-    BatchSemester, Student, StudentBatchSemester, AcademicSubject, Teacher, SubjectTeacher,
-    StudentSubjectAttendanceRecord, StudentAttendanceRecord, ExternalExamType,ExternalExamResult,ExternalExamResultContent,ExternalExamResultScore,
-    BatchSemesterNotice,Section,StudentGradeSheet,SubjectAttendance
-)
+from student_management.models import *
 
 
 @admin.register(University)
@@ -136,3 +131,35 @@ class BatchSemesterNoticeAdmin(admin.ModelAdmin):
     list_display = ('batch_semester', 'title', 'created_at', 'updated_at', 'is_active')
     search_fields = ('title', 'messages')
     list_filter = ('is_active', 'created_at', 'updated_at')
+
+
+@admin.register(StudentInternalExamResult)
+class StudentInternalExamResultAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'academic_subject',
+        'batch_semester',
+        'record',
+        'is_active',
+        'created_at',
+        'updated_at',
+    )
+    list_filter = ('academic_subject', 'batch_semester', 'is_active', 'created_at')
+    search_fields = ('academic_subject__name', 'batch_semester__name')  # Adjust field names as per related models
+    readonly_fields = ('created_at', 'updated_at')
+
+@admin.register(StudentInternalExamResultContent)
+class StudentInternalExamResultContentAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'student_internalexam_result',
+        'student_batch_semester',
+        'marks_obtained',
+        'is_active',
+        'created_at',
+        'updated_at',
+    )
+    list_filter = ('student_internalexam_result', 'student_batch_semester', 'is_active', 'created_at')
+    search_fields = ('marks_obtained', 'student_batch_semester__student__name')  # Adjust as needed
+    readonly_fields = ('created_at', 'updated_at')
+
