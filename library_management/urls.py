@@ -20,6 +20,8 @@ urlpatterns = [
     path('borrower/',views.BorrowerList.as_view(),name='borrower_list'),
     path('student/history/<int:user_id>/',views.StudentLibraryHistory.as_view(),name='student_library_history'),
 
+    path("book/status/by/category/",views.BookStatusByCategory.as_view(),name='book_status_by_category'),
+
     path('librarian/',views.LibrarianCreate.as_view(),name='librarian_create'),
 
 

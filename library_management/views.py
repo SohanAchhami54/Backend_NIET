@@ -50,6 +50,29 @@ class BookByCategoryList(APIView):
 
         return Response(df.to_dict(orient='records'),status=status.HTTP_200_OK)
 
+class BookStatusByCategory(APIView):
+    def post(self,request):
+        category_id = request.data['category']
+        available_status = True if request.data['status']=='1' else False
+
+        category = Category.objects.get(id=category_id)
+        objects = BookDetail.objects.filter(book__category=category)
+        
+        serializer = BookDetailSerializer(objects,many=True)
+        df = pd.DataFrame(serializer.data)
+        df['book_name'] = df['book'].map(lambda id:Book.objects.get(id=id).name)
+        df['keyword'] = df['book'].map(lambda id:Book.objects.get(id=id).keyword)
+        df['classification_number'] = df['book'].map(lambda id:Book.objects.get(id=id).classification_number)
+        df['author'] = df['book'].map(lambda id:Book.objects.get(id=id).author.name)
+        df['publisher'] = df['book'].map(lambda id:Book.objects.get(id=id).publisher.name)
+        df['category'] = df['book'].map(lambda id:Book.objects.get(id=id).category.name)
+        total_book = df.shape[0]
+
+        df = df[df['available']==available_status]
+        total_status = df.shape[0]
+        
+        return Response({'total_book':total_book,'total_status':total_status,'record':df.to_dict(orient='records')},status=status.HTTP_200_OK)
+
 
 class BookListPagination(PageNumberPagination):
     page_size = 20  # You can adjust this as needed
@@ -158,7 +181,7 @@ class BorrowedBookList(APIView):
 class BookRecordUpload(APIView):
     parser_classes = [MultiPartParser,FormParser]
     def post(self,request,*args,**kwargs):
-        print(request.data)
+
         serializer = BookRecordUploadSerializer(data=request.data)
         if serializer.is_valid():
             file = serializer.validated_data['file']
