@@ -171,6 +171,23 @@ class AboutUs(models.Model):
     def __str__(self):
         return self.full_name
 
+class BoardMembers(models.Model):
+    full_name = models.CharField(max_length=255, blank=True, null=True)
+    photo = models.FileField(upload_to="uploads/boardmember/", blank=True, null=True)
+    designation = models.CharField(max_length=255, blank=True, null=True)
+    post_name = models.CharField(max_length=255, blank=True, null=True)
+    order_priority = models.IntegerField(default=0,blank=True,null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = "board_members"
+        verbose_name_plural = "board_members"
+
+    def __str__(self):
+        return self.full_name
+
 
 class StaffType(models.Model):
     type_name = models.CharField(max_length=255, blank=True, null=True)

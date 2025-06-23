@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import (
     CoverImage, SliderHome, Feature, AboutUs, StaffType, Staff, CollegeChairman,
     Syllabus, EntranceSyllabus, EligiblityCriteria, ProjectCategory, News,
-    Vaccancy, Notice, Result, ContactMessage, Faq, Gallery,Testimonial,VideoTestimonial,Alumni,ModalImage
+    Vaccancy, Notice, Result, ContactMessage, Faq, Gallery,Testimonial,VideoTestimonial,Alumni,ModalImage,BoardMembers
 )
 
 @admin.register(CoverImage)
@@ -37,6 +37,13 @@ class FeatureAdmin(admin.ModelAdmin):
 class AboutUsAdmin(admin.ModelAdmin):
     list_display = ('full_name', 'short_name', 'affiliation', 'registration', 'created_at', 'updated_at', 'is_active')
     search_fields = ('full_name', 'short_name', 'affiliation', 'registration')
+    list_filter = ('is_active', 'created_at')
+    ordering = ('-created_at',)
+
+@admin.register(BoardMembers)
+class BoardMembersAdmin(admin.ModelAdmin):
+    list_display = ('full_name', 'designation', 'post_name', 'order_priority', 'created_at', 'updated_at', 'is_active')
+    search_fields = ('full_name', 'designation', 'post_name')
     list_filter = ('is_active', 'created_at')
     ordering = ('-created_at',)
 

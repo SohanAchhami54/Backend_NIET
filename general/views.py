@@ -53,9 +53,12 @@ def home(request):
 def aboutus(request):
     about = AboutUs.objects.last()
     chairman = CollegeChairman.objects.last()
+    members = BoardMembers.objects.all().order_by('order_priority')
+    print(members)
     context_dict = {
         'about':about,
         'chairman':chairman,
+        'members':members
     }
     return render(request,'page/aboutus.html',context_dict)
 
