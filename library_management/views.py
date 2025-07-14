@@ -162,6 +162,7 @@ class TransactionList(APIView):
         df['book_name'] = df['book'].map(lambda id: BookDetail.objects.get(id=id).book.name)
         df['accession_number'] = df['book'].map(lambda id: BookDetail.objects.get(id=id).accession_number)
         df['issued_by'] = df['issued_by'].map(lambda id: AppUser.objects.get(id=id).email)
+        df['borrower'] = df['borrower'].map(lambda id:Borrower.objects.get(id=id).name)
 
         # Paginated response
         return paginator.get_paginated_response(df.to_dict(orient='records'))
