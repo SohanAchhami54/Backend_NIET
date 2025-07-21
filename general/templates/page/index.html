@@ -276,7 +276,7 @@
 <!-- faq ends  -->
 
 <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+<!-- <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -288,10 +288,69 @@
       </div>
     </div>
   </div>
+</div> -->
+
+<span id="modalCount" data-count="{{ modal_images|length }}"></span>
+
+
+{% for modal in modal_images %}
+<div class="modal fade" id="modal{{ forloop.counter }}" tabindex="-1" aria-labelledby="modalTitle{{ forloop.counter }}" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitle{{ forloop.counter }}">{{modal.title}}</h5>
+        <button type="button" class="btn-close modal-next-btn" data-index="{{ forloop.counter0 }}" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <img class="img-fluid" src="{{ modal.photo.url }}" alt="" style="object-fit: cover;">
+      </div>
+    </div>
+  </div>
 </div>
+{% endfor %}
 
 
-    <script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const countEl = document.getElementById("modalCount");
+    const modalCount = parseInt(countEl.getAttribute("data-count")) || 0;
+    const modals = [];
+
+    for (let i = 1; i <= modalCount; i++) {
+      const modalEl = document.getElementById("modal" + i);
+      if (modalEl) {
+        modals.push(new bootstrap.Modal(modalEl, {
+          backdrop: 'static',
+          keyboard: false
+        }));
+      }
+    }
+
+    function showModal(index) {
+      if (index < modals.length) {
+        modals[index].show();
+      }
+    }
+
+    document.querySelectorAll(".modal-next-btn").forEach((btn, index) => {
+      btn.addEventListener("click", function () {
+        modals[index].hide();
+        if (index + 1 < modals.length) {
+          setTimeout(() => showModal(index + 1), 500);
+        }
+      });
+    });
+
+    if (modals.length > 0) {
+      showModal(0);
+    }
+  });
+</script>
+
+
+
+
+    <!-- <script>
         document.addEventListener("DOMContentLoaded", function () {
             var myModal = new bootstrap.Modal(document.getElementById("myModal"), {
                 backdrop: 'static', // Prevent clicking outside to close
@@ -303,7 +362,10 @@
                 myModal.hide();
             }, 10000); // Auto close after 10 seconds
         });
-    </script>
+    </script> -->
+
+
+
 
 
 

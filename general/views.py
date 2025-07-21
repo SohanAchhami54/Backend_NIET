@@ -15,7 +15,7 @@ def home(request):
     sliders = SliderHome.objects.all().order_by('order_priority')
     features = Feature.objects.filter(is_active=True)
     about = AboutUs.objects.last()
-    modal_image = ModalImage.objects.last()
+    modal_images = ModalImage.objects.filter(is_active=True).order_by('-id')
     galleries = Gallery.objects.order_by('-id')[:4]
     events = News.objects.filter(is_active=True).order_by('-id')
     scroller_events = News.objects.filter(is_active=True,scroll=True).order_by('-id')
@@ -45,9 +45,9 @@ def home(request):
         'video_testimonials':video_testimonials,
         'scroll_events':scroller_events,
         'scroll_notices':scroller_notices,
-        'modal_image':modal_image
+        'modal_images':modal_images
     }
-    print(modal_image.photo.url)
+
     return render(request,'page/index.html',context_dict)
 
 def aboutus(request):
