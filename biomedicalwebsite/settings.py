@@ -46,11 +46,13 @@ INSTALLED_APPS = [
     "general",
     "userprofile",
     "management",
+    "drf_yasg",
     "student_management",
     "library_management",
     "rest_framework",
     "rest_framework_simplejwt",
     "django_ckeditor_5",
+
 ]
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'

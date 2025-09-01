@@ -1,0 +1,4 @@
+import runpy
+runpy.run_path('book_upload.py')
+
+ python manage.py migrate library_management zero

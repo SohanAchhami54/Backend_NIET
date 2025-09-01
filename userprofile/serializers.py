@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from userprofile.models import AppUser
+from userprofile.models import AppUser,UserType
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
@@ -27,6 +27,17 @@ class AppUserPublicSerializer(serializers.ModelSerializer):
     class Meta:
         model = AppUser
         fields = ('id','email',)
+
+class UserTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserType
+        fields = ('id','name')
+
+class AppUserDetailSerializer(serializers.ModelSerializer):
+    usertype = UserTypeSerializer()
+    class Meta:
+        model = AppUser
+        fields = ('id','email','usertype')
 
 class AppUserSerializer(serializers.ModelSerializer):
     class Meta:

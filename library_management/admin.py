@@ -38,12 +38,12 @@ class BookAdmin(admin.ModelAdmin):
     fields = ('name', 'keyword', 'classification_number', 'author', 'publisher', 'edition_number', 'publication_year', 'copies','category', 'is_active')
     readonly_fields = ('created_at', 'updated_at')
 
-@admin.register(BookDetail)
-class BookDetailAdmin(admin.ModelAdmin):
-    list_display = ('book', 'isbn', 'accession_number')
-    search_fields = ('book__name', 'isbn', 'accession_number')
-    ordering = ('book',)
-    fields = ('book', 'isbn', 'accession_number')
+# @admin.register(BookDetail)
+# class BookDetailAdmin(admin.ModelAdmin):
+#     list_display = ('book', 'isbn', 'accession_number')
+#     search_fields = ('book__name', 'isbn', 'accession_number')
+#     ordering = ('book',)
+#     fields = ('book', 'isbn', 'accession_number')
 
 
 @admin.register(BorrowerType)
@@ -54,9 +54,9 @@ class BorrowerTypeAdmin(admin.ModelAdmin):
 
 @admin.register(Borrower)
 class BorrowerAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'registration_number', 'borrower_type')
+    list_display = ('id', 'name', 'library_id', 'borrower_type')
     list_filter = ('borrower_type', 'is_active')
-    search_fields = ('name', 'registration_number', 'borrower_type__name')
+    search_fields = ('name', 'library_id', 'borrower_type__name')
     ordering = ('name',)
     autocomplete_fields = ('borrower_type',)
 
@@ -67,11 +67,11 @@ class BorrowerAdmin(admin.ModelAdmin):
 
 @admin.register(Transaction)
 class TransactionAdmin(admin.ModelAdmin):
-    list_display = ('borrower', 'book', 'number_of_copies', 'issued_date', 'returned_date', 'has_returned', 'issued_by', 'created_at', 'updated_at', 'is_active')
+    list_display = ('borrower', 'book', 'number_of_copies', 'from_date','returned_date', 'has_returned', 'issued_by', 'created_at', 'updated_at', 'is_active')
     list_filter = ('borrower', 'book', 'has_returned', 'is_active')
     search_fields = ('borrower__name', 'book__title')  # Adjust the fields for searching based on the related models
-    date_hierarchy = 'issued_date'
-    ordering = ('-issued_date',)  # Order by the most recent transaction
+    date_hierarchy = 'from_date'
+    ordering = ('-from_date',)  # Order by the most recent transaction
 
     # Optionally, make fields read-only or add custom validation
     readonly_fields = ('created_at', 'updated_at')
