@@ -8,6 +8,8 @@ media
 
 # Backup files # 
 *.bak 
+*.xlsx
+*.txt
 
 # If you are using PyCharm # 
 # User-specific stuff
