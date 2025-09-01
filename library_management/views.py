@@ -52,7 +52,7 @@ class CreateBorrower(APIView):
         staff_borrower_type,created = BorrowerType.objects.get_or_create(name="staff")
 
         students = Student.objects.filter(is_active=True)
-        for student in students[:5]:
+        for student in students:
             borrower= Borrower.objects.filter(
                 email = student.user.email,
             )

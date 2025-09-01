@@ -2,3 +2,5 @@ import runpy
 runpy.run_path('book_upload.py')
 
  python manage.py migrate library_management zero
+
+ scp /path/to/local/file username@server_ip:/path/to/remote/directory
