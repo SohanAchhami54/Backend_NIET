@@ -88,11 +88,11 @@ class BookList(APIView):
         serializers = BookSerializer(objects,many=True)
         return Response(serializers.data,status=status.HTTP_200_OK)
 
-class BookList(APIView):
-    def get(self, request):
-        objects = Book.objects.all()
-        serializers = BookSerializer(objects,many=True)
-        return Response(serializers.data,status=status.HTTP_200_OK)
+# class BookList(APIView):
+#     def get(self, request):
+#         objects = Book.objects.all()
+#         serializers = BookSerializer(objects,many=True)
+#         return Response(serializers.data,status=status.HTTP_200_OK)
 
 class AvailableBookList(APIView):
     def get(self, request):
@@ -164,6 +164,13 @@ class ActiveTransactionList(APIView):
         serializers = TransactionSerializer(transactions,many=True)
         return Response(serializers.data,status=status.HTTP_200_OK)
 
+class BookByCategoryList(APIView):
+    def get(self,request,id):
+        category = Category.objects.get(id=id)
+        objects = Book.objects.filter(category=category,is_active=True)
+        
+        serializer = BookSerializer(objects,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
 
             
 

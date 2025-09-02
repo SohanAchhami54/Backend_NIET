@@ -17,6 +17,7 @@ urlpatterns = [
     path('borrowed/book/<int:id>/',views.BorrowedBookList.as_view(),name='borrowed_book_list'),
     path('return/book/',views.ReturnBook.as_view(),name='return_book'),
     path('transaction/',views.ActiveTransactionList.as_view(),name='transaction_list'),
+    path('book/by/category/<int:id>/',views.BookByCategoryList.as_view(),name='book_bycategory_list'),
 
 
     
