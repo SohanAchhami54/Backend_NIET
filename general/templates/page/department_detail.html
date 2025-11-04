@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% block department_detail %}
+
+<!-- Header Start -->
+<div class="container-fluid bg-primary py-5 mb-5 page-header">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 text-center">
+                <h1 class="display-3 text-white animated slideInDown">{{ department.name }}</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center">
+                        <li class="breadcrumb-item"><a class="text-white" href="/">Home</a></li>
+                        <li class="breadcrumb-item text-white active" aria-current="page">Department</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Header End -->
+
+<!-- Department Info Tabs -->
+<div class="container-xxl py-5">
+    <div class="container">
+
+        <div class="text-center mb-5">
+            <h6 class="section-title bg-white text-center text-primary px-3">{{ department.name }}</h6>
+            <h1 class="mb-3">Department Details</h1>
+            <p><strong>Head of Department:</strong> {{ department.head_of_department.full_name }}</p>
+            <p><strong>Established On:</strong> {{ department.established_date }}</p>
+        </div>
+
+        <!-- Bootstrap Tabs -->
+        <ul class="nav nav-tabs justify-content-center mb-4" id="deptTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview" type="button" role="tab">Overview</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="teachers-tab" data-bs-toggle="tab" data-bs-target="#teachers" type="button" role="tab">Teachers</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="alumni-tab" data-bs-toggle="tab" data-bs-target="#alumni" type="button" role="tab">Alumni</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="gallery-tab" data-bs-toggle="tab" data-bs-target="#gallery" type="button" role="tab">Gallery</button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="deptTabContent">
+
+            <!-- Overview -->
+            <div class="tab-pane fade show active" id="overview" role="tabpanel">
+                <div class="wow fadeInUp" data-wow-delay="0.1s">
+                    <h4 class="text-primary mb-3">About Department</h4>
+                    <p class="mb-4">{{ department.description|safe }}</p>
+
+                    <h5 class="text-secondary mt-4">Syllabus</h5>
+                    <p>{{ department.syllabus.title }}</p>
+                    <a class="btn btn-primary btn-sm mt-2" href="{{ department.syllabus.pdf.url }}" target="_blank">
+                        <i class="fa fa-file-pdf me-2"></i> View Syllabus PDF
+                    </a>
+                </div>
+            </div>
+
+            <!-- Teachers -->
+            <div class="tab-pane fade" id="teachers" role="tabpanel">
+                <div class="text-center mb-4">
+                    <h4 class="section-title bg-white text-primary px-3">Faculty Members</h4>
+                </div>
+                <div class="row g-4">
+                    {% for dt in department.departmentteachers_set.all %}
+                        <div class="col-lg-3 col-md-6 wow fadeInUp">
+                            <div class="team-item bg-light">
+                                <div class="overflow-hidden">
+                                    {% if dt.teacher.photo %}
+                                        <img class="img-fluid" src="{{ dt.teacher.photo.url }}" alt="{{ dt.teacher.full_name }}">
+                                    {% else %}
+                                        <img class="img-fluid" src="/static/img/default-user.jpg" alt="No Photo">
+                                    {% endif %}
+                                </div>
+                                <div class="text-center p-4">
+                                    <h5 class="mb-0">{{ dt.teacher.full_name }}</h5>
+                                    <small>{{ dt.teacher.designation }}</small>
+                                    <p class="text-muted mb-0">{{ dt.teacher.education }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <p class="text-center text-muted">No teachers listed in this department yet.</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Alumni -->
+            <div class="tab-pane fade alumni-details" id="alumni" role="tabpanel">
+                <div class="text-center mb-4">
+                    <h4 class="section-title bg-white text-primary px-3">Our Alumni</h4>
+                </div>
+                <div class="row g-4">
+                    {% for da in department.departmentalumni_set.all %}
+                        <div class="col-lg-4 col-md-6 wow fadeInUp">
+                            <div class="bg-light text-center p-4 h-100">
+                                {% if da.alumni.profile_picture %}
+                                    <img src="{{ da.alumni.profile_picture.url }}" class="img-fluid mb-3" alt="{{ da.alumni.full_name }}">
+                                {% endif %}
+                                <h5 class="text-primary">{{ da.alumni.full_name }}</h5>
+                                <p><strong>{{ da.alumni.current_position }}</strong> at {{ da.alumni.company_name }}</p>
+                                <p class="mb-1 text-muted">{{ da.alumni.department }} — Batch {{ da.alumni.batch }}</p>
+                                {% if da.alumni.message %}
+                                    <blockquote class="blockquote mb-0">{{ da.alumni.message }}</blockquote>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% empty %}
+                        <p class="text-center text-muted">No alumni details available for this department yet.</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Gallery -->
+            <div class="tab-pane fade" id="gallery" role="tabpanel">
+                <div class="text-center mb-4">
+                    <h4 class="section-title bg-white text-primary px-3">Gallery</h4>
+                </div>
+                <div class="row g-4">
+                    {% for dg in department.departmentgallery_set.all %}
+                        <div class="col-lg-3 col-md-4 col-sm-6 wow fadeInUp">
+                            <div class="gallery-item">
+                                {% if dg.gallery.photo %}
+                                    <img src="{{ dg.gallery.photo.url }}" class="img-fluid rounded" alt="Gallery Image">
+                                {% endif %}
+                                <div class="card-body">
+                                    <p class="text-muted">{{ dg.gallery.description|safe }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <p class="text-center text-muted">No gallery images available for this department yet.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

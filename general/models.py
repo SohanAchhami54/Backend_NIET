@@ -568,5 +568,59 @@ class Alumni(models.Model):
             self.slug = slugify(f'{self.full_name.replace(" ","-")}-{self.id}')
         super(Alumni, self).save(*args, **kwargs)
 
+from student_management.models import Teacher
+
+class Department(models.Model):
+    name = models.CharField(max_length=255)
+    established_date = models.DateField()
+    description = CKEditor5Field('description', config_name='extends')
+    head_of_department = models.ForeignKey(Teacher,on_delete=models.CASCADE,blank=True,null=True)
+    syllabus = models.ForeignKey(Syllabus,on_delete=models.CASCADE)
+    slug = models.SlugField(max_length=255, unique=True, blank=True, null=True)
+    class Meta:
+        verbose_name_plural = "Department"
+        ordering = ['name',]
+
+    def __str__(self):
+        return f'{self.name}'
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            super().save(*args, **kwargs)
+            self.slug = slugify(f'{self.name.replace(" ","-")}')
+        super(Department, self).save(*args, **kwargs)
+
+class DepartmentTeachers(models.Model):
+    department = models.ForeignKey(Department,on_delete=models.CASCADE)
+    teacher = models.ForeignKey(Teacher,on_delete=models.CASCADE)
+    def __str__(self):
+        return f'Dept: {self.department.name} Teacher: {self.teacher.full_name}'
+    class Meta:
+        verbose_name_plural = "DepartmentTeachers"
+
+class DepartmentGallery(models.Model):
+    department = models.ForeignKey(Department,on_delete=models.CASCADE)
+    gallery = models.ForeignKey(Gallery,on_delete=models.CASCADE)
+    def __str__(self):
+        return f'Dept: {self.department.name}'
+    class Meta:
+        verbose_name_plural = "DepartmentGalleries"
+
+class DepartmentAlumni(models.Model):
+    department = models.ForeignKey(Department,on_delete=models.CASCADE)
+    alumni = models.ForeignKey(Alumni,on_delete=models.CASCADE)
+    def __str__(self):
+        return f'Dept: {self.department.name}'
+    class Meta:
+        verbose_name_plural = "DepartmentAlumnies"
+
+
+
+
+
+
+
+
+
 
 

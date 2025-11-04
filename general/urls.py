@@ -34,6 +34,8 @@ urlpatterns = [
     path("our/alumni/",views.get_alumni,name='get_alumni'),
     path("alumni/message/<slug:slug>/",views.get_alumni_message,name='get_alumni_message'),
 
+    path('department/<slug:slug>/',views.department_detail,name='department_detail'),
+
     # path("chairman/message/",views.get_chairman_message,name="chairman_message"),
 
     # for API

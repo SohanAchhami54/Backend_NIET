@@ -28,6 +28,8 @@ def home(request):
     testimonials = Testimonial.objects.filter(is_active=True).order_by('-id')
     video_testimonials = VideoTestimonial.objects.filter(is_active=True).order_by('-id')
     faqs = Faq.objects.all()
+    departments = Department.objects.all()
+
     if(len(events)>=6):
         events = events[:6]
     
@@ -45,7 +47,8 @@ def home(request):
         'video_testimonials':video_testimonials,
         'scroll_events':scroller_events,
         'scroll_notices':scroller_notices,
-        'modal_images':modal_images
+        'modal_images':modal_images,
+        'departments':departments,
     }
 
     return render(request,'page/index.html',context_dict)
@@ -54,11 +57,12 @@ def aboutus(request):
     about = AboutUs.objects.last()
     chairman = CollegeChairman.objects.last()
     members = BoardMembers.objects.all().order_by('order_priority')
-    print(members)
+    departments = Department.objects.all()
     context_dict = {
         'about':about,
         'chairman':chairman,
-        'members':members
+        'members':members,
+        'departments':departments
     }
     return render(request,'page/aboutus.html',context_dict)
 
@@ -66,21 +70,23 @@ def aboutus(request):
 def get_faculties(request):
     ft = StaffType.objects.get(type_name="teaching")
     fulltime_faculties = Staff.objects.filter(staff_type=ft,job_type="1").order_by('order_priority')
-    print(fulltime_faculties)
 
     visiting_faculties = Staff.objects.filter(staff_type=ft,job_type="2").order_by('order_priority')
+    departments = Department.objects.all()
 
     context_dict = {
         'ff':fulltime_faculties,
         'vf':visiting_faculties,
+        'departments':departments
     }
     return render(request,'page/staff.html',context_dict)
 
 def get_syllabus(request):
     syllabus = Syllabus.objects.filter(is_active=True).order_by('-id')
-    print(syllabus)
+    departments = Department.objects.all()
     context_dict = {
-        'syllabus':syllabus
+        'syllabus':syllabus,
+        'departments':departments
     }
     return render(request,'page/syllabus.html',context_dict)
 
@@ -95,9 +101,10 @@ def get_syllabus_detail(request,slug):
 
 def get_news(request):
     newscontents = News.objects.filter(is_active=True).order_by('-id')
-
+    departments = Department.objects.all()
     context_dict = {
         'events':newscontents,
+        'departments':departments
 
     }
     return render(request,'page/news.html',context_dict)
@@ -112,8 +119,10 @@ def get_news_detail(request,slug):
 # notice and results 
 def get_notice(request):
     results = Notice.objects.filter(is_active=True).order_by('-id')
+    departments = Department.objects.all()
     context_dict = {
-        'results':results
+        'results':results,
+        'departments':departments
     }
     return render(request,'page/notice.html',context_dict)
 
@@ -127,8 +136,10 @@ def get_notice_detail(request,slug):
 # views for result 
 def get_result(request):
     results = Result.objects.filter(is_active=True).order_by('-id')
+    departments = Department.objects.all()
     context_dict = {
-        'results':results
+        'results':results,
+        'departments':departments
     }
     return render(request,'page/result.html',context_dict)
 
@@ -141,47 +152,57 @@ def get_result_detail(request,slug):
 
 def get_vaccancy(request):
     results = Vaccancy.objects.filter(is_active=True).order_by('-id')
+    departments = Department.objects.all()
     context_dict = {
-
+        'departments':departments,
         'results':results
     }
     return render(request,'page/vaccancy.html',context_dict)
 
 def get_vaccancy_detail(request,slug):
     result = Vaccancy.objects.get(is_active=True,slug=slug)
+    departments = Department.objects.all()
     context_dict = {
-        'result':result
+        'result':result,
+        'departments':departments
     }
     return render(request,'page/vaccancy_detail.html',context_dict)
 
 # entrance syllabus 
 def get_entrance_syllabus(request):
     results = EntranceSyllabus.objects.filter(is_active=True)
+    departments = Department.objects.all()
     context_dict = {
-        'results':results
+        'results':results,
+        'departments':departments
     }
     return render(request,'page/entrance.html',context_dict)
 
 def get_entrance_syllabus_detail(request,slug):
     results = EntranceSyllabus.objects.get(is_active=True,slug=slug)
-
+    departments = Department.objects.all()
     context_dict = {
-        'result':results
+        'result':results,
+        'departments':departments
     }
     return render(request,'page/entrance_detail.html',context_dict)
 
 # eligiblity criteria 
 def get_eligiblity_criteria(request):
     results = EligiblityCriteria.objects.filter(is_active=True)
+    departments = Department.objects.all()
     context_dict = {
-        'results':results
+        'results':results,
+        'departments':departments
     }
     return render(request,'page/eligiblity.html',context_dict)
 
 def get_eligiblity_criteria_detail(request,slug):
     results = EligiblityCriteria.objects.get(is_active=True,slug=slug)
+    departments = Department.objects.all()
     context_dict = {
-        'result':results
+        'result':results,
+        'departments':departments
     }
     return render(request,'page/eligiblity_detail.html',context_dict)
 
@@ -189,14 +210,17 @@ def get_eligiblity_criteria_detail(request,slug):
 
 def get_gallery(request):
     gallery = Gallery.objects.all()
+    departments = Department.objects.all()
     context_dict = {
         'gallery':gallery,
+        'departments':departments
     }
     return render(request,'page/gallery.html',context_dict)
 
 def get_alumni_message(request,slug):
     alumni = Alumni.objects.get(slug=slug)
-    context_dict = {'alumni':alumni}
+    departments = Department.objects.all()
+    context_dict = {'alumni':alumni,'departments':departments}
     return render(request,'page/alumni_message.html',context_dict)
 
 
@@ -286,16 +310,20 @@ def get_staff(request):
     about = AboutUs.objects.last()
     ft = StaffType.objects.get(type_name="non-teaching")
     staffs = Staff.objects.filter(staff_type=ft).order_by('order_priority')
+    departments = Department.objects.all()
     context_dict = {
         'ff':staffs,
+        'departments':departments
     }
     return render(request,'page/nonstaff.html',context_dict)
 
 def get_alumni(request):
     about = AboutUs.objects.last()
     alumnis = Alumni.objects.all()
+    departments = Department.objects.all()
     context_dict = {
         'alumnis':alumnis,
+        'departments':departments
     }
     return render(request,'page/alumni.html',context_dict)
 
@@ -304,8 +332,10 @@ def get_alumni(request):
 
 def contact_us(request):
     about = AboutUs.objects.last()
+    departments = Department.objects.all()
     context_dict = {
         'about':about,
+        'departments':departments
     }
     return render(request,'page/contact.html',context_dict)
 
@@ -335,6 +365,14 @@ def get_enquiry(request):
         'about':about,
     }
     return render(request,'page/enquiry.html',context_dict)
+
+
+from django.shortcuts import render, get_object_or_404
+
+def department_detail(request, slug):
+    department = get_object_or_404(Department, slug=slug)
+    departments = Department.objects.all()
+    return render(request, 'page/department_detail.html', {'department': department,'departments':departments})
 
 
 # drf api view 
@@ -380,6 +418,7 @@ class ScrollNewsList(APIView):
         object = News.objects.all()
         serializer = NewsSerializer(object,many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
+
 
 
 

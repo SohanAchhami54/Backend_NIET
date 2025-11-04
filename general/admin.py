@@ -1,9 +1,5 @@
 from django.contrib import admin
-from .models import (
-    CoverImage, SliderHome, Feature, AboutUs, StaffType, Staff, CollegeChairman,
-    Syllabus, EntranceSyllabus, EligiblityCriteria, ProjectCategory, News,
-    Vaccancy, Notice, Result, ContactMessage, Faq, Gallery,Testimonial,VideoTestimonial,Alumni,ModalImage,BoardMembers
-)
+from .models import *
 
 @admin.register(CoverImage)
 class CoverImageAdmin(admin.ModelAdmin):
@@ -186,6 +182,68 @@ class AlumniAdmin(admin.ModelAdmin):
     list_filter = ('batch', 'department', 'current_position', 'created_at')
     search_fields = ('full_name', 'email', 'batch', 'department', 'current_position', 'company_name')
     ordering = ('-created_at', 'full_name')
+
+
+# for departments 
+
+# Inline Models for Department
+class DepartmentTeachersInline(admin.TabularInline):
+    model = DepartmentTeachers
+    extra = 1
+    autocomplete_fields = ['teacher']
+
+
+class DepartmentGalleryInline(admin.TabularInline):
+    model = DepartmentGallery
+    extra = 1
+    autocomplete_fields = ['gallery']
+
+
+class DepartmentAlumniInline(admin.TabularInline):
+    model = DepartmentAlumni
+    extra = 1
+    autocomplete_fields = ['alumni']
+
+
+@admin.register(Department)
+class DepartmentAdmin(admin.ModelAdmin):
+    list_display = ['name', 'head_of_department', 'established_date', 'syllabus']
+    search_fields = ['name', 'head_of_department__full_name']
+    list_filter = ['established_date']
+    inlines = [DepartmentTeachersInline, DepartmentGalleryInline, DepartmentAlumniInline]
+    ordering = ['name']
+    readonly_fields = []
+
+    fieldsets = (
+        ('Basic Information', {
+            'fields': ('name', 'established_date', 'description')
+        }),
+        ('Administrative Details', {
+            'fields': ('head_of_department', 'syllabus')
+        }),
+    )
+
+
+@admin.register(DepartmentTeachers)
+class DepartmentTeachersAdmin(admin.ModelAdmin):
+    list_display = ['department', 'teacher']
+    search_fields = ['department__name', 'teacher__full_name']
+    list_filter = ['department']
+
+
+@admin.register(DepartmentGallery)
+class DepartmentGalleryAdmin(admin.ModelAdmin):
+    list_display = ['department', 'gallery']
+    search_fields = ['department__name']
+    list_filter = ['department']
+
+
+@admin.register(DepartmentAlumni)
+class DepartmentAlumniAdmin(admin.ModelAdmin):
+    list_display = ['department', 'alumni']
+    search_fields = ['department__name', 'alumni__full_name']
+    list_filter = ['department']
+
 
 
 

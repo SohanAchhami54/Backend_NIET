@@ -101,6 +101,9 @@
                 <div class="dropdown-menu fade-down m-0">
                     <li><a class="dropdown-item" href="/our/faculty/">Faculty</a></li>
                     <li><a class="dropdown-item" href="/syllabus/">Syllabus</a></li>
+                    {% for department in departments %}
+                    <li><a class="dropdown-item" href="/department/{{department.slug}}/">{{department.name}}</a></li>
+                    {% endfor %}
                 </div>
             </div>
 
@@ -183,6 +186,11 @@
 
     {% block contactus %}
     {% endblock %}
+
+    {% block department_detail %}
+    {% endblock %}
+
+
 
 
 
