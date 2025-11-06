@@ -575,7 +575,7 @@ class Department(models.Model):
     established_date = models.DateField()
     description = CKEditor5Field('description', config_name='extends')
     head_of_department = models.ForeignKey(Teacher,on_delete=models.CASCADE,blank=True,null=True)
-    syllabus = models.ForeignKey(Syllabus,on_delete=models.CASCADE)
+    syllabus = models.ForeignKey(Syllabus,on_delete=models.CASCADE,blank=True,null=True)
     slug = models.SlugField(max_length=255, unique=True, blank=True, null=True)
     class Meta:
         verbose_name_plural = "Department"
