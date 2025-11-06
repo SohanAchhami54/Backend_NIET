@@ -54,12 +54,13 @@
                 <div class="wow fadeInUp" data-wow-delay="0.1s">
                     <h4 class="text-primary mb-3">About Department</h4>
                     <p class="mb-4">{{ department.description|safe }}</p>
-
+                    {% if department.syllabus %}
                     <h5 class="text-secondary mt-4">Syllabus</h5>
                     <p>{{ department.syllabus.title }}</p>
                     <a class="btn btn-primary btn-sm mt-2" href="{{ department.syllabus.pdf.url }}" target="_blank">
                         <i class="fa fa-file-pdf me-2"></i> View Syllabus PDF
                     </a>
+                    {% endif %}
                 </div>
             </div>
 

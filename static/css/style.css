@@ -705,3 +705,37 @@
 .alumni-details a:hover {
   text-decoration: underline;
 }
+
+/* Show dropdown on hover */
+.nav-item.dropdown:hover > .dropdown-menu {
+  display: block;
+  margin-top: 0;
+}
+
+/* Hide nested dropdowns by default */
+.dropdown-menu .dropdown-menu {
+  display: none;
+  position: absolute;
+  left: 100%;
+  top: 0;
+  margin-top: 0;
+}
+
+/* Show nested dropdown on hover */
+.dropdown-menu .dropdown.dropend:hover > .dropdown-menu {
+  display: block;
+}
+
+/* Hide default Bootstrap arrow */
+.dropdown-item.dropdown-toggle::after {
+  display: none;
+}
+
+/* Rotate the right arrow slightly on hover */
+.dropdown-item.dropdown-toggle i {
+  transition: transform 0.2s;
+}
+
+.dropdown-item.dropdown-toggle:hover i {
+  transform: translateX(2px);
+}
