@@ -325,11 +325,9 @@ SIMPLE_JWT = {
 }
 
 
-# for simple jwt 
-# settings.py
-from datetime import timedelta # import this library top of the settings.py file
 
-# put on your settings.py file below INSTALLED_APPS
+from datetime import timedelta 
+
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',

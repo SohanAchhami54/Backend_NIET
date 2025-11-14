@@ -1,5 +1,6 @@
 from django.urls import path
 from general import views
+ 
 
 
 app_name = "general"
@@ -39,8 +40,46 @@ urlpatterns = [
     # path("chairman/message/",views.get_chairman_message,name="chairman_message"),
 
     # for API
-    path('aboutus/',views.AboutUsList.as_view(),name='aboutus_list'),
-    path('slider/',views.SliderHomeList.as_view(),name='slider_images'),
-    path('scrollnews/',views.ScrollNewsList.as_view(),name='scroll_news_list'),
-    path('gallery/list/',views.GalleryList.as_view(),name='gallery_list'),
+    # path('aboutus/',views.AboutUsList.as_view(),name='aboutus_list'),
+    # path('slider/',views.SliderHomeList.as_view(),name='slider_images'),
+    # path('scrollnews/',views.ScrollNewsList.as_view(),name='scroll_news_list'),
+    # path('gallery/list/',views.GalleryList.as_view(),name='gallery_list'),
+
+    path('api/cover-images/', views.CoverImageList.as_view(), name='cover-image-list'),
+    path('api/modal-images/', views.ModalImageList.as_view(), name='modal-image-list'),
+    path('api/slider-home/', views.SliderHomeList.as_view(), name='slider-home-list'),
+    path('api/features/', views.FeatureList.as_view(), name='feature-list'),
+    path('api/about-us/', views.AboutUsList.as_view(), name='about-us-list'),
+    path('api/board-members/', views.BoardMembersList.as_view(), name='board-members-list'),
+    path('api/staff-types/', views.StaffTypeList.as_view(), name='staff-type-list'),
+    path('api/staff/', views.StaffList.as_view(), name='staff-list'),
+    path('api/college-chairman/', views.CollegeChairmanList.as_view(), name='college-chairman-list'),
+    path('api/syllabus/', views.SyllabusList.as_view(), name='syllabus-list'),
+    path('api/entrance-syllabus/', views.EntranceSyllabusList.as_view(), name='entrance-syllabus-list'),
+    path('api/eligibility-criteria/', views.EligiblityCriteriaList.as_view(), name='eligibility-criteria-list'),
+    path('api/project-categories/', views.ProjectCategoryList.as_view(), name='project-category-list'),
+    path('api/news/', views.NewsList.as_view(), name='news-list'),
+    path('api/vacancies/', views.VaccancyList.as_view(), name='vacancy-list'),
+    path('api/notices/', views.NoticeList.as_view(), name='notice-list'),
+    path('api/results/', views.ResultList.as_view(), name='result-list'),
+    path('api/contact-messages/', views.ContactMessageList.as_view(), name='contact-message-list'),
+    path('api/faqs/', views.FaqList.as_view(), name='faq-list'),
+    path('api/gallery/', views.GalleryList.as_view(), name='gallery-list'),
+    path('api/testimonials/', views.TestimonialList.as_view(), name='testimonial-list'),
+    path('api/video-testimonials/', views.VideoTestimonialList.as_view(), name='video-testimonial-list'),
+    path('api/alumni/', views.AlumniList.as_view(), name='alumni-list'),
+    path('api/departments/', views.DepartmentList.as_view(), name='department-list'),
+    path('api/department-teachers/', views.DepartmentTeachersList.as_view(), name='department-teachers-list'),
+    path('api/department-gallery/', views.DepartmentGalleryList.as_view(), name='department-gallery-list'),
+    path('api/department-alumni/', views.DepartmentAlumniList.as_view(), name='department-alumni-list'),
+
+    path('api/syllabus/<slug:slug>/',views.SyllabusDetailView.as_view(),name='syllabus-detail-view'),
+    path('api/news/<slug:slug>/',views.NewsDetailView.as_view(),name='news-list-details-views'),
+    path('api/notice/<slug:slug>/',views.NoticeDetailView.as_view(),name='notice-detail-view'),
+    path('api/result/<slug:slug>/',views.ResultDetailView.as_view(),name='result-detail-view'),
+    path('api/vaccancy/<slug:slug>/',views.VaccancyDetailView.as_view(),name='vaccancy-detail-view'),
+    path('api/entrance-syllabus/<slug:slug>/',views.EntranceSyllabusDetailView.as_view(),name='entrance-syllabus-detail-view'),
+    path('api/eligiblity-criteria/<slug:slug>/',views.EligiblityCriteriaDetailView.as_view(),name='eligiblity-detail-view'),
+    path('api/alumni-message/<slug:slug>/',views.AlumniDetailView.as_view(),name='alumni-detail-view'),
+    path('api/department/<slug:slug>/',views.DepartmentDetailView.as_view(),name='department-detail-view'),
 ] 

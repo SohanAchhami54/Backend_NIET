@@ -1,3 +1,4 @@
+from datetime import date
 from django.db import models
 from userprofile.models import AppUser
 
@@ -139,8 +140,11 @@ class DegreeSemester(models.Model):
 class BatchSemester(models.Model):
     degree_batch = models.ForeignKey(DegreeBatch,on_delete=models.CASCADE)
     academic_semester = models.ForeignKey(AcademicSemester,on_delete=models.CASCADE)
-    start_month = models.CharField(max_length=25,blank=True,null=True)
-    end_month = models.CharField(max_length=25,blank=True,null=True)
+    start_date = models.DateField(default=date.today)
+    end_date = models.DateField(default=date.today)
+
+    # start_month = models.CharField(max_length=25,blank=True,null=True)
+    # end_month = models.CharField(max_length=25,blank=True,null=True)
     is_running = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -205,7 +209,7 @@ class AcademicSubject(models.Model):
         verbose_name_plural = "academic_subject"
     
     def __str__(self):
-        return f'{self.name} [{self.code}]'
+        return f'{self.degree_semester} || {self.name} [{self.code}]'
 
 
 class Teacher(models.Model):

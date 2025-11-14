@@ -387,37 +387,256 @@ class ContactMessageCreate(APIView):
 # for api 
 from rest_framework.permissions import AllowAny
 
-class AboutUsList(APIView):
-    authentication_classes = []  
-    permission_classes = [AllowAny]
-    def get(self,request):
-        object = AboutUs.objects.all()[0]
-        serializer = AboutUsSerializer(object)
-        return Response(serializer.data,status=status.HTTP_200_OK)
+# class AboutUsList(APIView):
+#     authentication_classes = []  
+#     permission_classes = [AllowAny]
+#     def get(self,request):
+#         object = AboutUs.objects.all()[0]
+#         serializer = AboutUsSerializer(object)
+#         return Response(serializer.data,status=status.HTTP_200_OK)
 
-class SliderHomeList(APIView):
-    authentication_classes = []  
-    permission_classes = [AllowAny]
-    def get(self,request):
-        object = SliderHome.objects.all()
-        serializer = SliderHomeSerializer(object,many=True)
-        return Response(serializer.data,status=status.HTTP_200_OK)
+# class SliderHomeList(APIView):
+#     authentication_classes = []  
+#     permission_classes = [AllowAny]
+#     def get(self,request):
+#         object = SliderHome.objects.all()
+#         serializer = SliderHomeSerializer(object,many=True)
+#         return Response(serializer.data,status=status.HTTP_200_OK)
 
-class GalleryList(APIView):
-    authentication_classes = []  
-    permission_classes = [AllowAny]
-    def get(self,request):
-        object = Gallery.objects.all()
-        serializer = GallerySerializer(object,many=True)
-        return Response(serializer.data,status=status.HTTP_200_OK)
+# class GalleryList(APIView):
+#     authentication_classes = []  
+#     permission_classes = [AllowAny]
+#     def get(self,request):
+#         object = Gallery.objects.all()
+#         serializer = GallerySerializer(object,many=True)
+#         return Response(serializer.data,status=status.HTTP_200_OK)
 
-class ScrollNewsList(APIView):
-    authentication_classes = []  
+# class ScrollNewsList(APIView):
+#     authentication_classes = []  
+#     permission_classes = [AllowAny]
+#     def get(self,request):
+#         object = News.objects.all()
+#         serializer = NewsSerializer(object,many=True)
+#         return Response(serializer.data,status=status.HTTP_200_OK)
+
+
+class BaseListView(APIView):
+    authentication_classes = []
     permission_classes = [AllowAny]
-    def get(self,request):
-        object = News.objects.all()
-        serializer = NewsSerializer(object,many=True)
-        return Response(serializer.data,status=status.HTTP_200_OK)
+
+    model = None
+    serializer_class = None
+
+    def get(self, request):
+        queryset = self.model.objects.all().order_by('-id')
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+# -------------------------
+#        API Views
+# -------------------------
+
+class CoverImageList(BaseListView):
+    model = CoverImage
+    serializer_class = CoverImageSerializer
+
+
+class ModalImageList(BaseListView):
+    model = ModalImage
+    serializer_class = ModalImageSerializer
+
+
+class SliderHomeList(BaseListView):
+    model = SliderHome
+    serializer_class = SliderHomeSerializer
+
+
+class FeatureList(BaseListView):
+    model = Feature
+    serializer_class = FeatureSerializer
+
+
+class AboutUsList(BaseListView):
+    model = AboutUs
+    serializer_class = AboutUsSerializer
+
+
+class BoardMembersList(BaseListView):
+    model = BoardMembers
+    serializer_class = BoardMembersSerializer
+
+
+class StaffTypeList(BaseListView):
+    model = StaffType
+    serializer_class = StaffTypeSerializer
+
+
+class StaffList(BaseListView):
+    model = Staff
+    serializer_class = StaffSerializer
+
+
+class CollegeChairmanList(BaseListView):
+    model = CollegeChairman
+    serializer_class = CollegeChairmanSerializer
+
+
+class SyllabusList(BaseListView):
+    model = Syllabus
+    serializer_class = SyllabusSerializer
+
+
+class EntranceSyllabusList(BaseListView):
+    model = EntranceSyllabus
+    serializer_class = EntranceSyllabusSerializer
+
+
+class EligiblityCriteriaList(BaseListView):
+    model = EligiblityCriteria
+    serializer_class = EligiblityCriteriaSerializer
+
+
+class ProjectCategoryList(BaseListView):
+    model = ProjectCategory
+    serializer_class = ProjectCategorySerializer
+
+
+class NewsList(BaseListView):
+    model = News
+    serializer_class = NewsSerializer
+
+
+class VaccancyList(BaseListView):
+    model = Vaccancy
+    serializer_class = VaccancySerializer
+
+
+class NoticeList(BaseListView):
+    model = Notice
+    serializer_class = NoticeSerializer
+
+
+class ResultList(BaseListView):
+    model = Result
+    serializer_class = ResultSerializer
+
+
+class ContactMessageList(BaseListView):
+    model = ContactMessage
+    serializer_class = ContactMessageSerializer
+
+
+class FaqList(BaseListView):
+    model = Faq
+    serializer_class = FaqSerializer
+
+
+class GalleryList(BaseListView):
+    model = Gallery
+    serializer_class = GallerySerializer
+
+
+class TestimonialList(BaseListView):
+    model = Testimonial
+    serializer_class = TestimonialSerializer
+
+
+class VideoTestimonialList(BaseListView):
+    model = VideoTestimonial
+    serializer_class = VideoTestimonialSerializer
+
+
+class AlumniList(BaseListView):
+    model = Alumni
+    serializer_class = AlumniSerializer
+
+
+class DepartmentList(BaseListView):
+    model = Department
+    serializer_class = DepartmentSerializer
+
+
+class DepartmentTeachersList(BaseListView):
+    model = DepartmentTeachers
+    serializer_class = DepartmentTeachersSerializer
+
+
+class DepartmentGalleryList(BaseListView):
+    model = DepartmentGallery
+    serializer_class = DepartmentGallerySerializer
+
+
+class DepartmentAlumniList(BaseListView):
+    model = DepartmentAlumni
+    serializer_class = DepartmentAlumniSerializer
+
+# get model detail 
+class BaseDetailView(APIView):
+    authentication_classes = []
+    permission_classes = [AllowAny]
+
+    model = None
+    serializer_class = None
+
+    def get(self, request, slug):
+        instance = self.model.objects.filter(slug=slug).first()
+        
+        if not instance:
+            return Response(
+                {"detail": "Not found"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        
+        serializer = self.serializer_class(instance)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class SyllabusDetailView(BaseDetailView):
+    model = Syllabus
+    serializer_class = SyllabusSerializer
+
+class NewsDetailView(BaseDetailView):
+    model = News
+    serializer_class = NewsSerializer
+
+class NoticeDetailView(BaseDetailView):
+    model = Notice
+    serializer_class = NoticeSerializer
+
+class ResultDetailView(BaseDetailView):
+    model = Result
+    serializer_class = ResultSerializer
+
+class VaccancyDetailView(BaseDetailView):
+    model = Vaccancy
+    serializer_class = VaccancySerializer
+
+class EntranceSyllabusDetailView(BaseDetailView):
+    model = EntranceSyllabus
+    serializer_class = EntranceSyllabusSerializer
+
+class EligiblityCriteriaDetailView(BaseDetailView):
+    model = EligiblityCriteria
+    serializer_class = EligiblityCriteriaSerializer
+
+class AlumniDetailView(BaseDetailView):
+    model = Alumni
+    serializer_class = AlumniSerializer
+
+class DepartmentDetailView(BaseDetailView):
+    model = Department
+    serializer_class = DepartmentSerializer
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

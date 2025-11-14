@@ -48,7 +48,7 @@ class DegreeSemesterAdmin(admin.ModelAdmin):
 
 @admin.register(BatchSemester)
 class BatchSemesterAdmin(admin.ModelAdmin):
-    list_display = ('degree_batch', 'academic_semester', 'start_month', 'end_month', 'is_running', 'is_active')
+    list_display = ('degree_batch', 'academic_semester', 'start_date', 'end_date', 'is_running', 'is_active')
     list_filter = ('is_running', 'is_active')
 
 @admin.register(Student)
@@ -78,8 +78,10 @@ class TeacherAdmin(admin.ModelAdmin):
 
 @admin.register(SubjectTeacher)
 class SubjectTeacherAdmin(admin.ModelAdmin):
-    list_display = ('academic_subject', 'teacher', 'is_active')
+    list_display = ('get_degree_semester','academic_subject', 'teacher', 'is_active')
     list_filter = ('is_active',)
+    def get_degree_semester(self,obj):
+        return obj.academic_subject.degree_semester
 
 @admin.register(SubjectAttendance)
 class SubjectAttendanceAdmin(admin.ModelAdmin):
