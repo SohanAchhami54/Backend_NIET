@@ -74,6 +74,7 @@ CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
+    "http://localhost:3002",
     "https://dashboard.biomedical.edu.np",
     "https://library.biomedical.edu.np",
     "https://biomedical.edu.np",
@@ -81,6 +82,7 @@ CORS_ALLOWED_ORIGINS = [
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",
+    "http://localhost:3002",
     "https://dashboard.biomedical.edu.np",
     "https://library.biomedical.edu.np",
     "https://biomedical.edu.np",
