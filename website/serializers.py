@@ -159,6 +159,72 @@ class LabResourceFeaturesSerializer(serializers.ModelSerializer):
         model = LabResourceFeatures
         fields = '__all__'
 
+class AcademicIndustryPartnershipSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AcademicIndustryPartnership
+        fields = '__all__'
+
+class AcademicIndustryPartnershipContentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AcademicIndustryPartnershipContent
+        fields = '__all__'
+
+class AcademicCourseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AcademicCourse
+        fields = '__all__'
+
+class ProgramFaqSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProgramFaq
+        fields = '__all__'
+
+class FacultyTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FacultyType
+        fields = '__all__'
+
+class FacultyCategoriesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FacultyCategories
+        fields = '__all__'
+
+
+class FacultyExpertiseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FacultyExpertise
+        fields = '__all__'
+
+
+class FacultyDegreeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FacultyDegree
+        fields = '__all__'
+
+
+class FacultyDesignationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FacultyDesignation
+        fields = '__all__'
+
+class AcademicFacultySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AcademicFaculty
+        fields = '__all__'
+
+
+class FacultyAssignedCourseDetailSerializer(serializers.ModelSerializer):
+    faculty = AcademicFacultySerializer()
+    assigned_course = AcademicCourseSerializer()
+
+    class Meta:
+        model = FacultyAssignedCourse
+        fields = '__all__'
+
+
+
+
+
 
 
 

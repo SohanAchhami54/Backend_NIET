@@ -378,10 +378,21 @@ class LabResourceFeatures(models.Model):
     def __str__(self):
         return self.name
 
+class AcademicIndustryPartnership(models.Model):
+    heading = models.CharField(max_length=255, blank=True, null=True)
+    support_text = models.TextField(blank=True, null=True)
+    program = models.ForeignKey(AcademicPrograms,on_delete=models.CASCADE)
+    def __str__(self):
+        return self.program.full_name
+    class Meta:
+        verbose_name = "Academic Industry Partnership"
+        verbose_name_plural = "Academic Industry Partnership"
+
 class AcademicIndustryPartnershipContent(models.Model):
     heading = models.CharField(max_length=255, blank=True, null=True)
     support_text = models.TextField(blank=True, null=True)
     icon = models.FileField(upload_to="uploads/website/ptnr/icon/", blank=True, null=True)
+    partner = models.ForeignKey(AcademicIndustryPartnership,on_delete=models.CASCADE, blank=True, null=True)
     order_priority = models.IntegerField(default=0,blank=True,null=True)
     def __str__(self):
         return self.heading
@@ -389,16 +400,7 @@ class AcademicIndustryPartnershipContent(models.Model):
         verbose_name = "Academic Industry Partnership Content"
         verbose_name_plural = "Academic Industry Partnership Content"
 
-class AcademicIndustryPartnership(models.Model):
-    heading = models.CharField(max_length=255, blank=True, null=True)
-    support_text = models.TextField(blank=True, null=True)
-    program = models.ForeignKey(AcademicPrograms,on_delete=models.CASCADE)
-    content = models.ForeignKey(AcademicIndustryPartnershipContent,on_delete=models.CASCADE)
-    def __str__(self):
-        return self.program.full_name
-    class Meta:
-        verbose_name = "Academic Industry Partnership"
-        verbose_name_plural = "Academic Industry Partnership"
+
 
 class AcademicCurriculum(models.Model):
     heading = models.CharField(max_length=255, blank=True, null=True)

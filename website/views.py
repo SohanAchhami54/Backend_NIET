@@ -190,6 +190,17 @@ class AboutPageAccreditionAndPartnerShipDetail(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 # academic programs 
+class ProgramDetailView(APIView):
+    authentication_classes = []
+    permission_classes = [AllowAny]
+    model = None
+    serializer_class = None
+    filter_field = ''
+    def get(self,request,slug):
+        obj = self.model.objects.filter(program__slug=slug)
+        serializer = self.serializer_class(obj,many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
 class AcademicProgramsList(BaseListView):
     model  = AcademicPrograms
     serializer_class = AcademicProgramsSerializer
@@ -203,82 +214,178 @@ class AcademicProgramsDetail(APIView):
         serializer = AcademicProgramsSerializer(obj,many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-class AcademicProgramObjectivesDetail(BaseDetailView):
+class AcademicProgramObjectivesDetail(ProgramDetailView):
     authentication_classes = []
     permission_classes = [AllowAny]
-    base_model = AcademicPrograms
-    child_model = AcademicProgramObjectives
+    model = AcademicProgramObjectives
     serializer_class = AcademicProgramObjectivesSerializer
-    filter_field = 'program'
 
-class WhyAcademicProgramDetail(BaseDetailView):
+
+
+
+class WhyAcademicProgramDetail(ProgramDetailView):
     authentication_classes = []
     permission_classes = [AllowAny]
-    base_model = AcademicPrograms
-    child_model = WhyAcademicProgram
+    model = WhyAcademicProgram
     serializer_class = WhyAcademicProgramSerializer
-    filter_field = 'program'
 
-class AcademicProgramCareerProspectDetail(BaseDetailView):
+class AcademicProgramCareerProspectDetail(ProgramDetailView):
     authentication_classes = []
     permission_classes = [AllowAny]
-    base_model = AcademicPrograms
-    child_model = AcademicProgramCareerProspect
+    model = AcademicProgramCareerProspect
     serializer_class = AcademicProgramCareerProspectSerializer
-    filter_field = 'program'
 
-class AcademicProgramKeySkillstDetail(BaseDetailView):
+class AcademicProgramKeySkillstDetail(ProgramDetailView):
     authentication_classes = []
     permission_classes = [AllowAny]
-    base_model = AcademicPrograms
-    child_model = AcademicProgramKeySkills
+    model = AcademicProgramKeySkills
     serializer_class = AcademicProgramKeySkillsSerializer
-    filter_field = 'program'
 
-class AcademicProgramEligibilityDetail(BaseDetailView):
+
+class AcademicProgramEligibilityDetail(ProgramDetailView):
     authentication_classes = []
     permission_classes = [AllowAny]
-    base_model = AcademicPrograms
-    child_model = AcademicProgramEligibility
+    model = AcademicProgramEligibility
     serializer_class = AcademicProgramEligibilitySerializer
-    filter_field = 'program'
 
-class AcademicProgramEntranceExamInfoDetail(BaseDetailView):
+class AcademicProgramEntranceExamInfoDetail(ProgramDetailView):
     authentication_classes = []
     permission_classes = [AllowAny]
-    base_model = AcademicPrograms
-    child_model = AcademicProgramEntranceExamInfo
+    model = AcademicProgramEntranceExamInfo
     serializer_class = AcademicProgramEntranceExamInfoSerializer
-    filter_field = 'program'
 
-class AcademicProgramScholarshipDetail(BaseDetailView):
+class AcademicProgramScholarshipDetail(ProgramDetailView):
     authentication_classes = []
     permission_classes = [AllowAny]
-    base_model = AcademicPrograms
-    child_model = AcademicProgramScholarship
+    model = AcademicProgramScholarship
     serializer_class = AcademicProgramScholarshipSerializer
-    filter_field = 'program'
 
-class AcademicFeeStructureDetail(BaseDetailView):
+class AcademicFeeStructureDetail(ProgramDetailView):
     authentication_classes = []
     permission_classes = [AllowAny]
-    base_model = AcademicPrograms
-    child_model = AcademicFeeStructure
+    model = AcademicFeeStructure
     serializer_class = AcademicFeeStructureSerializer
-    filter_field = 'program'
+
+class AcademicProgramLabResourceDetail(ProgramDetailView):
+    authentication_classes = []
+    permission_classes = [AllowAny]
+    model = AcademicProgramLabResource
+    serializer_class = AcademicProgramLabResourceSerializer
 
 class LabResourceContentList(BaseListView):
-    model  = LabResourceContent
-    serializer_class = LabResourceContentSerializer
+    authentication_classes = []
+    permission_classes = [AllowAny]
+    def get(self,request,labresource_id):
+        obj = LabResourceContent.objects.filter(academic_lab_resource__id=labresource_id)
+        serializer = LabResourceContentSerializer(obj,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
 
 class LabResourceFeaturesDetail(APIView):
     authentication_classes = []
     permission_classes = [AllowAny]
-    def get(self,request,id):
-        obj = LabResourceContent.objects.filter(id=id)
-        features = LabResourceFeatures.objects.filter(lab_resource_content=obj)
-        serializer = LabResourceFeaturesSerializer(features,many=True)
+    def get(self,request,labcontent_id):
+        obj = LabResourceFeatures.objects.filter(lab_resource_content__id=id)
+        serializer = LabResourceFeaturesSerializer(obj,many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+class AcademicIndustryPartnershipDetail(ProgramDetailView):
+    authentication_classes = []
+    permission_classes = [AllowAny]
+    model = AcademicIndustryPartnership
+    serializer_class = AcademicIndustryPartnershipSerializer
+
+class AcademicIndustryPartnershipContentList(BaseListView):
+    authentication_classes = []
+    permission_classes = [AllowAny]
+    def get(self,request,partner_id):
+        obj = AcademicIndustryPartnershipContent.objects.filter(partner__id=partner_id)
+        serializer = AcademicIndustryPartnershipContentSerializer(obj,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
+class AcademicCourseDetail(ProgramDetailView):
+    authentication_classes = []
+    permission_classes = [AllowAny]
+    model = AcademicCourse
+    serializer_class = AcademicCourseSerializer
+
+class ProgramFaqDetail(ProgramDetailView):
+    authentication_classes = []
+    permission_classes = [AllowAny]
+    model = ProgramFaq
+    serializer_class = ProgramFaqSerializer
+
+
+class FacultyTypeDetail(BaseListView):
+    authentication_classes = []
+    permission_classes = [AllowAny]
+    model = FacultyType
+    serializer_class = FacultyTypeSerializer
+
+
+class FacultyCategoriesDetail(BaseListView):
+    authentication_classes = []
+    permission_classes = [AllowAny]
+    model = FacultyCategories
+    serializer_class = FacultyCategoriesSerializer
+
+
+class FacultyExpertiseDetail(BaseListView):
+    authentication_classes = []
+    permission_classes = [AllowAny]
+    model = FacultyExpertise
+    serializer_class = FacultyExpertiseSerializer
+
+
+class FacultyDegreeDetail(BaseListView):
+    authentication_classes = []
+    permission_classes = [AllowAny]
+    model = FacultyDegree
+    serializer_class = FacultyDegreeSerializer
+
+
+class FacultyDesignationDetail(BaseListView):
+    authentication_classes = []
+    permission_classes = [AllowAny]
+    model = FacultyDesignation
+    serializer_class = FacultyDesignationSerializer
+
+class AcademicFacultyByType(APIView):
+    authentication_classes = []
+    permission_classes = [AllowAny]
+
+    def get(self, request, faculty_type_id):
+        queryset = AcademicFaculty.objects.filter(faculty_type_id=faculty_type_id)
+        serializer = AcademicFacultySerializer(queryset, many=True)
+        return Response(serializer.data)
+    
+class AcademicFacultyByDesignation(APIView):
+    authentication_classes = []
+    permission_classes = [AllowAny]
+
+    def get(self, request, designation_id):
+        queryset = AcademicFaculty.objects.filter(faculty_designation_id=designation_id)
+        serializer = AcademicFacultySerializer(queryset, many=True)
+        return Response(serializer.data)
+
+class AcademicFacultyByProgram(APIView):
+    authentication_classes = []
+    permission_classes = [AllowAny]
+
+    def get(self, request, program_id):
+        queryset = AcademicFaculty.objects.filter(faculty_program_id=program_id)
+        serializer = AcademicFacultySerializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+class AssignedCoursesByFaculty(APIView):
+    authentication_classes = []
+    permission_classes = [AllowAny]
+
+    def get(self, request, faculty_id):
+        queryset = FacultyAssignedCourse.objects.filter(faculty_id=faculty_id)
+        serializer = FacultyAssignedCourseDetailSerializer(queryset, many=True)
+        return Response(serializer.data)
 
 
     
