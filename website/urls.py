@@ -53,5 +53,5 @@ urlpatterns = [
     path('academic-faculty/designation/<int:designation_id>/',views.AcademicFacultyByDesignation.as_view(),name='academic-faculty-by-designation'),
     path('academic-faculty/program/<int:program_id>/',views.AcademicFacultyByProgram.as_view(),name='academic-faculty-by-program'),
     path('assigned-courses/faculty/<int:faculty_id>/',views.AssignedCoursesByFaculty.as_view(),name='assigned-courses-by-faculty'
-    ),
+),
 ]

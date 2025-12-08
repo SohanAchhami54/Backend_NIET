@@ -18,7 +18,7 @@ class HeroSectionSerializer(serializers.ModelSerializer):
 
 class AdmissionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = AdmissionStep
+        model = Admission
         fields = '__all__'
 
 class AdmissionStepSerializer(serializers.ModelSerializer):
