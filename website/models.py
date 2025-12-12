@@ -486,6 +486,7 @@ class AcademicFaculty(models.Model):
     full_name = models.CharField(max_length=255, blank=True, null=True)
     email = models.CharField(max_length=255, blank=True, null=True)
     phone = models.CharField(max_length=255, blank=True, null=True)
+    photo = models.FileField(upload_to="uploads/website/faculty/photo/", blank=True, null=True)
     faculty_type = models.ForeignKey(FacultyType,on_delete=models.CASCADE)
     faculty_designation = models.ForeignKey(FacultyDesignation,on_delete=models.CASCADE)
     faculty_program = models.ForeignKey(AcademicPrograms,on_delete=models.CASCADE)

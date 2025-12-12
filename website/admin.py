@@ -262,3 +262,90 @@ class AcademicCourseAdmin(admin.ModelAdmin):
     list_filter = ("program", "year", "semester")
     ordering = ("program", "year", "semester")
 
+@admin.register(AcademicFaculty)
+class AcademicFacultyAdmin(admin.ModelAdmin):
+    list_display = (
+        'full_name',
+        'email',
+        'phone',
+        'faculty_type',
+        'faculty_designation',
+        'faculty_program',
+        'faculty_expertise',
+        'faculty_degree',
+    )
+    list_filter = (
+        'faculty_type',
+        'faculty_designation',
+        'faculty_program',
+        'faculty_expertise',
+        'faculty_degree',
+    )
+    search_fields = ('full_name', 'email', 'phone')
+
+@admin.register(ProgramFaq)
+class ProgramFaqAdmin(admin.ModelAdmin):
+    list_display = ('program', 'question_text')
+    list_filter = ('program',)
+    search_fields = ('question_text', 'answer_text')
+
+
+@admin.register(FacultyType)
+class FacultyTypeAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    search_fields = ('name',)
+
+
+@admin.register(FacultyCategories)
+class FacultyCategoriesAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    search_fields = ('name',)
+
+
+@admin.register(FacultyExpertise)
+class FacultyExpertiseAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    search_fields = ('name',)
+
+
+@admin.register(FacultyDegree)
+class FacultyDegreeAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    search_fields = ('name',)
+
+
+@admin.register(FacultyDesignation)
+class FacultyDesignationAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    search_fields = ('name',)
+
+
+@admin.register(AcademicFaculty)
+class AcademicFacultyAdmin(admin.ModelAdmin):
+    list_display = (
+        'full_name',
+        'email',
+        'phone',
+        'faculty_type',
+        'faculty_designation',
+        'faculty_program',
+        'faculty_expertise',
+        'faculty_degree',
+    )
+    list_filter = (
+        'faculty_type',
+        'faculty_designation',
+        'faculty_program',
+        'faculty_expertise',
+        'faculty_degree',
+    )
+    search_fields = ('full_name', 'email', 'phone')
+
+
+@admin.register(FacultyAssignedCourse)
+class FacultyAssignedCourseAdmin(admin.ModelAdmin):
+    list_display = ('faculty', 'assigned_course')
+    list_filter = ('faculty', 'assigned_course')
+    search_fields = ('faculty__full_name', 'assigned_course__name')
+
+
