@@ -262,26 +262,7 @@ class AcademicCourseAdmin(admin.ModelAdmin):
     list_filter = ("program", "year", "semester")
     ordering = ("program", "year", "semester")
 
-@admin.register(AcademicFaculty)
-class AcademicFacultyAdmin(admin.ModelAdmin):
-    list_display = (
-        'full_name',
-        'email',
-        'phone',
-        'faculty_type',
-        'faculty_designation',
-        'faculty_program',
-        'faculty_expertise',
-        'faculty_degree',
-    )
-    list_filter = (
-        'faculty_type',
-        'faculty_designation',
-        'faculty_program',
-        'faculty_expertise',
-        'faculty_degree',
-    )
-    search_fields = ('full_name', 'email', 'phone')
+
 
 @admin.register(ProgramFaq)
 class ProgramFaqAdmin(admin.ModelAdmin):
