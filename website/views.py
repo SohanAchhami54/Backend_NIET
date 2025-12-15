@@ -205,6 +205,14 @@ class AcademicProgramsList(BaseListView):
     model  = AcademicPrograms
     serializer_class = AcademicProgramsSerializer
 
+class AcademicYearList(BaseListView):
+    model  = AcademicYear
+    serializer_class = AcademicYearSerializer
+
+class AcademicSemesterList(BaseListView):
+    model  = AcademicSemester
+    serializer_class = AcademicSemesterSerializer
+
 class AcademicProgramsDetail(APIView):
     authentication_classes = []
     permission_classes = [AllowAny]
@@ -213,6 +221,7 @@ class AcademicProgramsDetail(APIView):
         obj = self.model.objects.filter(slug=slug)
         serializer = AcademicProgramsSerializer(obj,many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 class AcademicProgramObjectivesDetail(ProgramDetailView):
     authentication_classes = []

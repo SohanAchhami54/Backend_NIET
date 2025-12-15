@@ -102,6 +102,16 @@ class AcademicProgramsSerializer(serializers.ModelSerializer):
         model = AcademicPrograms
         fields = '__all__'
 
+class AcademicYearSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AcademicYear
+        fields = '__all__'
+
+class AcademicSemesterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AcademicSemester
+        fields = '__all__'
+
 class AcademicProgramObjectivesSerializer(serializers.ModelSerializer):
     class Meta:
         model = AcademicProgramObjectives

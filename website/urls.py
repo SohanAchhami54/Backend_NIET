@@ -29,6 +29,8 @@ urlpatterns = [
     # academic program 
     path("academic-programs/",views.AcademicProgramsList.as_view(),name='academic-program-list'),
     path("academic-program/<slug:slug>/",views.AcademicProgramsDetail.as_view(),name='academic-program-detail'),
+    path("academic-year/",views.AcademicYearList.as_view(),name='Academic-Year-List'),
+    path('academic-semester/',views.AcademicSemesterList.as_view(),name='Academic-Semester-List'),
     path("what-you-will-learn/<slug:slug>/",views.AcademicProgramObjectivesDetail.as_view(),name='Academic-Program-Objectives-Detail'),
     path('why-btech-in-program/<slug:slug>/',views.WhyAcademicProgramDetail.as_view(),name='Why-Academic-Program-Detail'),
     path('program-career-prospects/<slug:slug>/',views.AcademicProgramCareerProspectDetail.as_view(),name='Academic-Program-Career-ProspectDetail'),
@@ -52,6 +54,5 @@ urlpatterns = [
     path('academic-faculty/type/<int:faculty_type_id>/',views.AcademicFacultyByType.as_view(), name='academic-faculty-by-type'),
     path('academic-faculty/designation/<int:designation_id>/',views.AcademicFacultyByDesignation.as_view(),name='academic-faculty-by-designation'),
     path('academic-faculty/program/<int:program_id>/',views.AcademicFacultyByProgram.as_view(),name='academic-faculty-by-program'),
-    path('assigned-courses/faculty/<int:faculty_id>/',views.AssignedCoursesByFaculty.as_view(),name='assigned-courses-by-faculty'
-),
+    path('assigned-courses/faculty/<int:faculty_id>/',views.AssignedCoursesByFaculty.as_view(),name='assigned-courses-by-faculty'),
 ]
