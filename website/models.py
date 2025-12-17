@@ -50,6 +50,8 @@ class HeroSection(models.Model):
     heading_line = models.CharField(max_length=255,blank=True,null=True)
     support_text = models.CharField(max_length=255,blank=True,null=True)
     background_image = models.FileField(upload_to="uploads/website/bgimage/", blank=True, null=True)
+    support_image = models.FileField(upload_to="uploads/website/supportimage/", blank=True, null=True)
+    support_icon = models.FileField(upload_to="uploads/website/supporticon/", blank=True, null=True)
     call_to_action_1 = models.CharField(max_length=255,blank=True,null=True) 
     call_to_action_2 = models.CharField(max_length=255,blank=True,null=True) 
     call_to_action_3 = models.CharField(max_length=255,blank=True,null=True) 

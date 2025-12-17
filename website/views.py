@@ -131,7 +131,9 @@ class HomePageAccreditionAndPartnerShipDetail(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class EmploymentProviderList(BaseListView):
-    model  = Faq
+    authentication_classes = []
+    permission_classes = [AllowAny]
+    model  = EmploymentProvider
     serializer_class = EmploymentProviderSerializer
 
 class EmploymentProviderNameDetail(BaseDetailView):
@@ -140,7 +142,10 @@ class EmploymentProviderNameDetail(BaseDetailView):
     base_model = EmploymentProvider
     child_model = EmploymentProviderName
     serializer_class = EmploymentProviderNameSerializer
-    filter_field = 'employment_provider'
+    def get(self,request):
+        obj = EmploymentProviderName.objects.all()
+        serializer = EmploymentProviderNameSerializer(obj,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
 
 class AboutUsWhySectionDetail(LastRecordView):
     authentication_classes = []
