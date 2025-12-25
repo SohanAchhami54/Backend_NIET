@@ -6,6 +6,11 @@ class AboutCollegeSerializer(serializers.ModelSerializer):
         model = AboutCollege
         fields = '__all__'
 
+class CollegeChairmanSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CollegeChairman
+        fields = '__all__'
+
 class AccreditionAndPartnerShipSerializer(serializers.ModelSerializer):
     class Meta:
         model = AccreditionAndPartnerShip
@@ -180,6 +185,11 @@ class AcademicIndustryPartnershipContentSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class AcademicCourseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AcademicCourse
+        fields = '__all__'
+
+class AcademicCourseTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = AcademicCourse
         fields = '__all__'

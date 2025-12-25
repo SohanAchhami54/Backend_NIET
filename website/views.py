@@ -54,6 +54,10 @@ class AboutCollegeList(BaseListView):
     model = AboutCollege
     serializer_class = AboutCollegeSerializer
 
+class CollegeChairmanList(BaseListView):
+    model = CollegeChairman
+    serializer_class = CollegeChairmanSerializer
+
 class AccreditionAndPartnerShipList(BaseListView):
     model = AccreditionAndPartnerShip
     serializer_class = AccreditionAndPartnerShipSerializer
@@ -316,6 +320,10 @@ class AcademicIndustryPartnershipContentList(BaseListView):
         obj = AcademicIndustryPartnershipContent.objects.filter(partner__id=partner_id)
         serializer = AcademicIndustryPartnershipContentSerializer(obj,many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
+
+class AcademicCourseTypeList(BaseListView):
+    model = AcademicCourseType
+    serializer_class = AcademicCourseTypeSerializer
 
 class AcademicCourseDetail(ProgramDetailView):
     authentication_classes = []

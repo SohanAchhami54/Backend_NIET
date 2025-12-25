@@ -11,6 +11,7 @@ class AboutCollege(models.Model):
     brochure = models.FileField(upload_to="uploads/website/brochure/", blank=True, null=True)
     affiliation = models.CharField(max_length=255, blank=True, null=True)
     registration = models.CharField(max_length=255, blank=True, null=True)
+    office_hourse = models.CharField(max_length=255, blank=True, null=True)
     address = models.TextField(blank=True, null=True)
     post_box = models.TextField(blank=True, null=True)
     telephone = models.TextField(blank=True, null=True)
@@ -32,6 +33,25 @@ class AboutCollege(models.Model):
 
 
     def __str__(self):
+        return self.full_name
+
+class CollegeChairman(models.Model):
+    full_name = models.CharField(max_length=255, blank=True, null=True)
+    photo = models.FileField(upload_to="uploads/chairman/", blank=True, null=True)
+    education = models.CharField(max_length=255, blank=True, null=True)
+    designation = models.CharField(max_length=255, blank=True, null=True)
+    post_name = models.CharField(max_length=255, blank=True, null=True)
+    text_message = models.TextField(blank=True, null=True)
+    video_message = models.FileField(upload_to="uploads/website/chairman/message", blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = "College Chairman"
+        verbose_name_plural = "College Chairman"
+
+    def __str__(self) -> str:
         return self.full_name
     
 class AccreditionAndPartnerShip(models.Model):
@@ -416,11 +436,21 @@ class AcademicCurriculum(models.Model):
         verbose_name = "Academic Curriculum"
         verbose_name_plural = "Academic Curriculum"
 
+class AcademicCourseType(models.Model):
+    name = models.CharField(max_length=255, blank=True, null=True)
+    def __str__(self):
+        return self.name 
+    class Meta:
+        verbose_name = "academiccoursetype"
+        verbose_name_plural = "academiccoursetype"
+
+
 class AcademicCourse(models.Model):
     program = models.ForeignKey(AcademicPrograms,on_delete=models.CASCADE)
     year = models.ForeignKey(AcademicYear,on_delete=models.CASCADE)
     semester = models.ForeignKey(AcademicSemester,on_delete=models.CASCADE)
     course_name = models.CharField(max_length=255, blank=True, null=True)
+    course_type = models.ForeignKey(AcademicCourseType,on_delete=models.CASCADE,blank=True,null=True)
     course_code = models.CharField(max_length=255, blank=True, null=True)
     course_description = models.TextField(blank=True, null=True)
     total_credit = models.CharField(max_length=255, blank=True, null=True)

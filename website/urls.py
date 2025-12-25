@@ -7,6 +7,7 @@ app_name = "website"
 urlpatterns = [
     # for home page 
     path("about/college/",views.AboutCollegeList.as_view(),name="about-college"),
+    path('college-chairman/',views.CollegeChairmanList.as_view(),name='CollegeChairmanList'),
     path('acc/partnership/',views.AccreditionAndPartnerShipList.as_view(),name="acc-partnership-list"),
     path('hero-section/',views.HeroSectionList.as_view(),name='hero-section-list'),
     path('journey-to-niet/',views.AdmissionDetail.as_view(),name='admission-detail'),
@@ -44,6 +45,7 @@ urlpatterns = [
     path('program-lab-resource/content/features/<int:labcontent_id>/',views.LabResourceFeaturesDetail.as_view(),name='LabResourceFeaturesDetail'),
     path('industry-partnership/<slug:slug>/',views.AcademicIndustryPartnershipDetail.as_view(),name='AcademicIndustryPartnershipDetail'),
     path('industry-partnership/<int:partner_id>/',views.AcademicIndustryPartnershipContentList.as_view(),name='AcademicIndustryPartnershipContentList'),
+    path('academic-course-type/',views.AcademicCourseTypeList.as_view(),name='AcademicCourseTypeList'),
     path('course-modules/<slug:slug>/',views.AcademicCourseDetail.as_view(),name='AcademicCourseDetail'),
     path('program-faqs/<slug:slug>/',views.ProgramFaqDetail.as_view(),name='ProgramFaqDetail'),
     path('faculty-type/',views.FacultyTypeDetail.as_view(),name='faculty-type'),
