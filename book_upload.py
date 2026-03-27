@@ -21,4 +21,4 @@ for record in records:
             publisher = publisher,
             category = category
         )
-    print(f'{record['AccessionNumber']} uploaded')
+    print(f"{record['AccessionNumber']} uploaded")

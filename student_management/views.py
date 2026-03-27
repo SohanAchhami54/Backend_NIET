@@ -182,9 +182,9 @@ class RegisterStudent(APIView):
                     email_address = record.get('EmailAddress', '').strip()
                     registration_num = record.get('Registration', '').strip()
                 except Exception as e:
-                    return Response({'message':f'Please correct error at index: {record.get('index')+1}'},status=status.HTTP_400_BAD_REQUEST)
+                    return Response({'message':f"Please correct error at index: {record.get('index')+1}"},status=status.HTTP_400_BAD_REQUEST)
                 if not email_address and first_name and last_name and registration_num:
-                    return Response({'message':f'Please correct error at index: {record.get('index')+1}'},status=status.HTTP_400_BAD_REQUEST)
+                    return Response({'message':f"Please correct error at index: {record.get('index')+1}"},status=status.HTTP_400_BAD_REQUEST)
                 
                 student_obj = Student.objects.filter(registration_number=registration_num)
                 if not student_obj:
