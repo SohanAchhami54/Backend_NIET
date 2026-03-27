@@ -30,7 +30,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-fallback-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost 127.0.0.1 .onrender.com").split(" ")
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -72,26 +72,12 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-# Allow credentials and specific domains
+# Allow all origins for development/testing
+CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 
-# CORS_ALLOW_ALL_ORIGINS = True
-
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://localhost:3002",
-    "https://dashboard.biomedical.edu.np",
-    "https://library.biomedical.edu.np",
-    "https://biomedical.edu.np",
-]
-
-CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:3000",
-    "http://localhost:3002",
-    "https://dashboard.biomedical.edu.np",
-    "https://library.biomedical.edu.np",
-    "https://biomedical.edu.np",
-]
+# Disable strict manifest mode for Whitenoise to ignore missing source maps
+WHITENOISE_MANIFEST_STRICT = False
 
 ROOT_URLCONF = "biomedicalwebsite.urls"
 
