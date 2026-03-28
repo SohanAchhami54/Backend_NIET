@@ -41,8 +41,10 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    "cloudinary_storage",
     "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
+    "cloudinary",
     "corsheaders",
     "general",
     "userprofile",
@@ -161,12 +163,19 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 # Use standard WhiteNoise storage instead of the strict manifest version
 STORAGES = {
     "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
     },
 }
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET')
+}
+
 
 
 
